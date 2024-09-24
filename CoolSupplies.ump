@@ -1,0 +1,89 @@
+class Account {
+  abstract;
+  unique immutable String accountName;
+  String password;
+}
+
+class Admin {
+  isA Account;
+  1 -> 1 School;
+  }
+
+class School {
+  String schoolName;
+  Double priceIncreaseRate;
+  1 -- * Parent parents;
+  1 -- * Order orders;
+  1 -- 1 SchoolYear year;
+  1 -> * Item catalogue;
+}
+
+class Order {
+  Date date;
+  String id;
+  Boolean isPickedUp;
+  Boolean orderCompleted;
+1 -- 1 Transaction;
+  
+orders -- 1 Parent;
+-> 1 Student;
+}
+
+class Parent {
+  isA Account;
+  lazy String name;
+  lazy String phone;
+  1 -> * Student children;
+}
+
+class Transaction {
+  unique String authorizationCode;
+}
+
+class SchoolYear{
+  Integer year;
+  Date startDate;
+  Date endDate;
+  1 -> * Grade grades;
+}
+
+class Grade {
+  String gradeLevel;
+  1 -> * Bundle bundles;
+  1 -- * Student;
+}
+
+class Student {
+  firstName;
+  lastName;
+  autounique studentID;
+  }
+
+class PenaltyTransaction{
+  isA Transaction;
+  unique String authorizationCode;
+  Double penaltyAmount;
+}
+
+class Bundle {
+  lazy Double discount;
+  1 -> * BundleItem items;
+}
+
+class BundleItem{
+  Integer recommendedNumber;
+  1 -> 1 Item catalogueItem;
+}
+
+class Item {
+  String name;
+  Double basePrice;
+  enum Requirement {
+  Mandatory, Recommended, Optional
+  }
+}class System
+{
+  singleton;
+  1 -> * School schools;
+  1 -> * Account accounts;
+}
