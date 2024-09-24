@@ -1,2 +1,9 @@
-# ecse223-group-project-p2
-ecse223-group-project-p2 created by GitHub Classroom
+# CoolSupplies
+
+## Commit Message Naming Convention
+
+- **DOC**: Documentation
+- **ENH**: Enhancement, Improvement
+- **DEV**: Development of a new feature
+- **FIX**: Bugfix
+- **MTN**: Maintenance, Refactoring
