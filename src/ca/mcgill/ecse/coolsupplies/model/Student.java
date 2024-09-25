@@ -3,7 +3,8 @@
 
 
 
-// line 56 "interation1.ump"
+// line 57 "model.ump"
+// line 154 "model.ump"
 public class Student
 {
 

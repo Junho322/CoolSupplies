@@ -3,15 +3,10 @@
 
 
 
-// line 78 "interation1.ump"
+// line 82 "model.ump"
+// line 178 "model.ump"
 public class Item
 {
-
-  //------------------------
-  // ENUMERATIONS
-  //------------------------
-
-  public enum Requirement { Mandatory, Recommended, Optional }
 
   //------------------------
   // MEMBER VARIABLES

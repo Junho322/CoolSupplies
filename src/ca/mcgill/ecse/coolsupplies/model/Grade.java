@@ -4,7 +4,8 @@
 
 import java.util.*;
 
-// line 50 "interation1.ump"
+// line 51 "model.ump"
+// line 146 "model.ump"
 public class Grade
 {
 

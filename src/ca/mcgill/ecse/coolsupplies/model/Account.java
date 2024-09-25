@@ -4,7 +4,8 @@
 
 import java.util.*;
 
-// line 1 "interation1.ump"
+// line 2 "model.ump"
+// line 95 "model.ump"
 public abstract class Account
 {
 

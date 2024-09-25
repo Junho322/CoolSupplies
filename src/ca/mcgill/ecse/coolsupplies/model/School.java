@@ -5,7 +5,8 @@
 import java.util.*;
 import java.sql.Date;
 
-// line 12 "interation1.ump"
+// line 13 "model.ump"
+// line 106 "model.ump"
 public class School
 {
 

@@ -3,16 +3,23 @@
 
 
 
-// line 73 "interation1.ump"
+// line 74 "model.ump"
+// line 171 "model.ump"
 public class BundleItem
 {
+
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum Requirement { Mandatory, Recommended, Optional }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //BundleItem Attributes
-  private int recommendedNumber;
+  private int recommenedNumber;
 
   //BundleItem Associations
   private Item catalogueItem;
@@ -21,9 +28,9 @@ public class BundleItem
   // CONSTRUCTOR
   //------------------------
 
-  public BundleItem(int aRecommendedNumber, Item aCatalogueItem)
+  public BundleItem(int aRecommenedNumber, Item aCatalogueItem)
   {
-    recommendedNumber = aRecommendedNumber;
+    recommenedNumber = aRecommenedNumber;
     if (!setCatalogueItem(aCatalogueItem))
     {
       throw new RuntimeException("Unable to create BundleItem due to aCatalogueItem. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
@@ -34,17 +41,17 @@ public class BundleItem
   // INTERFACE
   //------------------------
 
-  public boolean setRecommendedNumber(int aRecommendedNumber)
+  public boolean setRecommenedNumber(int aRecommenedNumber)
   {
     boolean wasSet = false;
-    recommendedNumber = aRecommendedNumber;
+    recommenedNumber = aRecommenedNumber;
     wasSet = true;
     return wasSet;
   }
 
-  public int getRecommendedNumber()
+  public int getRecommenedNumber()
   {
-    return recommendedNumber;
+    return recommenedNumber;
   }
   /* Code from template association_GetOne */
   public Item getCatalogueItem()
@@ -72,7 +79,7 @@ public class BundleItem
   public String toString()
   {
     return super.toString() + "["+
-            "recommendedNumber" + ":" + getRecommendedNumber()+ "]" + System.getProperties().getProperty("line.separator") +
+            "recommenedNumber" + ":" + getRecommenedNumber()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "catalogueItem = "+(getCatalogueItem()!=null?Integer.toHexString(System.identityHashCode(getCatalogueItem())):"null");
   }
 }

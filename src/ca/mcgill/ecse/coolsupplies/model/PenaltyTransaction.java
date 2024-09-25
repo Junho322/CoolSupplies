@@ -4,7 +4,8 @@
 
 import java.util.*;
 
-// line 62 "interation1.ump"
+// line 63 "model.ump"
+// line 159 "model.ump"
 public class PenaltyTransaction extends Transaction
 {
 

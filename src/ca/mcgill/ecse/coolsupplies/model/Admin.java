@@ -4,7 +4,8 @@
 
 import java.util.*;
 
-// line 7 "interation1.ump"
+// line 8 "model.ump"
+// line 100 "model.ump"
 public class Admin extends Account
 {
 

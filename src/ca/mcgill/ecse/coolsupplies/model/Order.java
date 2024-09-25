@@ -5,7 +5,8 @@
 import java.sql.Date;
 import java.util.*;
 
-// line 21 "interation1.ump"
+// line 22 "model.ump"
+// line 119 "model.ump"
 public class Order
 {
 
@@ -185,9 +186,9 @@ public class Order
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 28 "interation1.ump"
+  // line 29 "model.ump"
   orders -- 1 Parent ;
-// line 29 "interation1.ump"
+// line 30 "model.ump"
   -> 1 Student ;
 
   
