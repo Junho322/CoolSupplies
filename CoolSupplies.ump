@@ -1,6 +1,6 @@
 class Account {
   abstract;
-  unique immutable String accountName;
+  unique immutable String        accountName;
   String password;
 }
 
@@ -24,7 +24,7 @@ class Order {
   Boolean isPickedUp;
   Boolean orderCompleted;
 1 -- 1 Transaction;
-  
+
 orders -- 1 Parent;
 -> 1 Student;
 }
@@ -44,7 +44,7 @@ class SchoolYear{
   Integer year;
   Date startDate;
   Date endDate;
-  1 -> * Grade grades;
+  1 -- * Grade grades;
 }
 
 class Grade {
