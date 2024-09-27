@@ -1,9 +1,20 @@
-# CoolSupplies
+# :triangular_ruler::books: ECSE223 CoolSupplies Project: Team N
 
-## Commit Message Naming Convention
+_(Edit this file as needed, then remove this sentence)._
 
-- **DOC**: Documentation
-- **ENH**: Enhancement, Improvement
-- **DEV**: Development of a new feature
-- **FIX**: Bugfix
-- **MTN**: Maintenance, Refactoring
+## Project Overview
+
+_Provide a one-sentence overview of your project here._
+
+For more information about the CoolSupplies application, please consult the [wiki](../../wiki).
+
+## Team Members
+
+| Name          | GitHub username |
+| ------------- | --------------- |
+| Team Member A | ...             |
+| Team Member B | ...             |
+| Team Member C | ...             |
+| Team Member D | ...             |
+| Team Member E | ...             |
+| Team Member F | ...             |
