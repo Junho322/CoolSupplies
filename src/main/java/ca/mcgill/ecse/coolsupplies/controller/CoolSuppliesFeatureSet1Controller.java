@@ -8,12 +8,12 @@ public class CoolSuppliesFeatureSet1Controller {
     throw new UnsupportedOperationException("Not implemented yet.");
   }
 
-  public static String addParent(String email, String password, String name, String phoneNumber) {
+  public static String addParent(String email, String password, String name, int phoneNumber) {
     throw new UnsupportedOperationException("Not implemented yet.");
   }
 
   public static String updateParent(String email, String newPassword, String newName,
-      String newPhoneNumber) {
+      int newPhoneNumber) {
     throw new UnsupportedOperationException("Not implemented yet.");
   }
 
