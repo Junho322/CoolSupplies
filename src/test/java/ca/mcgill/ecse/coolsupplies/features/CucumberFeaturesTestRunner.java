@@ -5,7 +5,7 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = "pretty", features = {"src/test/resources/DeleteGrade.feature","src/test/resources/GetGrade.feature"},
+@CucumberOptions(plugin = "pretty", features = "src/test/resources/",
     glue = "ca.mcgill.ecse.coolsupplies.features")
 public class CucumberFeaturesTestRunner {
 
