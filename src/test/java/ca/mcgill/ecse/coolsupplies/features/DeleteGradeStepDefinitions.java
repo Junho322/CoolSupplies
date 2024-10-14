@@ -11,9 +11,24 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+
+/**
+ * Implementation of the Gherkin Step definition for the DeleteGrade feature in CoolSupplies by mapping the Gherkin step to Java code of the controller and the model layers
+ * This class defines the deletegrade step definitions that the school admin can perform concerning deletion of grades such as 
+ * verifying existence or deleting grades
+ * 
+ * @author David Zhou, David Vo, David Wang, Shayan Yamanidouzi Sorkhabi, Hamza Khalfi, Jun Ho Oh, Jack McDonald
+ */
+
+
 public class DeleteGradeStepDefinitions {
     private String lastError;
     private static CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+
+    /**
+   * the step definition adds teh assumed to be existant grades to an instance of the application
+   * 
+   */
 
     @Given("the following grade entities exists in the system \\(p2)")
     public void the_following_grade_entities_exists_in_the_system_p2(
@@ -27,11 +42,19 @@ public class DeleteGradeStepDefinitions {
         }
     }
 
+    /**
+   * this step definition will delete a grade from the application using the controller method. If an error occurs, it is stored into lastError
+   */
+
     @When("the school admin attempts to delete from the system the grade with level {string} \\(p2)")
     public void the_school_admin_attempts_to_delete_from_the_system_the_grade_with_level_p2(
         String string) {
         lastError = CoolSuppliesFeatureSet7Controller.deleteGrade(string);
     }
+
+    /**
+   * This controler method will compare the number of grades in the appllication with the expected number.
+   */
 
     @Then(value = "the number of grade entities in the system shall be {string} \\(p2)")
     public void the_number_of_grade_entities_in_the_system_shall_be_p2(String string) {
@@ -41,6 +64,11 @@ public class DeleteGradeStepDefinitions {
         assertEquals(CoolSuppliesFeatureSet7Controller.getGrades().size(), numGrades);
     }
 
+     /**
+   * This step definition verifies whether the expected grades exist in the application. 
+   * It does so by iterating through the expected grades and comparing with the actual ones
+   */
+
     @Then("the following grade entities shall exist in the system \\(p2)")
     public void the_following_grade_entities_shall_exist_in_the_system_p2(
         io.cucumber.datatable.DataTable dataTable) {
@@ -49,14 +77,37 @@ public class DeleteGradeStepDefinitions {
         List<TOGrade> actualGrades = CoolSuppliesFeatureSet7Controller.getGrades();
         for (int i = 0; i < expectedGrades.size(); i++) {
             String expectedLevel = expectedGrades.get(i).get("level");
-            TOGrade actualGrade = actualGrades.get(i);
+            TOGrade actualGrade = findGrade(actualGrades, expectedLevel);
             assertEquals(expectedLevel, actualGrade.getLevel());
         }
     }
+
+    /**
+   * This step definition chack if the raised error message matches the expected error message
+   * 
+   */
 
     @Then("the error {string} shall be raised \\(p2)")
     public void the_error_shall_be_raised_p2(String string) {
         // Write code here that turns the phrase above into concrete actions
         assertEquals(string, lastError);
     }
+
+/**
+   * This helper method will help find the target grade by iterating through the list of grades (regardless of the order in the list)
+   * 
+   * @param grades a list of grades
+   * @param target the desired grade that we wish to return from the list of grades
+   * 
+   * @return the desired target grade if it is found in the list of grades, else it returns null
+   */
+
+    public TOGrade findGrade(List<TOGrade> grades, String target) {
+      for (TOGrade grade : grades) {
+          if (target.equals(grade.getLevel())) {
+              return grade;
+          }
+      }
+      return null;
+  }
 }
