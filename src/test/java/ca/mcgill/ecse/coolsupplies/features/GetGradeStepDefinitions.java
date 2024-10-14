@@ -46,10 +46,10 @@ public class GetGradeStepDefinitions {
 
     @When("the school admin attempts to get from the system the grade with level {string} \\(p2)")
     public void the_school_admin_attempts_to_get_from_the_system_the_grade_with_level_p2(
-        String string) {
+        String level) {
         // Write code here that turns the phrase above into concrete actions
         try {
-            resultGrade = CoolSuppliesFeatureSet7Controller.getGrade(string);
+            resultGrade = CoolSuppliesFeatureSet7Controller.getGrade(level);
             resultGrades = new ArrayList<>();
             resultGrades.add(resultGrade);
         } catch (IllegalArgumentException e) {
