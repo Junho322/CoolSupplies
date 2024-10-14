@@ -10,7 +10,7 @@ import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
+import ca.mcgill.ecse.coolsupplies.model.Grade;
 
 /**
  * Implementation of the Gherkin Step definition for the DeleteGrade feature in CoolSupplies by mapping the Gherkin step to Java code of the controller and the model layers
@@ -32,7 +32,6 @@ public class DeleteGradeStepDefinitions {
 
     @Given("the following grade entities exists in the system \\(p2)")
     public void the_following_grade_entities_exists_in_the_system_p2(
-        //TODO: USE MODEL LAYER
         io.cucumber.datatable.DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps();
         for (var elem : rows) {
@@ -48,8 +47,8 @@ public class DeleteGradeStepDefinitions {
 
     @When("the school admin attempts to delete from the system the grade with level {string} \\(p2)")
     public void the_school_admin_attempts_to_delete_from_the_system_the_grade_with_level_p2(
-        String string) {
-        lastError = CoolSuppliesFeatureSet7Controller.deleteGrade(string);
+        String gradeLevel) {
+        lastError = CoolSuppliesFeatureSet7Controller.deleteGrade(gradeLevel);
     }
 
     /**
@@ -57,11 +56,11 @@ public class DeleteGradeStepDefinitions {
    */
 
     @Then(value = "the number of grade entities in the system shall be {string} \\(p2)")
-    public void the_number_of_grade_entities_in_the_system_shall_be_p2(String string) {
+    public void the_number_of_grade_entities_in_the_system_shall_be_p2(String numberOfGrades) {
 
-        int numGrades = Integer.parseInt(string);
-        System.out.println(CoolSuppliesFeatureSet7Controller.getGrades().size());
-        assertEquals(CoolSuppliesFeatureSet7Controller.getGrades().size(), numGrades);
+        int numGrades = Integer.parseInt(numberOfGrades);
+        System.out.println(coolSupplies.getGrades().size());
+        assertEquals(coolSupplies.getGrades().size(), numGrades);
     }
 
      /**
@@ -74,10 +73,10 @@ public class DeleteGradeStepDefinitions {
         io.cucumber.datatable.DataTable dataTable) {
 
         List<Map<String, String>> expectedGrades = dataTable.asMaps();
-        List<TOGrade> actualGrades = CoolSuppliesFeatureSet7Controller.getGrades();
+        List<Grade> actualGrades = coolSupplies.getGrades();
         for (int i = 0; i < expectedGrades.size(); i++) {
             String expectedLevel = expectedGrades.get(i).get("level");
-            TOGrade actualGrade = findGrade(actualGrades, expectedLevel);
+            Grade actualGrade = findGrade(actualGrades, expectedLevel);
             assertEquals(expectedLevel, actualGrade.getLevel());
         }
     }
@@ -88,9 +87,9 @@ public class DeleteGradeStepDefinitions {
    */
 
     @Then("the error {string} shall be raised \\(p2)")
-    public void the_error_shall_be_raised_p2(String string) {
+    public void the_error_shall_be_raised_p2(String error) {
         // Write code here that turns the phrase above into concrete actions
-        assertEquals(string, lastError);
+        assertEquals(error, lastError);
     }
 
 /**
@@ -102,8 +101,8 @@ public class DeleteGradeStepDefinitions {
    * @return the desired target grade if it is found in the list of grades, else it returns null
    */
 
-    public TOGrade findGrade(List<TOGrade> grades, String target) {
-      for (TOGrade grade : grades) {
+    public Grade findGrade(List<Grade> grades, String target) {
+      for (Grade grade : grades) {
           if (target.equals(grade.getLevel())) {
               return grade;
           }
