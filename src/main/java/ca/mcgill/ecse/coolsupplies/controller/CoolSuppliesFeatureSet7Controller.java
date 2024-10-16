@@ -20,13 +20,23 @@ public class CoolSuppliesFeatureSet7Controller {
      * Adds a new grade to the CoolSupplies system. 
      * 
      * @param gradeLevel The grade level to be added.
-     * @return A message indicating success or that the grade already exists.
-     * @throws RuntimeException if there is an issue adding the grade.
+     * @return A message indicating success.
+     * @return An error message if: 1. The grade level already exists. 2. The grade level is empty.
      * @author David Vo
      */
 
     public static String addGrade(String gradeLevel) {
         CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+
+        // Checks if the grade level already exists.
+        if (Grade.hasWithLevel(gradeLevel)) {
+            return "The level must be unique.";
+        }
+
+        // Checks if the grade level is empty.
+        if (gradeLevel == null || gradeLevel.trim().length() == 0) {
+            return "The level must not be empty.";
+        }
         
         try {
             // Uses addGrade() from CoolSupplies.java, which calls Grade.java constructor. Note that Exception handling is already done in Grade.java constructor.
@@ -42,23 +52,30 @@ public class CoolSuppliesFeatureSet7Controller {
      * 
      * @param currentGradeLevel The current level of the grade.
      * @param newGradeLevel The new level to update the grade to.
-     * @return A message indicating the success of the update, or if the current grade does not exist.
-     * @throws IllegalArgumentException if the new grade level already exists or the current grade level is not found.
+     * @return A message indicating the success of the update.
+     * @return An error message if: 1. The current grade level does not exist. 2. The new grade level already exists. 3. The new grade level is empty.
      * @author David Vo
      */
 
     public static String updateGrade(String currentGradeLevel, String newGradeLevel) {
         // Finds the corresponding grade using getWithLevel() from Grade. This searches the gradeByLevel HashMap.
         Grade grade = Grade.getWithLevel(currentGradeLevel);
-        
+
+        // Checks if the current grade level does not exist.
         if (grade == null) {
-            return "Grade " + currentGradeLevel + " not found.";
+            return "The grade does not exist.";
         }
 
+        // Checks if the new grade level already exists.
         if (Grade.hasWithLevel(newGradeLevel)) {
-            return "Grade with level " + newGradeLevel + " already exists.";
+            return "The level must be unique.";
         }
     
+        // Checks if the new grade level is empty.
+        if (newGradeLevel == null || newGradeLevel.trim().length() == 0) {
+            return "The level must not be empty.";
+        }
+
         try {
             // Attempt to set the new level; it will return false if the level already exists
             grade.setLevel(newGradeLevel);
@@ -72,14 +89,15 @@ public class CoolSuppliesFeatureSet7Controller {
      * Deletes an existing grade with the corresponding level.  
      * 
      * @param gradeLevel The level of the grade to be deleted.
-     * @return A message indicating the success of the deletion, or if the grade was not found.
-     * @throws IllegalArgumentException if the grade level is not found.
+     * @return A message indicating the success of the deletion.
+     * @return An error message if the grade level does not exist.
      * @author David Vo
      */
 
     public static String deleteGrade(String gradeLevel) {
         Grade grade = Grade.getWithLevel(gradeLevel);
             
+        // Checks if the grade level does not exist.
         if (grade == null) {
             return "The grade does not exist.";
         }
@@ -98,7 +116,7 @@ public class CoolSuppliesFeatureSet7Controller {
      * 
      * @param level The level of the grade to retrieve.
      * @return A TOGrade object representing the retrieved grade.
-     * @throws IllegalArgumentException if no grade with the specified level exists.
+     * @return null if no grade with the specified level exists.
      * @author David Vo
      */
 
@@ -109,7 +127,7 @@ public class CoolSuppliesFeatureSet7Controller {
             return new TOGrade(grade.getLevel());
         }
     
-        throw new IllegalArgumentException("Grade with level " + level + " not found.");
+        return null;
     }
 
     /**
