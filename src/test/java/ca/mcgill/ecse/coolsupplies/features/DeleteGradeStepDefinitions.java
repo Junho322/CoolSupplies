@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
-import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import ca.mcgill.ecse.coolsupplies.model.Grade;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Implementation of the Gherkin Step definition for the DeleteGrade feature in CoolSupplies by mapping the Gherkin step to Java code of the controller and the model layers
@@ -77,6 +77,7 @@ public class DeleteGradeStepDefinitions {
     for (int i = 0; i < expectedGrades.size(); i++) {
       String expectedLevel = expectedGrades.get(i).get("level");
       Grade actualGrade = findGrade(actualGrades, expectedLevel);
+      assertNotNull(actualGrade, "Expected grade with level '" + expectedLevel + "' was not found in the system.");
       assertEquals(expectedLevel, actualGrade.getLevel(), "Mismatch in grade level. Expected '" + expectedLevel +
           "', but found '" + actualGrade.getLevel() + "'.");
     }

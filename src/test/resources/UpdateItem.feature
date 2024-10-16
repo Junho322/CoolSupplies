@@ -47,7 +47,7 @@ As the school admin, I want to update an item in the system.
       | name     | price |
       | textbook |   150 |
     When the school admin attempts to update item "<name>" in the system with name "<updatedName>" and price "<updatedPrice>" (p14)
-    Then the number of item entities in the system shall be "1" (p14)
+    Then the number of item entities in the system shall be "2" (p14)
     Then the item "<updatedName>" with price "<updatedPrice>" shall not exist in the system (p14)
     Then the following item entities shall exist in the system (p14)
       | name     | price |
@@ -57,4 +57,4 @@ As the school admin, I want to update an item in the system.
 
     Examples:
       | name   | updatedName | updatedPrice | error                    |
-      | pencil | textbook    |          150 | The name must be unique. |
+      | pencil | textbook    |          100 | The name must be unique. |
