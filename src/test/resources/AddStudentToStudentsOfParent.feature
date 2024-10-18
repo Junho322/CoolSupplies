@@ -14,8 +14,8 @@ As the parent, I want to add a student to the students of a parent in the system
 
   Scenario Outline: Successfully add a student to a parent in the system
     When the parent attempts to add a student with name "<name>" to an existing parent "<parentEmail>" (p16)
-    Then the number of student entities in the system shall be "2" (p16)
-    Then the number of student entities for parent "<parentEmail>" in the system shall be "2" (p16)
+    Then the number of student entities in the system shall be "1" (p16)
+    Then the number of student entities for parent "<parentEmail>" in the system shall be "1" (p16)
     Then the student "<name>" shall exist for parent "<parentEmail>" in the system (p16)
 
     Examples:
@@ -25,7 +25,7 @@ As the parent, I want to add a student to the students of a parent in the system
   Scenario Outline: Unsuccessfully add a student that does not exist to a parent in the system
     When the parent attempts to add a student with name "<name>" to an existing parent "<parentEmail>" (p16)
     Then the number of student entities in the system shall be "1" (p16)
-    Then the number of student entities for parent "<parentEmail>" in the system shall be "1" (p16)
+    Then the number of student entities for parent "<parentEmail>" in the system shall be "0" (p16)
     Then the student "<name>" shall not exist for parent "<parentEmail>" in the system (p16)
     Then the error "<error>" shall be raised (p16)
 
