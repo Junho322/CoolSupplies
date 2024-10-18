@@ -23,7 +23,6 @@ public class CoolSuppliesFeatureSet2Controller {
 
     private static CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
 
-
     /**
      *Will add a Student by taking as input the student's name and grade level
      * Conditions for student to be added are:
@@ -34,19 +33,16 @@ public class CoolSuppliesFeatureSet2Controller {
      * @return A string message indicating either an error while attempting to add the Student
      *          or null if student was successfuly added.
      **/
-
-
     public static String addStudent(String name, String gradeLevel) {
 
         Grade grade = Grade.getWithLevel(gradeLevel);
-        if(name.isBlank() || Grade.getWithLevel(gradeLevel) == null || !isUniqueName(name)){
+        if(name.isBlank() || grade == null || !isUniqueName(name)){
             return name.isBlank() ? "The name must not be empty."
                     : grade == null ? "The grade does not exist."
                     : "The name must be unique.";
         }
 
-        Student student = new Student(name, coolSupplies, grade);
-        coolSupplies.addStudent(student);
+        coolSupplies.addStudent(new Student(name,coolSupplies,grade));
         return null;
     }
 
@@ -60,29 +56,21 @@ public class CoolSuppliesFeatureSet2Controller {
      * @return A string message indicating either an error while attempting to Update the Student
      *          or null if student was successfuly edited.
      **/
-
     public static String updateStudent(String name, String newName, String newGradeLevel) {
 
-        Student targetStudent = null;
-
-        for(Student student : coolSupplies.getStudents()){
-            if(student.getName().equals(name)){
-                targetStudent = student;
-            }
-
-        }
-
+        Student targetStudent = Student.getWithName(name);
         Grade grade = Grade.getWithLevel(newGradeLevel);
+        boolean nameUniqueness = isUniqueName(newName);
 
-        if(newName.isBlank() || grade == null || targetStudent == null || !isUniqueName(newName)){
+        if(newName.isBlank() || !nameUniqueness || targetStudent == null || grade == null  ){
             return newName.isBlank() ? "The name must not be empty."
-                    : !isUniqueName(newName) ? "The name must be unique."
+                    : !nameUniqueness ? "The name must be unique."
                     : targetStudent == null ? "The student does not exist."
                     : "The grade does not exist.";
         }
         else{
             targetStudent.setName(newName);
-            targetStudent.setGrade(Grade.getWithLevel(newGradeLevel));
+            targetStudent.setGrade(grade);
             return null;
         }
 
@@ -96,17 +84,14 @@ public class CoolSuppliesFeatureSet2Controller {
      * @return A boolean value representing if the given name was unique( we don't have a student with that name)
      * or not.
      **/
-
     public static String deleteStudent(String name) {
 
-        for(Student student : coolSupplies.getStudents()){
-            if(student.getName().equals(name)){
-                student.delete();
-                return "Success";
-            }
+        Student student  = Student.getWithName(name);
+        if(student == null){
+            return("The student does not exist.");
         }
-
-        return("The student does not exist.");
+        student.delete();
+        return "Success";
 
 
     }
@@ -118,25 +103,14 @@ public class CoolSuppliesFeatureSet2Controller {
      * @return A Student transfer object that contains the information of the requested Student if he exists,
      * or "null" if the requested student does not exist.
      **/
-
-
     public static TOStudent getStudent(String name) {
 
-
-        Student targetStudent = null;
-        for(Student student : coolSupplies.getStudents()){
-            if(student.getName().equals(name)){
-                targetStudent = student;
-            }
-        }
-
+        Student targetStudent = Student.getWithName(name);
         if(targetStudent != null){
-
             return new TOStudent(targetStudent.getName(), targetStudent.getGrade().getLevel());
         }
 
         return null;
-
     }
 
     /**
@@ -147,14 +121,11 @@ public class CoolSuppliesFeatureSet2Controller {
     public static List<TOStudent> getStudents() {
 
         List<TOStudent> studentList = new ArrayList<>();
-
         for(Student student: coolSupplies.getStudents()){
             studentList.add(new TOStudent(student.getName(),student.getGrade().getLevel()));
         }
 
         return studentList;
-
-
     }
 
     /**
@@ -164,17 +135,13 @@ public class CoolSuppliesFeatureSet2Controller {
      * @return A boolean value representing if the given name was unique( we don't have a student with that name)
      * or not.
      **/
-
-
-
     public static boolean isUniqueName(String name) {
 
         boolean isUnique = true;
-        for(Student student : coolSupplies.getStudents()){
-            if(student.getName().equals(name)){
-                isUnique = false;
-            }
+        Student student = Student.getWithName(name);
 
+        if(student != null){
+            isUnique = false;
         }
         return isUnique;
     }
