@@ -14,46 +14,13 @@ import java.util.ArrayList;
  * @author David Zhou
  */
 public class CoolSuppliesFeatureSet6Controller {
-
-
-  /**
-   * Finds a Parent by their email address.
-   *
-   * @param parentEmail The email of the parent.
-   * @return The Parent object associated with the provided email, or null if not found.
-   */
-  private static Parent findParentByEmail(String parentEmail) {
-    CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
-    for (Parent parent : coolSupplies.getParents()) {
-      if (parent.getEmail().equals(parentEmail)) {
-        return parent;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Finds a Student by their name.
-   *
-   * @param studentName The name of the student.
-   * @return The Student object associated with the provided name, or null if not found.
-   */
-  private static Student findStudentByName(String studentName) {
-    CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
-    for (Student student : coolSupplies.getStudents()) {
-      if (student.getName().equals(studentName)) {
-        return student;
-      }
-    }
-    return null;
-  }
-
   /**
    * Adds a student to a parent's list of students.
    *
    * @param studentName The name of the student to be added.
    * @param parentEmail The email of the parent.
    * @return A success message if the student was added, or an appropriate error message.
+   * @author David Zhou
    */
   public static String addStudentToParent(String studentName, String parentEmail) {
     Student student = findStudentByName(studentName);
@@ -76,6 +43,7 @@ public class CoolSuppliesFeatureSet6Controller {
    * @param studentName The name of the student to be removed.
    * @param parentEmail The email of the parent.
    * @return A success message if the student was removed, or an appropriate error message.
+   * @author David Zhou
    */
   public static String deleteStudentFromParent(String studentName, String parentEmail) {
     Student student = findStudentByName(studentName);
@@ -102,6 +70,7 @@ public class CoolSuppliesFeatureSet6Controller {
    * @param studentName The name of the student to retrieve.
    * @param parentEmail The email of the parent.
    * @return A TOStudent object representing the student, or null if not found.
+   * @author David Zhou
    */
   public static TOStudent getStudentOfParent(String studentName, String parentEmail) {
     Parent parent = findParentByEmail(parentEmail);
@@ -123,6 +92,7 @@ public class CoolSuppliesFeatureSet6Controller {
    *
    * @param parentEmail The email of the parent.
    * @return A list of TOStudent objects representing the parent's students, or an empty list if none found.
+   * @author David Zhou
    */
   public static List<TOStudent> getStudentsOfParent(String parentEmail) {
     Parent parent = findParentByEmail(parentEmail);
@@ -146,6 +116,7 @@ public class CoolSuppliesFeatureSet6Controller {
    * @param parentEmail The email of the parent placing the order.
    * @param studentName The name of the student for whom the order is placed.
    * @return A success message if the order is created, or an error message if validation fails.
+   * @author David Zhou
    */
   public static String startOrder(int number, Date date, String level, String parentEmail,
                                   String studentName) {
@@ -190,5 +161,39 @@ public class CoolSuppliesFeatureSet6Controller {
 
     coolSupplies.addOrder(number, date, purchaseLevel, parent, student);
     return "Order created successfully.";
+  }
+
+  /**
+   * Finds a Parent by their email address.
+   *
+   * @param parentEmail The email of the parent.
+   * @return The Parent object associated with the provided email, or null if not found.
+   * @author David Zhou
+   */
+  private static Parent findParentByEmail(String parentEmail) {
+    CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+    for (Parent parent : coolSupplies.getParents()) {
+      if (parent.getEmail().equals(parentEmail)) {
+        return parent;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Finds a Student by their name.
+   *
+   * @param studentName The name of the student.
+   * @return The Student object associated with the provided name, or null if not found.
+   * @author David Zhou
+   */
+  private static Student findStudentByName(String studentName) {
+    CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+    for (Student student : coolSupplies.getStudents()) {
+      if (student.getName().equals(studentName)) {
+        return student;
+      }
+    }
+    return null;
   }
 }
