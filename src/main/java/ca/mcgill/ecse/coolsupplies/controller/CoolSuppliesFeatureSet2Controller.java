@@ -40,7 +40,7 @@ public class CoolSuppliesFeatureSet2Controller {
                     : grade == null ? "The grade does not exist."
                     : "The name must be unique.";
         }
-        coolSupplies.addStudent(new Student(name,coolSupplies,grade));
+        coolSupplies.addStudent(name,grade);
         return null;
     }
     /**
