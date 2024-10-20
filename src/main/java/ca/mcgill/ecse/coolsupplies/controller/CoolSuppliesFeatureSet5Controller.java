@@ -49,15 +49,18 @@ public class CoolSuppliesFeatureSet5Controller {
         }
         
         CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+
         BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(level);
+        
         Item aItem = (Item) Item.getWithName(itemName);
-        GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName (bundleName);
+        GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
         List<BundleItem> bundleItems = aBundle.getBundleItems();
         for (BundleItem bundleItem : bundleItems) {
           if (bundleItem.getItem().equals(aItem)) {
             return "The item already exists for the bundle.";
           }
         }
+
         try {
           //BundleItem newBundleItem = coolSupplies.addBundleItem(quantity, aLevel, aBundle, aItem);
           coolSupplies.addBundleItem(quantity, aLevel, aBundle, aItem);
@@ -87,9 +90,11 @@ public class CoolSuppliesFeatureSet5Controller {
         if (!GradeBundle.hasWithName(bundleName)) {
           return "The grade bundle does not exist.";
         }
+
         BundleItem.PurchaseLevel aNewLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
+
         Item aItem = (Item) Item.getWithName(itemName);
-        GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName (bundleName);
+        GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
         List<BundleItem> bundleItems = aBundle.getBundleItems();
         for (BundleItem bundleItem : bundleItems) {
           if (bundleItem.getItem().equals(aItem)) {
@@ -98,6 +103,7 @@ public class CoolSuppliesFeatureSet5Controller {
             return "Successfullly updated the bundle item.";
           }
         }
+
         return "The bundle item does not exist for the grade bundle.";
 
   }
@@ -116,7 +122,8 @@ public class CoolSuppliesFeatureSet5Controller {
     }
     
     Item aTargetItem = (Item) Item.getWithName(itemName);
-    GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName (bundleName);
+    GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
+
     List<BundleItem> bundleItems = aBundle.getBundleItems();
     for (BundleItem bundleItem : bundleItems) {
       if (bundleItem.getItem().equals(aTargetItem)) {
@@ -142,7 +149,7 @@ public class CoolSuppliesFeatureSet5Controller {
     }
 
     Item aTargetItem = (Item) Item.getWithName(itemName);
-    GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName (bundleName);
+    GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
 
     List<BundleItem> bundleItems = aBundle.getBundleItems();
 
@@ -171,7 +178,8 @@ public class CoolSuppliesFeatureSet5Controller {
       return TObundleItems;
     }
 
-    GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName (bundleName);
+    GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
+    
     List<BundleItem> bundleItems = aBundle.getBundleItems();
     for (BundleItem bundleItem : bundleItems) {
       TOBundleItem toBundleItem = new TOBundleItem(bundleItem.getQuantity(), bundleItem.getLevel().toString(),bundleItem.getItem().getName(), bundleName);
