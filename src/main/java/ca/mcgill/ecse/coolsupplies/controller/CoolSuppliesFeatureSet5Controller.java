@@ -18,21 +18,19 @@ import java.util.ArrayList;
  *
  * @author Shayan Yamanidouzi Sorkhabi
  */
-
 public class CoolSuppliesFeatureSet5Controller {
 
 
   /**
    * Adds an item to the current bundle
    * 
-   * @param quantity
-   * @param level
-   * @param itemName
-   * @param bundleName
+   * @param quantity    number of items to be added
+   * @param level       requirement level of the item to be added
+   * @param itemName    name of the item to be added
+   * @param bundleName  name of the bundle to which the item will be added to
    * @return A string message indicating if the item is added to the bundle or not
    * @author Shayan Yamanidouzi Sorkhabi
    */
-
   public static String addBundleItem(int quantity, String level, String itemName,
       String bundleName) {
         if (quantity <= 0) {
@@ -62,19 +60,20 @@ public class CoolSuppliesFeatureSet5Controller {
         }
 
         try {
-          //BundleItem newBundleItem = coolSupplies.addBundleItem(quantity, aLevel, aBundle, aItem);
           coolSupplies.addBundleItem(quantity, aLevel, aBundle, aItem);
           return "BundleItem added succefully.";
         } catch (Exception e) {
           return e.getMessage();
         }
       }
+
     /**
+     * Update the quantity and the requirement level of an item in the bundle
      * 
-     * @param itemName
-     * @param bundleName
-     * @param newQuantity
-     * @param newLevel
+     * @param itemName      name of the item that is to be updated
+     * @param bundleName    name of the bundle in which the item is in
+     * @param newQuantity   new quantity for the item
+     * @param newLevel      new requirement item for the item
      * @return A string message indicating whether the desired item in the bundle was updated or not
      * @author Shayan Yamanidouzi Sorkhabi
      */
@@ -109,9 +108,10 @@ public class CoolSuppliesFeatureSet5Controller {
   }
 
   /**
+   * removes an item form the bundle
    * 
-   * @param itemName
-   * @param bundleName
+   * @param itemName    name of the item to be removed
+   * @param bundleName  name of the bundle in which the item that is to be removed was in
    * @return a string message indicating whether a desired item was removed or not in case of an error
    * @author Shayan Yamanidouzi Sorkhabi
    */
@@ -136,9 +136,10 @@ public class CoolSuppliesFeatureSet5Controller {
   }
 
   /**
+   * Gets a bundle item by its name and bundle name
    * 
-   * @param itemName
-   * @param bundleName
+   * @param itemName    name of the item 
+   * @param bundleName  name of the bundle
    * @return a TOBundleItem object representing the bundle item found if not then it returns null
    * @author Shayan Yamanidouzi Sorkhabi
    */
@@ -164,12 +165,12 @@ public class CoolSuppliesFeatureSet5Controller {
   }
 
   /**
+   * Gets all bundle items of a bundle
    * 
-   * @param bundleName
+   * @param bundleName  name if the bundle
    * @return all bundle items of a bundle
    * @author Shayan Yamanidouzi Sorkhabi
    */
- 
   public static List<TOBundleItem> getBundleItems(String bundleName) {
     
     List<TOBundleItem> TObundleItems = new ArrayList<>();
