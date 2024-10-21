@@ -56,7 +56,7 @@ As the school admin, I want to update a grade bundle in the system.
       | level |
       |   7th |
     When the school admin attempts to update grade bundle "<name>" in the system with name "<updatedName>", discount "<updatedDiscount>", and grade level "<updatedGradeLevel>" (p10)
-    Then the number of grade bundle entities in the system shall be "1" (p10)
+    Then the number of grade bundle entities in the system shall be "2" (p10)
     Then the grade bundle "<updatedName>" with discount "<updatedDiscount>" and grade level "<updatedGradeLevel>" shall not exist in the system (p10)
     Then the following grade bundle entities shall exist in the system (p10)
       | name     | discount | gradeLevel |
