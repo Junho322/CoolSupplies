@@ -38,7 +38,7 @@ public class CoolSuppliesFeatureSet4Controller {
     if (InventoryItem.hasWithName(name)) {
       return "The name must be unique.";
     }
-    if (name.isEmpty()) {
+    if (name == null || name.isEmpty()) {
       return "The name must not be empty.";
     }
     if (discount < 0 || discount > 100) {
@@ -79,7 +79,7 @@ public class CoolSuppliesFeatureSet4Controller {
     GradeBundle targetBundle = (GradeBundle) GradeBundle.getWithName(name);
 
 
-    if (newName.isEmpty()) {
+    if (newName == null || newName.isEmpty()) {
       return "The name must not be empty.";
     }
     if (newDiscount < 0 || newDiscount > 100) {
