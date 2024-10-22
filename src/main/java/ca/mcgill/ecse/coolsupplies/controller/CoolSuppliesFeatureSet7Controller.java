@@ -64,7 +64,6 @@ public class CoolSuppliesFeatureSet7Controller {
             return "The grade does not exist.";
         }
 
-
         // Checks if the new grade level already exists.
         if (Grade.hasWithLevel(newGradeLevel)) {
             return "The level must be unique.";
