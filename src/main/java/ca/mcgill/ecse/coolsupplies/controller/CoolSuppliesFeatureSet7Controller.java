@@ -24,7 +24,6 @@ public class CoolSuppliesFeatureSet7Controller {
      * @return An error message if: 1. The grade level already exists. 2. The grade level is empty.
      * @author David Vo
      */
-
     public static String addGrade(String gradeLevel) {
         CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
 
@@ -56,7 +55,6 @@ public class CoolSuppliesFeatureSet7Controller {
      * @return An error message if: 1. The current grade level does not exist. 2. The new grade level already exists. 3. The new grade level is empty.
      * @author David Vo
      */
-
     public static String updateGrade(String currentGradeLevel, String newGradeLevel) {
         // Finds the corresponding grade using getWithLevel() from Grade. This searches the gradeByLevel HashMap.
         Grade grade = Grade.getWithLevel(currentGradeLevel);
@@ -93,7 +91,6 @@ public class CoolSuppliesFeatureSet7Controller {
      * @return An error message if the grade level does not exist.
      * @author David Vo
      */
-
     public static String deleteGrade(String gradeLevel) {
         Grade grade = Grade.getWithLevel(gradeLevel);
             
@@ -119,14 +116,11 @@ public class CoolSuppliesFeatureSet7Controller {
      * @return null if no grade with the specified level exists.
      * @author David Vo
      */
-
     public static TOGrade getGrade(String level) {
-    
         Grade grade = Grade.getWithLevel(level);
         if (grade != null) {
             return new TOGrade(grade.getLevel());
         }
-    
         return null;
     }
 
@@ -136,7 +130,6 @@ public class CoolSuppliesFeatureSet7Controller {
      * @return A list of TOGrade objects representing all grades.
      * @author David Vo
      */
-
     public static List<TOGrade> getGrades() {
         CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
     
@@ -145,7 +138,6 @@ public class CoolSuppliesFeatureSet7Controller {
         for (Grade g : coolSupplies.getGrades()) {
             gradeList.add(new TOGrade(g.getLevel()));
         }
-    
         return gradeList;
     }
 }
