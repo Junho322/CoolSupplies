@@ -64,6 +64,7 @@ public class CoolSuppliesFeatureSet7Controller {
             return "The grade does not exist.";
         }
 
+
         // Checks if the new grade level already exists.
         if (Grade.hasWithLevel(newGradeLevel)) {
             return "The level must be unique.";
@@ -116,7 +117,6 @@ public class CoolSuppliesFeatureSet7Controller {
      * @return null if no grade with the specified level exists.
      * @author David Vo
      */
-
     public static TOGrade getGrade(String level) {
         Grade grade = Grade.getWithLevel(level);
         if (grade != null) {
