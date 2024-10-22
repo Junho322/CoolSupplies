@@ -118,7 +118,6 @@ public class CoolSuppliesFeatureSet7Controller {
      */
 
     public static TOGrade getGrade(String level) {
-    
         Grade grade = Grade.getWithLevel(level);
         if (grade != null) {
             return new TOGrade(grade.getLevel());
