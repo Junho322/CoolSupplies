@@ -9,7 +9,14 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet3Controller;
 import ca.mcgill.ecse.coolsupplies.model.Item;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet3Controller;
+import ca.mcgill.ecse.coolsupplies.model.Item;
+ 
+import java.util.List;
+import java.util.Map;
+ 
 public class UpdateItemStepDefinitions {
 
 
@@ -27,7 +34,7 @@ public class UpdateItemStepDefinitions {
     assertTrue(item == null || item.getPrice() != Integer.parseInt(price),
         "Item " + name + " with price " + price + " should not exist in the system");
   }
-
+ 
   @Then("the following item entities shall exist in the system \\(p14)")
   public void the_following_item_entities_shall_exist_in_the_system_p14(
       io.cucumber.datatable.DataTable dataTable) {

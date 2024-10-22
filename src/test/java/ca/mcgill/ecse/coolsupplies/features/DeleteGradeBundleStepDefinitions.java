@@ -113,10 +113,10 @@ public class DeleteGradeBundleStepDefinitions {
    * @author Ian Moore
    */
   @Then("the error {string} shall be raised \\(p9)")
-  public void the_error_shall_be_raised_p9(String string) {
+  public void the_error_shall_be_raised_p9(String expectedError) {
 
-    // assert whether the error variable contains the given string
-    assertTrue(error.contains(string), "Expected error: '" + string + "', but got: '" + error + "'.");
+    // assert whether the error variable is equal to given expectedError string
+    assertEquals(expectedError, error, "Expected error: '" + expectedError + "', but got: '" + error + "'.");
   }
 
   /**
@@ -124,7 +124,7 @@ public class DeleteGradeBundleStepDefinitions {
    */
   private void callController(String result) {
     if (!result.isEmpty()) {
-      error += result;
+      error = result;
     }
   }
 }
