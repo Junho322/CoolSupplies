@@ -49,6 +49,7 @@ public class GetStudentStepDefinitions {
       io.cucumber.datatable.DataTable dataTable) {
     
     List<Map<String, String>> rows = dataTable.asMaps();
+    assertEquals(rows.size(),studentList.size());
     for (var row : rows) {
       String name = row.get("name");
       String gradeLevel = row.get("gradeLevel");

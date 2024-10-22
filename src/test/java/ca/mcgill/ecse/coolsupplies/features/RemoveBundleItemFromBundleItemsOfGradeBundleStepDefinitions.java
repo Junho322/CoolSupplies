@@ -27,13 +27,9 @@ public class RemoveBundleItemFromBundleItemsOfGradeBundleStepDefinitions {
    */
   private static CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
   /**
-   * Error string if the removal is not succesful
+   * Error array if the removal is not succesful
    */
-  private String error;
-  /**
-   * Keeps track of the number of errors returned if the removal is not succesful
-   */
-  private int errorCntr;
+  private ArrayList<String> errors = new ArrayList<>();
 
   /**
    * @author Andres Gonzalez:
@@ -118,9 +114,9 @@ public class RemoveBundleItemFromBundleItemsOfGradeBundleStepDefinitions {
  * that an error has been raised during the execution of the previous steps.
  * 
  * It checks two conditions:
- * 1. The error counter has been incremented, indicating that an error occurred during the
+ * 1. The size of the error ArrayList has been incremented, indicating that an error occurred during the
  *    execution of the scenario.
- * 2. The expected error message is contained within the actual error string. If the expected
+ * 2. The expected error message is contained within the actual error ArrayList. If the expected
  *    error message is not found, the test will fail.
  * </pre>
  *
@@ -133,19 +129,19 @@ public class RemoveBundleItemFromBundleItemsOfGradeBundleStepDefinitions {
  *  Then the error "Expected error message" shall be raised \\(p11)
  * </pre>
  *
- * @throws AssertionError if no errors were raised (i.e., if errorCntr is not greater than 0)
- *                        or if the expected error message is not found in the actual error string.
+ * @throws AssertionError if no errors were raised (i.e., if size of the error ArrayList is not greater than 0)
+ *                        or if the expected error message is not found in the actual error ArrayList.
  */
 
   @Then("the error {string} shall be raised \\(p11)")
   public void the_error_shall_be_raised_p11(String expectedErrorMessage) {
 
-    // Check if the error counter has incremented
-    assertTrue(errorCntr > 0, "Expected an error to be raised but none was found.");
+    // Check if the amount of errors has increased
+    assertTrue(errors.size() > 0, "Expected an error to be raised but none was found.");
 
-    // Check if the expected error message is contained in the error string
-    assertTrue(error.contains(expectedErrorMessage),
-        "Expected error message: '" + expectedErrorMessage + "' was not found in: '" + error + "'");
+    // Check if the expected error message is contained in the error ArrayList
+    assertTrue(errors.contains(expectedErrorMessage),
+        "Expected error message: '" + expectedErrorMessage + "' was not found.");
   }
 
   // Set of helper methods (add javadoc comments)
@@ -171,11 +167,8 @@ public class RemoveBundleItemFromBundleItemsOfGradeBundleStepDefinitions {
    */
 
   private GradeBundle findGradeBundle(String bundleName) {
-
     List<GradeBundle> gradeBundleList = coolSupplies.getBundles();
-
     for (GradeBundle gradeBundle : gradeBundleList) {
-
       if (gradeBundle.getName().equals(bundleName)) {
         return gradeBundle;
       }
@@ -217,23 +210,20 @@ public class RemoveBundleItemFromBundleItemsOfGradeBundleStepDefinitions {
   /**
    * @author Artiom Volodin
    *
-   * Appends an error message to the existing error string if the result from the controller is not empty.
-   * This method increments the error counter each time it detects an error.
+   * Adds an error message to the existing error ArrayList if the result from the controller is not empty.
    *
    * @param result the result from the controller, which is checked for errors
    *
    *        Example:
    *
    *        <pre>
-   *            If the result contains "Invalid quantity" the method appends this message to the error log
-   *            and increments the error count by 1.
+   *            If the result contains "Invalid quantity" the method adds this message to the error ArrayList.
    *        </pre>
    */
 
   private void callController(String result) {
     if (!result.isEmpty()) {
-      error += result;
-      errorCntr += 1;
+      errors.add(result);
     }
   }
 }

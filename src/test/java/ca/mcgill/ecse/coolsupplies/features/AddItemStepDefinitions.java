@@ -12,6 +12,18 @@ import ca.mcgill.ecse.coolsupplies.model.Item;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+import java.util.Map;
+import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet3Controller;
+import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
+import ca.mcgill.ecse.coolsupplies.model.Item;
+
+
+
 
 public class AddItemStepDefinitions {
 
@@ -30,6 +42,7 @@ public class AddItemStepDefinitions {
     }
 
   }
+
 
   @When("the school admin attempts to add a new item in the system with name {string} and price {string} \\(p14)")
   public void the_school_admin_attempts_to_add_a_new_item_in_the_system_with_name_and_price_p14(

@@ -15,6 +15,9 @@ import static org.junit.Assert.*;
 
 public class RemoveStudentFromStudentsOfParentStepDefinitions {
 
+  /**
+   * @author Kathelina Wei
+   */
   @Given("the following student entities exist for a parent in the system \\(p16)")
   public void the_following_student_entities_exist_for_a_parent_in_the_system_p16(
       io.cucumber.datatable.DataTable dataTable) {
@@ -45,6 +48,9 @@ public class RemoveStudentFromStudentsOfParentStepDefinitions {
     }
   }
 
+  /**
+   * @author Alexander Fou
+   */
   @When("the parent attempts to remove a student with name {string} from a parent with email {string} \\(p16)")
   public void the_parent_attempts_to_remove_a_student_with_name_from_a_parent_with_email_p16(
       String studentName, String parentEmail) {
@@ -52,6 +58,9 @@ public class RemoveStudentFromStudentsOfParentStepDefinitions {
         CoolSuppliesFeatureSet6Controller.deleteStudentFromParent(studentName, parentEmail);
   }
 
+  /**
+   * @author Jad El Hachem
+   */
   @Then("the following student entities shall exist in the system \\(p16)")
   public void the_following_student_entities_shall_exist_in_the_system_p16(
       io.cucumber.datatable.DataTable dataTable) {
@@ -70,6 +79,9 @@ public class RemoveStudentFromStudentsOfParentStepDefinitions {
     }
   }
 
+  /**
+   * @author Hongyi Ye
+   */
   @Then("the following student entities for a parent shall exist in the system \\(p16)")
   public void the_following_student_entities_for_a_parent_shall_exist_in_the_system_p16(
       io.cucumber.datatable.DataTable dataTable) {
@@ -80,6 +92,7 @@ public class RemoveStudentFromStudentsOfParentStepDefinitions {
       String sName = row.get("name"); // must exist
       String parentTableEmail = row.get("parentEmail");
       Student s = Student.getWithName(sName);
+      if (s == null) {fail("The student doesn't exit.");}
       String email = s.getParent().getEmail();
       assertEquals(email, parentTableEmail);
     }
