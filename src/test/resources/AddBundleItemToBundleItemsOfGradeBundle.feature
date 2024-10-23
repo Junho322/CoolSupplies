@@ -29,13 +29,13 @@ As the school admin, I want to add a bundle item to the bundle items of a grade 
   Scenario Outline: Unsuccessfully add a bundle item to a gradeBundle in the system with invalid values
     When the school admin attempts to add a new bundle item with quantity "<quantity>", level "<level>", and itemName "<itemName>" to a gradeBundle "<gradeBundleName>" (p12)
     Then the number of bundle item entities in the system shall be "1" (p12)
-    Then the number of bundle item entities for grade bundle "<gradeBundleName>" in the system shall be "1" (p12)
+    Then the number of bundle item entities for grade bundle "<gradeBundleName>" in the system shall be "<numItems>" (p12)
     Then the error "<error>" shall be raised (p12)
 
     Examples:
-      | quantity | level       | gradeBundleName | itemName         | error                                                  |
-      |        0 | Recommended | Bundle 5        | textbook         | The quantity must be greater than 0.                   |
-      |        5 | notALiteral | Bundle 5        | textbook         | The level must be Mandatory, Recommended, or Optional. |
-      |        5 | Recommended | Bundle 6        | textbook         | The grade bundle does not exist.                       |
-      |        5 | Recommended | Bundle 5        | pencil           | The item already exists for the bundle.                |
-      |        5 | Recommended | Bundle 5        | science textbook | The item does not exist.                               |
+      | quantity | level       | gradeBundleName | itemName         | error                                                  | numItems |
+      |        0 | Recommended | Bundle 5        | textbook         | The quantity must be greater than 0.                   |        1 |
+      |        5 | notALiteral | Bundle 5        | textbook         | The level must be Mandatory, Recommended, or Optional. |        1 |
+      |        5 | Recommended | Bundle 6        | textbook         | The grade bundle does not exist.                       |        0 |
+      |        5 | Recommended | Bundle 5        | pencil           | The item already exists for the bundle.                |        1 |
+      |        5 | Recommended | Bundle 5        | science textbook | The item does not exist.                               |        1 |

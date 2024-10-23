@@ -68,5 +68,5 @@ As the school administrator, I want to update a student in the system.
     Then the error "<error>" shall be raised (p4)
 
     Examples:
-      | name  | updatedName | updateGradeLevel | error                    |
-      | Aaron | Barbara     |              6th | The name must be unique. |
+      | name  | updatedName | updatedGradeLevel | error                    |
+      | Aaron | Barbara     |              6th  | The name must be unique. |
