@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
@@ -146,14 +147,7 @@ public class AddStudentStepDefinitions {
   public void the_student_with_grade_level_shall_exist_in_the_system_p4(String studentName,
       String studentGradeLevel) {
     List<Student> students = coolSupplies.getStudents();
-
-
-    Student student = students.stream().filter(
-        s -> s.getName().equals(studentName) && s.getGrade().getLevel().equals(studentGradeLevel))
-        .findFirst().orElse(null);
-
-
-    assertStudentExists(studentName, studentGradeLevel, student.getName(),
-        student.getGrade().getLevel());
+    assertTrue(students.stream().anyMatch(
+        s -> s.getName().equals(studentName) && s.getGrade().getLevel().equals(studentGradeLevel)));
   }
 }
