@@ -71,7 +71,7 @@ As the parent / school admin, I want to get an order from the system
     Then the following order entities shall be presented
       | parentEmail   | studentName | status | number | date       | level       | authorizationCode | penaltyAuthorizationCode | totalPrice |
       | mom@gmail.com | Aaron       | Paid   |      2 | 2024-01-01 | Recommended |              1234 |                          |          3 |
-    Then the following order items shall be presented for the order with number "1"
+    Then the following order items shall be presented for the order with number "2"
       | quantity | itemName | gradeBundleName | price | discount |
       |        3 | eraser   |                 |     1 |          | 
 
@@ -81,7 +81,7 @@ As the parent / school admin, I want to get an order from the system
     Then the following order entities shall be presented
       | parentEmail   | studentName | status    | number | date       | level       | authorizationCode | penaltyAuthorizationCode | totalPrice |
       | mom@gmail.com | Wendy       | Penalized |      3 | 2024-01-01 | Optional    |                   |                          |      489.6 |
-    Then the following order items shall be presented for the order with number "1"
+    Then the following order items shall be presented for the order with number "3"
       | quantity | itemName | gradeBundleName | price | discount |
       |        6 | pencil   | Bundle 5        |     2 |     -0.4 |
       |        4 | textbook | Bundle 5        |   150 |      -30 |
@@ -92,7 +92,7 @@ As the parent / school admin, I want to get an order from the system
     Then the following order entities shall be presented
       | parentEmail   | studentName | status   | number | date       | level       | authorizationCode | penaltyAuthorizationCode | totalPrice |
       | dad@gmail.com | Sarah       | Prepared |      4 | 2024-01-01 | Mandatory   |              1235 |                          |          4 |
-    Then the following order items shall be presented for the order with number "1"
+    Then the following order items shall be presented for the order with number "4"
       | quantity | itemName | gradeBundleName | price | discount |
       |        2 | pencil   | Bundle 6        |     2 |          |
 
@@ -102,7 +102,7 @@ As the parent / school admin, I want to get an order from the system
     Then the following order entities shall be presented
       | parentEmail   | studentName | status   | number | date       | level       | authorizationCode | penaltyAuthorizationCode | totalPrice |
       | dad@gmail.com | Sarah       | PickedUp |      5 | 2024-01-01 | Recommended |              1236 |                     5678 |      138.6 |
-    Then the following order items shall be presented for the order with number "1"
+    Then the following order items shall be presented for the order with number "5"
       | quantity | itemName | gradeBundleName | price | discount |
       |        2 | pencil   | Bundle 6        |     2 |     -0.2 |
       |        1 | textbook | Bundle 6        |   150 |      -15 |
@@ -113,7 +113,7 @@ As the parent / school admin, I want to get an order from the system
     Then the following order entities shall be presented
       | parentEmail   | studentName | status | number | date       | level       | authorizationCode | penaltyAuthorizationCode | totalPrice |
       | dad@gmail.com | Sarah       | Paid   |      6 | 2024-01-01 | Optional    |              1237 |                          |        279 |
-    Then the following order items shall be presented for the order with number "1"
+    Then the following order items shall be presented for the order with number "6"
       | quantity | itemName | gradeBundleName | price | discount |
       |        4 | pencil   | Bundle 6        |     2 |     -0.2 |
       |        2 | textbook | Bundle 6        |   150 |      -15 |
