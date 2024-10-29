@@ -21,7 +21,9 @@ public class AddStudentToStudentsOfParentStepDefinitions {
   private CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
   static String lastError = "";
 
-
+  /**
+   * @author Kathelina Wei
+   */
   @Given("the following parent entities exists in the system \\(p16)")
   public void the_following_parent_entities_exists_in_the_system_p16(
       io.cucumber.datatable.DataTable dataTable) {
@@ -39,6 +41,9 @@ public class AddStudentToStudentsOfParentStepDefinitions {
     }
   }
 
+  /**
+   * @author Kathelina Wei
+   */
   @Given("the following grade entities exists in the system \\(p16)")
   public void the_following_grade_entities_exists_in_the_system_p16(
       io.cucumber.datatable.DataTable dataTable) {
@@ -52,6 +57,9 @@ public class AddStudentToStudentsOfParentStepDefinitions {
     }
   }
 
+  /**
+   * @author Kathelina Wei
+   */
   @Given("the following student entities exists in the system \\(p16)")
   public void the_following_student_entities_exists_in_the_system_p16(
       io.cucumber.datatable.DataTable dataTable) {
@@ -75,6 +83,9 @@ public class AddStudentToStudentsOfParentStepDefinitions {
     }
   }
 
+  /**
+   * @author Nizar Azmi
+   */
   @When("the parent attempts to add a student with name {string} to an existing parent {string} \\(p16)")
   public void the_parent_attempts_to_add_a_student_with_name_to_an_existing_parent_p16(
       String studentName, String parentEmail) {
@@ -82,6 +93,9 @@ public class AddStudentToStudentsOfParentStepDefinitions {
     lastError = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
   }
 
+  /**
+   * @author Nizar Azmi
+   */
   @Then("the number of student entities in the system shall be {string} \\(p16)")
   public void the_number_of_student_entities_in_the_system_shall_be_p16(String expectedCountStr) {
 
@@ -91,6 +105,9 @@ public class AddStudentToStudentsOfParentStepDefinitions {
     assertEquals(expectedCount, actualCount);
   }
 
+  /**
+   * @author Jad El Hachem
+   */
   @Then("the number of student entities for parent {string} in the system shall be {string} \\(p16)")
   public void the_number_of_student_entities_for_parent_in_the_system_shall_be_p16(
       String parentEmail, String expectedCount) {
@@ -100,6 +117,9 @@ public class AddStudentToStudentsOfParentStepDefinitions {
     assertEquals(Expected, Actual);
   }
 
+  /**
+   * @author Tingyi Chen
+   */
   @Then("the student {string} shall not exist for parent {string} in the system \\(p16)")
   public void the_student_shall_not_exist_for_parent_in_the_system_p16(String studentName,
       String parentEmail) {
@@ -110,11 +130,17 @@ public class AddStudentToStudentsOfParentStepDefinitions {
     assertFalse(hasStudent);
   }
 
+  /**
+   * @author Alexander Fou
+   */
   @Then("the error {string} shall be raised \\(p16)")
   public void the_error_shall_be_raised_p16(String errormsg) {
     assertEquals(errormsg, lastError);
   }
 
+  /**
+   * @author Tingyi Chen
+   */
   @Then("the student {string} shall exist for parent {string} in the system \\(p16)")
   public void the_student_shall_exist_for_parent_in_the_system_p16(String studentName,
       String parentEmail) {
