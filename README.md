@@ -1,10 +1,8 @@
-# :triangular_ruler::books: ECSE223 CoolSupplies Project: Team N
-
-_(Edit this file as needed, then remove this sentence)._
+# :triangular_ruler::books: ECSE223 CoolSupplies Project: Team 2
 
 ## Project Overview
 
-_Provide a one-sentence overview of your project here._
+_CoolSupplies!!! A cool app to help parents manage their kid's school supplies!!!_
 
 For more information about the CoolSupplies application, please consult the [wiki](../../wiki).
 
@@ -12,9 +10,10 @@ For more information about the CoolSupplies application, please consult the [wik
 
 | Name          | GitHub username |
 | ------------- | --------------- |
-| Team Member A | ...             |
-| Team Member B | ...             |
-| Team Member C | ...             |
-| Team Member D | ...             |
-| Team Member E | ...             |
-| Team Member F | ...             |
+| David Vo | Kasamix             |
+| David Zhou | Rampex1             |
+| David Wang | dyune             |
+| Shayan Yamanidouzi Sorkhabi  | Shine111111             |
+| Hamza Khalfi | HamzaZ4             |
+| Jack McDonald | jackmcdonald-byte            |
+| Jun Ho | Junho332            |

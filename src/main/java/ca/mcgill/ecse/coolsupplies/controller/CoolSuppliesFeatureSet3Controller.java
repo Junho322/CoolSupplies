@@ -31,7 +31,7 @@ public class CoolSuppliesFeatureSet3Controller {
       return "The name must be unique.";
     }  
     //checks if name is imputed
-    if (name == null || name == ""){
+    if (name == null || name.isEmpty()){
       return "The name must not be empty.";
     }
     //checks if price is positive
@@ -56,7 +56,7 @@ public class CoolSuppliesFeatureSet3Controller {
    */
   public static String updateItem(String name, String newName, int newPrice) {
     //check the values inputed for new name and new price
-    if (newName == null || newName == ""){
+    if (newName == null || newName.isEmpty()){
       return "The name must not be empty.";
     }
     if (newPrice < 0) {
