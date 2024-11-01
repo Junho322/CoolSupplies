@@ -1,7 +1,7 @@
 namespace ca.mcgill.ecse.coolsupplies.model;
 
 class Order {
-  OrderStatus {
+  status {
     Started {
       updateOrder(PurchaseLevel level, Student student) [isChildOfParent(student)] / {
         setLevel(level);
@@ -40,14 +40,14 @@ class Order {
         throw new Error("Item " + item.name + " does not exist in the order " + order.number + ".");
       }
       -> Started;
-      pay(String authorizationCode) [authorizationCodeIsValid(authorizationCode)] / {
+      pay(String authorizationCode) [codeIsValid(authorizationCode)] / {
         SetAuthorizationCode(authorizationCode);
       }
       -> Paid;
-      pay(String authorizationCode) [!authorizationCodeIsValid(authorizationCode)] / {
+      pay(String authorizationCode) [!codeIsValid(authorizationCode)] / {
         throw new Error("Authorization code is invalid");
       }
-      -> Paid;
+      -> Started;
       startSchoolYear() -> Penalized;
       cancelOrder() -> Final;
     }
@@ -56,16 +56,16 @@ class Order {
       startSchoolYear() -> Prepared;
     }
     Penalized {
-      payPenalty(String authorizationCode, String penaltyAuthCode) [authorizationCodeIsValid(authorizationCode) && penaltyAuthCodeIsValid(penaltyAuthCode)] / {
+      payPenalty(String authorizationCode, String penaltyAuthCode) [codeIsValid(authorizationCode) && codeIsValid(penaltyAuthCode)] / {
         SetAuthorizationCode(authorizationCode);
         SetPenaltyAuthCode(penaltyAuthCode);
       }
       -> Prepared;
-      payPenalty(String authorizationCode, String penaltyAuthCode) [!authorizationCodeIsValid(authorizationCode)] / {
+      payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(authorizationCode)] / {
         throw new Error("Authorization code is invalid");
       }
       -> Penalized;
-      payPenalty(String authorizationCode, String penaltyAuthCode) [!penaltyAuthCodeIsValid(penaltyAuthCode)] / {
+      payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(penaltyAuthCode)] / {
         throw new Error("Penalty authorization code is invalid");
       }
       -> Penalized;
