@@ -1,0 +1,98 @@
+namespace ca.mcgill.ecse.coolsupplies.model;
+
+class Order {
+  depend ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
+  
+  status {
+    Started {
+      updateOrder(PurchaseLevel level, Student student) [isChildOfParent(student)] / {
+        setLevel(level);
+        setStudent(student);
+      }
+      -> Started;
+      updateOrder(PurchaseLevel level, Student student) [!isChildOfParent(student)] / {
+        throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
+      }
+      -> Started;
+      addItem(InventoryItem item, int quantity) [!inventoryItemIsInOrder(item) && quantity > 0] / {
+        addOrderItem(quantity, coolSupplies, item);
+      }
+      -> Started;
+      addItem(InventoryItem item, int quantity) [quantity <= 0] / {
+        throw new RuntimeException("Quantity must be greater than 0.");
+      }
+      -> Started;
+      addItem(InventoryItem item, int quantity) [inventoryItemIsInOrder(item)] / {
+        throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
+      }
+      -> Started;
+      updateItem(OrderItem item, int quantity) [quantity > 0] / {
+        item.setQuantity(quantity);
+      }
+      -> Started;
+      updateItem(OrderItem item, int quantity) [quantity <= 0] / {
+        throw new RuntimeException("Quantity must be greater than 0.");
+      }
+      -> Started;
+      deleteItem(OrderItem item) [inventoryItemIsInOrder(item.getItem())] / {
+        item.delete();
+      }
+      -> Started;
+      deleteItem(OrderItem item) [!inventoryItemIsInOrder(item.getItem())] / {
+        throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
+      }
+      -> Started;
+      pay(String authorizationCode) [codeIsValid(authorizationCode)] / {
+        setAuthorizationCode(authorizationCode);
+      }
+      -> Paid;
+      pay(String authorizationCode) [!codeIsValid(authorizationCode)] / {
+        throw new RuntimeException("Authorization code is invalid");
+      }
+      -> Started;
+      startSchoolYear() -> Penalized;
+      cancelOrder() -> Final;
+    }
+    Paid {
+      cancelOrder() -> Final;
+      startSchoolYear() -> Prepared;
+    }
+    Penalized {
+      payPenalty(String authorizationCode, String penaltyAuthCode) [codeIsValid(authorizationCode) && codeIsValid(penaltyAuthCode)] / {
+        setAuthorizationCode(authorizationCode);
+        setPenaltyAuthorizationCode(penaltyAuthCode);
+      }
+      -> Prepared;
+      payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(authorizationCode)] / {
+        throw new RuntimeException("Authorization code is invalid");
+      }
+      -> Penalized;
+      payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(penaltyAuthCode)] / {
+        throw new RuntimeException("Penalty authorization code is invalid");
+      }
+      -> Penalized;
+    }
+    Prepared {
+      pickUp() -> PickedUp;
+    }
+    PickedUp {
+    }
+  }
+
+  private Boolean isChildOfParent(Student student) {
+    return student.getParent() == getParent();
+  }
+
+  private Boolean inventoryItemIsInOrder(InventoryItem item) {
+    for (OrderItem orderItem : getOrderItems()) {
+      if (orderItem.getItem() == item) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private Boolean codeIsValid(String code) {
+    return code != null && !code.contains(" ") && !code.isEmpty();
+  }
+}
