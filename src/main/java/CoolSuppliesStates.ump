@@ -1,6 +1,8 @@
 namespace ca.mcgill.ecse.coolsupplies.model;
 
 class Order {
+  depend ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
+  
   status {
     Started {
       updateOrder(PurchaseLevel level, Student student) [isChildOfParent(student)] / {
@@ -9,7 +11,7 @@ class Order {
       }
       -> Started;
       updateOrder(PurchaseLevel level, Student student) [!isChildOfParent(student)] / {
-        throw new RuntimeException("Student " + student.name + " is not a child of the parent " + parent.email + ".");
+        throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
       }
       -> Started;
       addItem(InventoryItem item, int quantity) [!inventoryItemIsInOrder(item) && quantity > 0] / {
@@ -21,7 +23,7 @@ class Order {
       }
       -> Started;
       addItem(InventoryItem item, int quantity) [inventoryItemIsInOrder(item)] / {
-        throw new RuntimeException("Item " + item.name + " already exists in the order " + order.number + ".");
+        throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
       }
       -> Started;
       updateItem(OrderItem item, int quantity) [quantity > 0] / {
@@ -32,16 +34,16 @@ class Order {
         throw new RuntimeException("Quantity must be greater than 0.");
       }
       -> Started;
-      deleteItem(OrderItem item) [itemIsInOrder(item)] / {
+      deleteItem(OrderItem item) [inventoryItemIsInOrder(item.getItem())] / {
         item.delete();
       }
       -> Started;
-      deleteItem(OrderItem item) [!itemIsInOrder(item)] / {
-        throw new RuntimeException("Item " + item.name + " does not exist in the order " + order.number + ".");
+      deleteItem(OrderItem item) [!inventoryItemIsInOrder(item.getItem())] / {
+        throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
       }
       -> Started;
       pay(String authorizationCode) [codeIsValid(authorizationCode)] / {
-        SetAuthorizationCode(authorizationCode);
+        setAuthorizationCode(authorizationCode);
       }
       -> Paid;
       pay(String authorizationCode) [!codeIsValid(authorizationCode)] / {
@@ -57,8 +59,8 @@ class Order {
     }
     Penalized {
       payPenalty(String authorizationCode, String penaltyAuthCode) [codeIsValid(authorizationCode) && codeIsValid(penaltyAuthCode)] / {
-        SetAuthorizationCode(authorizationCode);
-        SetPenaltyAuthCode(penaltyAuthCode);
+        setAuthorizationCode(authorizationCode);
+        setPenaltyAuthorizationCode(penaltyAuthCode);
       }
       -> Prepared;
       payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(authorizationCode)] / {
