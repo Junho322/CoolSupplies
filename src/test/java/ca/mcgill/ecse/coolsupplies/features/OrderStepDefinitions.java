@@ -1,10 +1,19 @@
 package ca.mcgill.ecse.coolsupplies.features;
 
+import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.model.*;
+import io.cucumber.datatable.DataTable;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
+
 public class OrderStepDefinitions {
+  private static CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
   @Given("the following parent entities exist in the system")
   public void the_following_parent_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -15,7 +24,14 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> parentData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> parentEntry : parentData) {
+      String email = parentEntry.get("email");
+      String password = parentEntry.get("password");
+      String name = parentEntry.get("name");
+      int phoneNumber = Integer.parseInt(parentEntry.get("phoneNumber"));
+      coolSupplies.addParent(email, password, name, phoneNumber);
+    }
   }
 
   @Given("the following grade entities exist in the system")
@@ -28,7 +44,11 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> gradeData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> gradeEntry : gradeData) {
+      String level = gradeEntry.get("level");
+      coolSupplies.addGrade(level);
+    }
   }
 
   @Given("the following student entities exist in the system")
@@ -41,7 +61,16 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> studentData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> studentEntry : studentData) {
+      String name = studentEntry.get("name");
+      String gradeLevel = studentEntry.get("gradeLevel");
+      Grade grade = coolSupplies.getGrades().stream()
+          .filter(g -> g.getLevel().equals(gradeLevel))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Grade " + gradeLevel + " not found"));
+      coolSupplies.addStudent(name, grade);
+    }
   }
 
   @Given("the following student entities exist for a parent in the system")
@@ -54,7 +83,20 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> studentParentData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> entry : studentParentData) {
+      String name = entry.get("name");
+      String parentEmail = entry.get("parentEmail");
+      Parent parent = coolSupplies.getParents().stream()
+          .filter(p -> p.getEmail().equals(parentEmail))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Parent with email " + parentEmail + " not found"));
+      Student student = coolSupplies.getStudents().stream()
+          .filter(s -> s.getName().equals(name))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Student " + name + " not found"));
+      parent.addStudent(student);
+    }
   }
 
   @Given("the following item entities exist in the system")
@@ -67,7 +109,12 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> itemData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> itemEntry : itemData) {
+      String name = itemEntry.get("name");
+      int price = Integer.parseInt(itemEntry.get("price"));
+      coolSupplies.addItem(name, price);
+    }
   }
 
   @Given("the following grade bundle entities exist in the system")
@@ -80,7 +127,17 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> bundleData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> bundleEntry : bundleData) {
+      String name = bundleEntry.get("name");
+      int discount = Integer.parseInt(bundleEntry.get("discount"));
+      String gradeLevel = bundleEntry.get("gradeLevel");
+      Grade grade = coolSupplies.getGrades().stream()
+          .filter(g -> g.getLevel().equals(gradeLevel))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Grade " + gradeLevel + " not found"));
+      coolSupplies.addBundle(name, discount, grade);
+    }
   }
 
   @Given("the following bundle item entities exist in the system")
@@ -93,7 +150,24 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> bundleItemData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> bundleItemEntry : bundleItemData) {
+      int quantity = Integer.parseInt(bundleItemEntry.get("quantity"));
+      String level = bundleItemEntry.get("level");
+      String gradeBundleName = bundleItemEntry.get("gradeBundleName");
+      String itemName = bundleItemEntry.get("itemName");
+
+      BundleItem.PurchaseLevel purchaseLevel = BundleItem.PurchaseLevel.valueOf(level);
+      GradeBundle bundle = coolSupplies.getBundles().stream()
+          .filter(b -> b.getName().equals(gradeBundleName))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Bundle " + gradeBundleName + " not found"));
+      Item item = coolSupplies.getItems().stream()
+          .filter(i -> i.getName().equals(itemName))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Item " + itemName + " not found"));
+      coolSupplies.addBundleItem(quantity, purchaseLevel, bundle, item);
+    }
   }
 
   @Given("the following order entities exist in the system")
@@ -106,7 +180,25 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> orderData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> orderEntry : orderData) {
+      int number = Integer.parseInt(orderEntry.get("number"));
+      Date date = Date.valueOf(orderEntry.get("date"));
+      String level = orderEntry.get("level");
+      String parentEmail = orderEntry.get("parentEmail");
+      String studentName = orderEntry.get("studentName");
+
+      BundleItem.PurchaseLevel purchaseLevel = BundleItem.PurchaseLevel.valueOf(level);
+      Parent parent = coolSupplies.getParents().stream()
+          .filter(p -> p.getEmail().equals(parentEmail))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Parent with email " + parentEmail + " not found"));
+      Student student = coolSupplies.getStudents().stream()
+          .filter(s -> s.getName().equals(studentName))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Student " + studentName + " not found"));
+      coolSupplies.addOrder(number, date, purchaseLevel, parent, student);
+    }
   }
 
   @Given("the following order item entities exist in the system")
@@ -119,7 +211,22 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> orderItemData = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> orderItemEntry : orderItemData) {
+      int quantity = Integer.parseInt(orderItemEntry.get("quantity"));
+      int orderNumber = Integer.parseInt(orderItemEntry.get("orderNumber"));
+      String itemName = orderItemEntry.get("itemName");
+
+      Order order = coolSupplies.getOrders().stream()
+          .filter(o -> o.getNumber() == orderNumber)
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Order " + orderNumber + " not found"));
+      Item item = coolSupplies.getItems().stream()
+          .filter(i -> i.getName().equals(itemName))
+          .findFirst()
+          .orElseThrow(() -> new RuntimeException("Item " + itemName + " not found"));
+      coolSupplies.addOrderItem(quantity, order, item);
+    }
   }
 
   @Given("the order {string} is marked as {string}")
