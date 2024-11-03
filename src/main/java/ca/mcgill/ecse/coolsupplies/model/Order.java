@@ -6,8 +6,10 @@ import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import java.util.*;
 import java.sql.Date;
 
-// line 3 "../../../../../CoolSuppliesStates.ump"
-// line 41 "../../../../../CoolSupplies.ump"
+// line 3 "../../../../../../CoolSuppliesStates.ump"
+// line 137 "../../../../../../CoolSuppliesStates.ump"
+// line 42 "../../../../../../model.ump"
+// line 116 "../../../../../../model.ump"
 public class Order
 {
 
@@ -182,17 +184,17 @@ public class Order
       case Started:
         if (isChildOfParent(student))
         {
-        // line 8 "../../../../../CoolSuppliesStates.ump"
+        // line 8 "../../../../../../CoolSuppliesStates.ump"
           setLevel(level);
-          setStudent(student);
+        setStudent(student);
           setStatus(Status.Started);
           wasEventProcessed = true;
           break;
         }
         if (!(isChildOfParent(student)))
         {
-        // line 13 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
+        // line 13 "../../../../../../CoolSuppliesStates.ump"
+          rejectUpdateOrder(level, student);
           setStatus(Status.Started);
           wasEventProcessed = true;
           break;
@@ -215,7 +217,7 @@ public class Order
       case Started:
         if (!(inventoryItemIsInOrder(item))&&quantity>0)
         {
-        // line 17 "../../../../../CoolSuppliesStates.ump"
+        // line 17 "../../../../../../CoolSuppliesStates.ump"
           addOrderItem(quantity, coolSupplies, item);
           setStatus(Status.Started);
           wasEventProcessed = true;
@@ -223,16 +225,16 @@ public class Order
         }
         if (quantity<=0)
         {
-        // line 21 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Quantity must be greater than 0.");
+        // line 21 "../../../../../../CoolSuppliesStates.ump"
+          rejectAddItem(item, quantity);
           setStatus(Status.Started);
           wasEventProcessed = true;
           break;
         }
         if (inventoryItemIsInOrder(item))
         {
-        // line 25 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
+        // line 25 "../../../../../../CoolSuppliesStates.ump"
+          rejectAddItem(item, quantity);
           setStatus(Status.Started);
           wasEventProcessed = true;
           break;
@@ -255,7 +257,7 @@ public class Order
       case Started:
         if (quantity>0)
         {
-        // line 29 "../../../../../CoolSuppliesStates.ump"
+        // line 29 "../../../../../../CoolSuppliesStates.ump"
           item.setQuantity(quantity);
           setStatus(Status.Started);
           wasEventProcessed = true;
@@ -263,8 +265,8 @@ public class Order
         }
         if (quantity<=0)
         {
-        // line 33 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Quantity must be greater than 0.");
+        // line 33 "../../../../../../CoolSuppliesStates.ump"
+          rejectUpdateItem(item, quantity);
           setStatus(Status.Started);
           wasEventProcessed = true;
           break;
@@ -287,7 +289,7 @@ public class Order
       case Started:
         if (inventoryItemIsInOrder(item.getItem()))
         {
-        // line 37 "../../../../../CoolSuppliesStates.ump"
+        // line 37 "../../../../../../CoolSuppliesStates.ump"
           item.delete();
           setStatus(Status.Started);
           wasEventProcessed = true;
@@ -295,8 +297,8 @@ public class Order
         }
         if (!(inventoryItemIsInOrder(item.getItem())))
         {
-        // line 41 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
+        // line 41 "../../../../../../CoolSuppliesStates.ump"
+          rejectDeleteItem(item);
           setStatus(Status.Started);
           wasEventProcessed = true;
           break;
@@ -319,7 +321,7 @@ public class Order
       case Started:
         if (codeIsValid(authorizationCode))
         {
-        // line 45 "../../../../../CoolSuppliesStates.ump"
+        // line 45 "../../../../../../CoolSuppliesStates.ump"
           setAuthorizationCode(authorizationCode);
           setStatus(Status.Paid);
           wasEventProcessed = true;
@@ -327,8 +329,8 @@ public class Order
         }
         if (!(codeIsValid(authorizationCode)))
         {
-        // line 49 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Authorization code is invalid");
+        // line 49 "../../../../../../CoolSuppliesStates.ump"
+          rejectPay(authorizationCode);
           setStatus(Status.Started);
           wasEventProcessed = true;
           break;
@@ -395,25 +397,25 @@ public class Order
       case Penalized:
         if (codeIsValid(authorizationCode)&&codeIsValid(penaltyAuthCode))
         {
-        // line 61 "../../../../../CoolSuppliesStates.ump"
+        // line 61 "../../../../../../CoolSuppliesStates.ump"
           setAuthorizationCode(authorizationCode);
-          setPenaltyAuthorizationCode(penaltyAuthCode);
+        setPenaltyAuthorizationCode(penaltyAuthCode);
           setStatus(Status.Prepared);
           wasEventProcessed = true;
           break;
         }
         if (!(codeIsValid(authorizationCode)))
         {
-        // line 66 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Authorization code is invalid");
+        // line 66 "../../../../../../CoolSuppliesStates.ump"
+          rejectPayPenalty(authorizationCode, penaltyAuthCode);
           setStatus(Status.Penalized);
           wasEventProcessed = true;
           break;
         }
         if (!(codeIsValid(penaltyAuthCode)))
         {
-        // line 70 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Penalty authorization code is invalid");
+        // line 70 "../../../../../../CoolSuppliesStates.ump"
+          rejectPayPenalty(authorizationCode, penaltyAuthCode);
           setStatus(Status.Penalized);
           wasEventProcessed = true;
           break;
@@ -659,12 +661,12 @@ public class Order
     }
   }
 
-  // line 83 "../../../../../CoolSuppliesStates.ump"
+  // line 83 "../../../../../../CoolSuppliesStates.ump"
    private Boolean isChildOfParent(Student student){
     return student.getParent() == getParent();
   }
 
-  // line 87 "../../../../../CoolSuppliesStates.ump"
+  // line 87 "../../../../../../CoolSuppliesStates.ump"
    private Boolean inventoryItemIsInOrder(InventoryItem item){
     for (OrderItem orderItem : getOrderItems()) {
       if (orderItem.getItem() == item) {
@@ -674,9 +676,49 @@ public class Order
     return false;
   }
 
-  // line 96 "../../../../../CoolSuppliesStates.ump"
+  // line 96 "../../../../../../CoolSuppliesStates.ump"
    private Boolean codeIsValid(String code){
     return code != null && !code.contains(" ") && !code.isEmpty();
+  }
+
+  // line 100 "../../../../../../CoolSuppliesStates.ump"
+   private void rejectUpdateOrder(PurchaseLevel level, Student student){
+    throw new RuntimeException("Student" + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
+  }
+
+  // line 104 "../../../../../../CoolSuppliesStates.ump"
+   private void rejectAddItem(InventoryItem item, int quantity){
+    if (quantity <=0) {
+      throw new RuntimeException("Quantity must be greater than 0.");
+    }
+    if (inventoryItemIsInOrder(item)) {
+      throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
+    }
+  }
+
+  // line 113 "../../../../../../CoolSuppliesStates.ump"
+   private void rejectUpdateItem(OrderItem item, int quantity){
+    throw new RuntimeException("Quantity must be greater than 0.");
+  }
+
+  // line 117 "../../../../../../CoolSuppliesStates.ump"
+   private void rejectDeleteItem(OrderItem item){
+    throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
+  }
+
+  // line 121 "../../../../../../CoolSuppliesStates.ump"
+   private void rejectPay(String authorizationCode){
+    throw new RuntimeException("Authorization code is invalid");
+  }
+
+  // line 125 "../../../../../../CoolSuppliesStates.ump"
+   private void rejectPayPenalty(String authorizationCode, String penaltyAuthCode){
+    if (!codeIsValid(authorizationCode)) {
+      throw new RuntimeException("Authorization code is invalid");
+    }
+    if (!codeIsValid(penaltyAuthCode)) {
+      throw new RuntimeException("Penalty authorization code is invalid");
+    }
   }
 
 
