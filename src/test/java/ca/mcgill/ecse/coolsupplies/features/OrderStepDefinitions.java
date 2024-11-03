@@ -271,17 +271,24 @@ public class OrderStepDefinitions {
   public void the_order_is_marked_as(String orderNumString, String statusString) {
 
     Order order = Order.getWithNumber(Integer.parseInt(orderNumString));
-
+    List<OrderItem> oldOrderItems = null;
 
     if (order != null) {
       order.delete();
+      oldOrderItems = order.getOrderItems();
     }
 
     //create an order with state STARTED, and the specified order number
 
-    order = new Order(Integer.parseInt(orderNumString), Date.valueOf("2020-10-10"), BundleItem.PurchaseLevel.Mandatory,
+    order = new Order(Integer.parseInt(orderNumString), Date.valueOf("2020-10-10"), PurchaseLevel.Mandatory,
         coolSupplies.getStudent(0).getParent(), coolSupplies.getStudent(0), coolSupplies);
 
+    if (oldOrderItems != null) {
+      for (OrderItem item : oldOrderItems) {
+        order.addOrderItem(item);
+      }
+    }
+    
     switch (statusString) {
       case "Paid":
         order.pay("1234");
