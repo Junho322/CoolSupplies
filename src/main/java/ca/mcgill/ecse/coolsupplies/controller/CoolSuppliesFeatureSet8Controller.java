@@ -30,17 +30,22 @@ public class CoolSuppliesFeatureSet8Controller {
         }
 
         // Process order based on its status
-        return switch (order.getStatusFullName()) {
-            case "Penalized" -> "Cannot cancel a penalized order";
-            case "Prepared" -> "Cannot cancel a prepared order";
-            case "PickedUp" -> "Cannot cancel a picked up order";
-            case "Final" -> "Cannot cancel a finalized order";
-            case "Started", "Paid" -> {
+        switch (order.getStatusFullName()) {
+            case "Penalized":
+              return "Cannot cancel a penalized order";
+            case "Prepared":
+              return "Cannot cancel a prepared order";
+            case "PickedUp":
+              return "Cannot cancel a picked up order";
+            case "Final":
+              return "Cannot cancel a finalized order";
+            case "Started", "Paid": {
                 order.cancelOrder();
-                yield "Order canceled successfully";
+                return "Order canceled successfully";
             }
-            default -> "Could not cancel the order";
-        };
+            default:
+              return "Could not cancel the order";
+        }
     }
 
     /**
@@ -69,17 +74,21 @@ public class CoolSuppliesFeatureSet8Controller {
       }
 
       // Process order based on its status
-      return switch (order.getStatusFullName()) {
-          case "Started" -> "Cannot pickup a started order";
-          case "Paid" -> "Cannot pickup a paid order";
-          case "Penalized" -> "Cannot pickup a penalized order";
-          case "PickedUp" -> "The order is already picked up";
-          case "Prepared" -> {
-              order.pickUp();
-              yield "Order picked up successfully";
-          }
-          default -> "Could not pick up the order";
-      };
+      switch (order.getStatusFullName()) {
+          case "Started":
+            return "Cannot pickup a started order";
+          case "Paid":
+            return "Cannot pickup a paid order";
+          case "Penalized":
+            return "Cannot pickup a penalized order";
+          case "PickedUp":
+            return "The order is already picked up";
+          case "Prepared":
+            order.pickUp();
+            return "Order picked up successfully";
+          default:
+            return "Could not pick up the order";
+      }
   }
 
   /**
