@@ -353,16 +353,15 @@ public class OrderStepDefinitions {
   }
 
   @When("the parent attempts to pay for the order {string} with authorization code {string}")
-  public void the_parent_attempts_to_pay_for_the_order_with_authorization_code(String string,
-      String string2) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_parent_attempts_to_pay_for_the_order_with_authorization_code(String orderString,
+                                                                               String authCodeString) {
+    callController(CoolSuppliesFeatureSet8Controller.payForOrder(Integer.parseInt(orderString),authCodeString));
   }
 
   @When("the admin attempts to start a school year for the order {string}")
-  public void the_admin_attempts_to_start_a_school_year_for_the_order(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_admin_attempts_to_start_a_school_year_for_the_order(String orderString) {
+    int orderNr = Integer.parseInt(orderString);
+    callController(CoolSuppliesFeatureSet8Controller.startSchoolYear(orderNr));
   }
 
   @When("the parent attempts to pay penalty for the order {string} with penalty authorization code {string} and authorization code {string}")
@@ -592,6 +591,13 @@ public class OrderStepDefinitions {
   public void no_order_entities_shall_be_presented() {
     // Write code here that turns the phrase above into concrete actions
     assertTrue(lastRetrievedOrder == null, "Expected no order entities to be presented, but found an order.");
+  }
+
+  private void callController(String result) {
+    error = "";
+    if (!result.isEmpty()) {
+      error += result;
+    }
   }
 
 }

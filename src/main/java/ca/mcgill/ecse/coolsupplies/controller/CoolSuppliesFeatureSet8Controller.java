@@ -183,4 +183,54 @@ public class CoolSuppliesFeatureSet8Controller {
         items
     );
   }
+
+  public static String payForOrder(int orderNumber, String authCode) {
+    // 1. Check if auth code is valid, if not say "Authorization code is invalid".
+    // 2. Check if order exists, if not return "Order orderNumber does not exist".
+    // 3. Check if order is in correct state; if state == Paid, Penalized, Prepared OR PickedUp,
+    //    we return "Cannot pay for a <state> order".
+    // 4. If successfully paid, do nothing, but change the state.
+
+    if (!Order.hasWithNumber(orderNumber)) {
+      return "Order " + orderNumber + " does not exist";
+    }
+
+    Order order = Order.getWithNumber(orderNumber);
+
+    try {
+      boolean paymentProcessed = order.pay(authCode);
+      if (!paymentProcessed) {
+        switch (order.getStatusFullName()) {
+          case "Penalized":
+            return "Cannot pay for a penalized order";
+          case "Prepared":
+            return "Cannot pay for a prepared order";
+          case "PickedUp":
+            return "Cannot pay for a picked up order";
+          case "Paid":
+            return "The order is already paid";
+        }
+      }
+    } catch (Exception e) {
+      return "Authorization code is invalid";
+    }
+
+    return "Payment processed";
+  }
+
+
+
+  public static String startSchoolYear(int orderNumber ) {
+
+    boolean orderExists = Order.hasWithNumber(orderNumber);
+    if(!orderExists) return "Order " + orderNumber + " does not exist";
+    Order order = Order.getWithNumber(orderNumber);
+
+    boolean yearStarted = order.startSchoolYear();
+
+    if(!yearStarted) return "The school year has already been started";
+
+    return "";
+
+  }
 }
