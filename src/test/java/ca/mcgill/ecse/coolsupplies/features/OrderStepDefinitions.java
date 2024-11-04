@@ -266,19 +266,11 @@ public class OrderStepDefinitions {
   @Given("the order {string} is marked as {string}")
   public void the_order_is_marked_as(String orderNumString, String statusString) {
 
-    Order order = Order.getWithNumber(Integer.parseInt(orderNumString));
-
-
-    if (order != null) {
-      order.delete();
-    }
-
-    //create an order with state STARTED, and the specified order number
-
-    order = new Order(Integer.parseInt(orderNumString), Date.valueOf("2020-10-10"), BundleItem.PurchaseLevel.Mandatory,
-        coolSupplies.getStudent(0).getParent(), coolSupplies.getStudent(0), coolSupplies);
+   Order order = Order.getWithNumber(Integer.parseInt(orderNumString));
 
     switch (statusString) {
+      case "Started":
+        break;
       case "Paid":
         order.pay("1234");
         break;
@@ -385,7 +377,8 @@ public class OrderStepDefinitions {
   @When("the student attempts to pickup the order {string}")
   public void the_student_attempts_to_pickup_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(string);
+    error = controller.pickUpOrder(orderNumber);
   }
 
   @When("the school admin attempts to get from the system all orders")

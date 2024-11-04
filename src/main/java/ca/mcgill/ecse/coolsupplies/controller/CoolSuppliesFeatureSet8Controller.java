@@ -43,6 +43,45 @@ public class CoolSuppliesFeatureSet8Controller {
         };
     }
 
+    /**
+     * Picks up an order. Checks for the order's existence and status to determine if pickup is permitted.
+     *
+     *   "Order <orderNumber> does not exist" - if no order matches the given number.
+     *   "Cannot pickup a started order" - if the order is in a "Started" state.
+     *   "Cannot pickup a paid order" - if the order is in a "Paid" state.
+     *   "Cannot pickup a penalized order" - if the order is in a "Penalized" state.
+     *   "The order is already picked up" - if the order is in a "PickedUp" state.
+     *   "Order picked up successfully" - if the order is in a "Prepared" state and is picked up.
+     *   "Could not pick up the order" - for any unexpected cases.
+     *
+     * @param orderNumber the unique identifier of the order to pick up.
+     * @return a message indicating the result of the pickup attempt.
+     * 
+     * Author: David Vo
+     */
+
+    public String pickUpOrder(int orderNumber) {
+      Order order = Order.getWithNumber(orderNumber);
+      
+      // Check if order exists
+      if (order == null) {
+          return "Order " + orderNumber + " does not exist";
+      }
+
+      // Process order based on its status
+      return switch (order.getStatusFullName()) {
+          case "Started" -> "Cannot pickup a started order";
+          case "Paid" -> "Cannot pickup a paid order";
+          case "Penalized" -> "Cannot pickup a penalized order";
+          case "PickedUp" -> "The order is already picked up";
+          case "Prepared" -> {
+              order.pickUp();
+              yield "Order picked up successfully";
+          }
+          default -> "Could not pick up the order";
+      };
+  }
+
   /**
    * Pays the penalty for a penalized order.
    *
