@@ -280,6 +280,19 @@ As the parent / admin / student, I want to process orders in the system
       | 1234 |
       | 5678 |
 
+  Scenario Outline: Unsuccessfully pay for an order due to no items
+    Given the order "<orderNumber>" is marked as "Started"
+    When the parent attempts to pay for the order "<orderNumber>" with authorization code "1234"
+    Then the order "<orderNumber>" shall be marked as "Started"
+    Then the order "<orderNumber>" shall not contain authorization code "1234"
+    Then the error "<error>" shall be raised
+
+    Examples:
+      | orderNumber | error                |
+      |           2 | Order 2 has no items |
+      |           3 | Order 3 has no items |
+      |           4 | Order 4 has no items |
+
   Scenario Outline: Unsuccessfully pay for an order due to wrong input
     Given the order "1" is marked as "Started"
     When the parent attempts to pay for the order "1" with authorization code "<code>"
