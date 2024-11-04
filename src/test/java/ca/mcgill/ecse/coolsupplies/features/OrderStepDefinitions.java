@@ -367,16 +367,20 @@ public class OrderStepDefinitions {
   @When("the parent attempts to pay penalty for the order {string} with penalty authorization code {string} and authorization code {string}")
   public void the_parent_attempts_to_pay_penalty_for_the_order_with_penalty_authorization_code_and_authorization_code(
       String orderNumberStr, String penaltyAuthCode, String authCode) {
-    // Write code here that turns the phrase above into concrete actions
+
     int orderNumber = Integer.parseInt(orderNumberStr);
 
-    try {
-      controller.payPenaltyForOrder(orderNumber, authCode, penaltyAuthCode);
-      error = null;
-    } catch (RuntimeException e) {
-      error = e.getMessage();
+    // Capture the result message from the controller
+    String resultMessage = controller.payPenaltyForOrder(orderNumber, authCode, penaltyAuthCode);
+
+    // Check if the result message indicates an error
+    if (resultMessage.contains("Penalty payment successful. The order is now prepared.")) {
+      error = null;  // No error, the payment was successful
+    } else {
+      error = resultMessage;  // Store the error message if there was an issue
     }
   }
+
 
   @When("the student attempts to pickup the order {string}")
   public void the_student_attempts_to_pickup_the_order(String string) {

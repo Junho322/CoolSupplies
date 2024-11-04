@@ -58,15 +58,15 @@ public class CoolSuppliesFeatureSet8Controller {
 
     // Check if order exists
     if (order == null) {
-      throw new RuntimeException("Order " + orderNumber + " does not exist");
+      return "Order " + orderNumber + " does not exist";
     }
 
     // Check if authorization codes are provided
     if (penaltyAuthorizationCode == null || penaltyAuthorizationCode.isEmpty()) {
-      throw new RuntimeException("Penalty authorization code is invalid");
+      return "Penalty authorization code is invalid";
     }
     if (authorizationCode == null || authorizationCode.isEmpty()) {
-      throw new RuntimeException("Authorization code is invalid");
+      return "Authorization code is invalid";
     }
 
     try {
@@ -74,16 +74,17 @@ public class CoolSuppliesFeatureSet8Controller {
       if (success) {
         return "Penalty payment successful. The order is now prepared.";
       } else {
-        // Step Definition requires to use 'picked up' separately, so can't directly pass the status to output
+        // Check specific statuses for message details
         if (order.getStatus() == Order.Status.PickedUp) {
-          throw new RuntimeException("Cannot pay penalty for a picked up order");
+          return "Cannot pay penalty for a picked up order";
         }
-        throw new RuntimeException("Cannot pay penalty for a " +  order.getStatus().toString().toLowerCase() + " order");
+        return "Cannot pay penalty for a " + order.getStatus().toString().toLowerCase() + " order";
       }
     } catch (RuntimeException e) {
-      throw e;
+      return e.getMessage();
     }
   }
+
 
   /**
    * Retrieves the details of an individual order, including all related information.
