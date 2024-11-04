@@ -175,14 +175,14 @@ public class Order
   public boolean updateOrder(PurchaseLevel level,Student student)
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
       case Started:
         if (isChildOfParent(student))
         {
-        // line 8 "../../../../../CoolSuppliesStates.ump"
+          // line 8 "../../../../../CoolSuppliesStates.ump"
           setLevel(level);
           setStudent(student);
           setStatus(Status.Started);
@@ -191,11 +191,10 @@ public class Order
         }
         if (!(isChildOfParent(student)))
         {
-        // line 13 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
+          // line 13 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Started);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
         }
         break;
       default:
@@ -208,14 +207,14 @@ public class Order
   public boolean addItem(InventoryItem item,int quantity)
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
       case Started:
         if (!(inventoryItemIsInOrder(item))&&quantity>0)
         {
-        // line 17 "../../../../../CoolSuppliesStates.ump"
+          // line 17 "../../../../../CoolSuppliesStates.ump"
           addOrderItem(quantity, coolSupplies, item);
           setStatus(Status.Started);
           wasEventProcessed = true;
@@ -223,19 +222,19 @@ public class Order
         }
         if (quantity<=0)
         {
-        // line 21 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Quantity must be greater than 0.");
+          // line 21 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Started);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Quantity must be greater than 0.");
+
         }
         if (inventoryItemIsInOrder(item))
         {
-        // line 25 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
+          // line 25 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Started);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
+
         }
         break;
       default:
@@ -248,14 +247,14 @@ public class Order
   public boolean updateItem(OrderItem item,int quantity)
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
       case Started:
         if (quantity>0)
         {
-        // line 29 "../../../../../CoolSuppliesStates.ump"
+          // line 29 "../../../../../CoolSuppliesStates.ump"
           item.setQuantity(quantity);
           setStatus(Status.Started);
           wasEventProcessed = true;
@@ -263,11 +262,11 @@ public class Order
         }
         if (quantity<=0)
         {
-        // line 33 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Quantity must be greater than 0.");
+          // line 33 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Started);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Quantity must be greater than 0.");
+
         }
         break;
       default:
@@ -280,14 +279,14 @@ public class Order
   public boolean deleteItem(OrderItem item)
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
       case Started:
         if (inventoryItemIsInOrder(item.getItem()))
         {
-        // line 37 "../../../../../CoolSuppliesStates.ump"
+          // line 37 "../../../../../CoolSuppliesStates.ump"
           item.delete();
           setStatus(Status.Started);
           wasEventProcessed = true;
@@ -295,11 +294,11 @@ public class Order
         }
         if (!(inventoryItemIsInOrder(item.getItem())))
         {
-        // line 41 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
+          // line 41 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Started);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
+
         }
         break;
       default:
@@ -312,14 +311,14 @@ public class Order
   public boolean pay(String authorizationCode)
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
       case Started:
         if (codeIsValid(authorizationCode))
         {
-        // line 45 "../../../../../CoolSuppliesStates.ump"
+          // line 45 "../../../../../CoolSuppliesStates.ump"
           setAuthorizationCode(authorizationCode);
           setStatus(Status.Paid);
           wasEventProcessed = true;
@@ -327,11 +326,11 @@ public class Order
         }
         if (!(codeIsValid(authorizationCode)))
         {
-        // line 49 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Authorization code is invalid");
+          // line 49 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Started);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Authorization code is invalid");
+
         }
         break;
       default:
@@ -344,7 +343,7 @@ public class Order
   public boolean startSchoolYear()
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
@@ -366,7 +365,7 @@ public class Order
   public boolean cancelOrder()
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
@@ -388,14 +387,14 @@ public class Order
   public boolean payPenalty(String authorizationCode,String penaltyAuthCode)
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
       case Penalized:
         if (codeIsValid(authorizationCode)&&codeIsValid(penaltyAuthCode))
         {
-        // line 61 "../../../../../CoolSuppliesStates.ump"
+          // line 61 "../../../../../CoolSuppliesStates.ump"
           setAuthorizationCode(authorizationCode);
           setPenaltyAuthorizationCode(penaltyAuthCode);
           setStatus(Status.Prepared);
@@ -404,19 +403,19 @@ public class Order
         }
         if (!(codeIsValid(authorizationCode)))
         {
-        // line 66 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Authorization code is invalid");
+          // line 66 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Penalized);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Authorization code is invalid");
+
         }
         if (!(codeIsValid(penaltyAuthCode)))
         {
-        // line 70 "../../../../../CoolSuppliesStates.ump"
-          throw new RuntimeException("Penalty authorization code is invalid");
+          // line 70 "../../../../../CoolSuppliesStates.ump"
           setStatus(Status.Penalized);
           wasEventProcessed = true;
-          break;
+          throw new RuntimeException("Penalty authorization code is invalid");
+
         }
         break;
       default:
@@ -429,7 +428,7 @@ public class Order
   public boolean pickUp()
   {
     boolean wasEventProcessed = false;
-    
+
     Status aStatus = status;
     switch (aStatus)
     {
@@ -600,7 +599,7 @@ public class Order
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addOrderItemAt(OrderItem aOrderItem, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addOrderItem(aOrderItem))
     {
@@ -623,8 +622,8 @@ public class Order
       orderItems.remove(aOrderItem);
       orderItems.add(index, aOrderItem);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addOrderItemAt(aOrderItem, index);
     }
@@ -660,12 +659,12 @@ public class Order
   }
 
   // line 83 "../../../../../CoolSuppliesStates.ump"
-   private Boolean isChildOfParent(Student student){
+  private Boolean isChildOfParent(Student student){
     return student.getParent() == getParent();
   }
 
   // line 87 "../../../../../CoolSuppliesStates.ump"
-   private Boolean inventoryItemIsInOrder(InventoryItem item){
+  private Boolean inventoryItemIsInOrder(InventoryItem item){
     for (OrderItem orderItem : getOrderItems()) {
       if (orderItem.getItem() == item) {
         return true;
@@ -675,7 +674,7 @@ public class Order
   }
 
   // line 96 "../../../../../CoolSuppliesStates.ump"
-   private Boolean codeIsValid(String code){
+  private Boolean codeIsValid(String code){
     return code != null && !code.contains(" ") && !code.isEmpty();
   }
 
@@ -683,13 +682,13 @@ public class Order
   public String toString()
   {
     return super.toString() + "["+
-            "number" + ":" + getNumber()+ "," +
-            "authorizationCode" + ":" + getAuthorizationCode()+ "," +
-            "penaltyAuthorizationCode" + ":" + getPenaltyAuthorizationCode()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "level" + "=" + (getLevel() != null ? !getLevel().equals(this)  ? getLevel().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "parent = "+(getParent()!=null?Integer.toHexString(System.identityHashCode(getParent())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "student = "+(getStudent()!=null?Integer.toHexString(System.identityHashCode(getStudent())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "coolSupplies = "+(getCoolSupplies()!=null?Integer.toHexString(System.identityHashCode(getCoolSupplies())):"null");
+        "number" + ":" + getNumber()+ "," +
+        "authorizationCode" + ":" + getAuthorizationCode()+ "," +
+        "penaltyAuthorizationCode" + ":" + getPenaltyAuthorizationCode()+ "]" + System.getProperties().getProperty("line.separator") +
+        "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+        "  " + "level" + "=" + (getLevel() != null ? !getLevel().equals(this)  ? getLevel().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+        "  " + "parent = "+(getParent()!=null?Integer.toHexString(System.identityHashCode(getParent())):"null") + System.getProperties().getProperty("line.separator") +
+        "  " + "student = "+(getStudent()!=null?Integer.toHexString(System.identityHashCode(getStudent())):"null") + System.getProperties().getProperty("line.separator") +
+        "  " + "coolSupplies = "+(getCoolSupplies()!=null?Integer.toHexString(System.identityHashCode(getCoolSupplies())):"null");
   }
 }
