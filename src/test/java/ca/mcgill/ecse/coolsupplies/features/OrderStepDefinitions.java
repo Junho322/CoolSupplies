@@ -1,7 +1,6 @@
 package ca.mcgill.ecse.coolsupplies.features;
 
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
-import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import ca.mcgill.ecse.coolsupplies.model.*;
 
 import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
@@ -11,9 +10,6 @@ import ca.mcgill.ecse.coolsupplies.controller.*;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
-import ca.mcgill.ecse.coolsupplies.model.Order;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.sql.Date;
@@ -338,7 +334,8 @@ public class OrderStepDefinitions {
   @When("the parent attempts to cancel the order {string}")
   public void the_parent_attempts_to_cancel_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+      int orderNumber = Integer.parseInt(string);
+      error = controller.cancelOrder(orderNumber);
   }
 
   @When("the parent attempts to pay for the order {string} with authorization code {string}")
@@ -396,7 +393,9 @@ public class OrderStepDefinitions {
   @Then("the order {string} shall not exist in the system")
   public void the_order_shall_not_exist_in_the_system(String string) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(string);
+    Order order = Order.getWithNumber(orderNumber);
+    assertNull(order, "The order should not exist in the system after cancellation.");
   }
 
   @Then("the order {string} shall contain authorization code {string}")
@@ -447,16 +446,26 @@ public class OrderStepDefinitions {
 
 
   @Then("the order {string} shall be marked as {string}")
-  public void the_order_shall_be_marked_as(String string, String string2) {
+  public void the_order_shall_be_marked_as(String orderNumberStr, String expectedStatus) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    Order order = Order.getWithNumber(orderNumber);
+    assertNotNull(order, "Order should exist.");
+    assertEquals(expectedStatus, order.getStatusFullName(), "Order status does not match expected.");
   }
 
 
   @Then("the number of orders in the system shall be {string}")
-  public void the_number_of_orders_in_the_system_shall_be(String string) {
+  public void the_number_of_orders_in_the_system_shall_be(String expectedCountStr) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    // Convert expected count to an integer
+    int expectedCount = Integer.parseInt(expectedCountStr);
+
+    // Retrieve the actual number of orders in the system
+    int actualCount = CoolSuppliesApplication.getCoolSupplies().getOrders().size();
+
+    // Assert that the actual count matches the expected count
+    assertEquals(expectedCount, actualCount, "The number of orders in the system does not match the expected count.");
   }
 
   @Then("the order {string} shall contain level {string} and student {string}")
@@ -475,7 +484,7 @@ public class OrderStepDefinitions {
   @Then("the error {string} shall be raised")
   public void the_error_shall_be_raised(String string) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    assertEquals(string, error);
   }
 
   @Then("the following order entities shall be presented")
