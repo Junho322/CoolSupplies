@@ -324,9 +324,23 @@ public class OrderStepDefinitions {
   }
 
   @When("the parent attempts to get from the system the order with number {string}")
-  public void the_parent_attempts_to_get_from_the_system_the_order_with_number(String string) {
+  public void the_parent_attempts_to_get_from_the_system_the_order_with_number(String orderNumberStr) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(orderNumberStr);
+
+    try {
+
+      TOOrder orderDetails = controller.viewIndividualOrder(orderNumber);
+
+      lastRetrievedOrder = orderDetails;
+
+      error = null;
+
+    } catch (RuntimeException e) {
+
+      error = e.getMessage();
+
+    }
   }
 
 
@@ -339,24 +353,34 @@ public class OrderStepDefinitions {
   }
 
   @When("the parent attempts to pay for the order {string} with authorization code {string}")
-  public void the_parent_attempts_to_pay_for_the_order_with_authorization_code(String string,
-      String string2) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_parent_attempts_to_pay_for_the_order_with_authorization_code(String orderString,
+                                                                               String authCodeString) {
+    callController(CoolSuppliesFeatureSet8Controller.payForOrder(Integer.parseInt(orderString),authCodeString));
   }
 
   @When("the admin attempts to start a school year for the order {string}")
-  public void the_admin_attempts_to_start_a_school_year_for_the_order(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_admin_attempts_to_start_a_school_year_for_the_order(String orderString) {
+    int orderNr = Integer.parseInt(orderString);
+    callController(CoolSuppliesFeatureSet8Controller.startSchoolYear(orderNr));
   }
 
   @When("the parent attempts to pay penalty for the order {string} with penalty authorization code {string} and authorization code {string}")
   public void the_parent_attempts_to_pay_penalty_for_the_order_with_penalty_authorization_code_and_authorization_code(
-      String string, String string2, String string3) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+      String orderNumberStr, String penaltyAuthCode, String authCode) {
+
+    int orderNumber = Integer.parseInt(orderNumberStr);
+
+    // Capture the result message from the controller
+    String resultMessage = controller.payPenaltyForOrder(orderNumber, authCode, penaltyAuthCode);
+
+    // Check if the result message indicates an error
+    if (resultMessage.contains("Penalty payment successful. The order is now prepared.")) {
+      error = null;  // No error, the payment was successful
+    } else {
+      error = resultMessage;  // Store the error message if there was an issue
+    }
   }
+
 
   @When("the student attempts to pickup the order {string}")
   public void the_student_attempts_to_pickup_the_order(String string) {
@@ -371,16 +395,22 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain penalty authorization code {string}")
-  public void the_order_shall_contain_penalty_authorization_code(String string, String string2) {
+  public void the_order_shall_contain_penalty_authorization_code(String orderNumberStr, String penaltyAuthCode) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    Order order = Order.getWithNumber(orderNumber);
+    assertNotNull(order,"Order should exist");
+    assertEquals(penaltyAuthCode, order.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
   }
 
   @Then("the order {string} shall not contain penalty authorization code {string}")
-  public void the_order_shall_not_contain_penalty_authorization_code(String string,
-      String string2) {
+  public void the_order_shall_not_contain_penalty_authorization_code(String orderNumberStr,
+      String penaltyAuthCode) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    Order order = Order.getWithNumber(orderNumber);
+    assertNotNull(order, "Order should exist");
+    assertNotEquals(penaltyAuthCode, order.getPenaltyAuthorizationCode());
   }
 
 
@@ -399,9 +429,11 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain authorization code {string}")
-  public void the_order_shall_contain_authorization_code(String string, String string2) {
+  public void the_order_shall_contain_authorization_code(String orderString, String authString) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    Order order = Order.getWithNumber(Integer.parseInt(orderString));
+
+    assertEquals(order.getAuthorizationCode(),authString);
   }
 
   @Then("the order {string} shall contain {string} item")
@@ -411,17 +443,26 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall not contain {string}")
-  public void the_order_shall_not_contain(String string, String string2) {
+  public void the_order_shall_not_contain(String orderNumberStr, String expectedStatus) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    Order order = Order.getWithNumber(orderNumber);
+    assertNotNull(order, "Order should exist.");
+    assertEquals(expectedStatus, order.getStatusFullName(), "Order status does not match expected.");
   }
 
 
 
   @Then("the number of order items in the system shall be {string}")
-  public void the_number_of_order_items_in_the_system_shall_be(String string) {
+  public void the_number_of_order_items_in_the_system_shall_be(String expectedCountStr) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int expectedCount = Integer.parseInt(expectedCountStr);
+
+    // Retrieve the actual number of orders in the system
+    int actualCount = CoolSuppliesApplication.getCoolSupplies().getOrders().size();
+
+    // Assert that the actual count matches the expected count
+    assertEquals(expectedCount, actualCount, "The number of orders in the system does not match the expected count.");
   }
 
   @Then("the order {string} shall contain {string} items")
@@ -497,11 +538,25 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> expectedOrders = dataTable.asMaps(String.class, String.class);
+
+    assertNotNull(lastRetrievedOrder, "No order was retrieved");
+
+    for (Map<String, String> expectedOrder : expectedOrders) {
+      assertEquals(expectedOrder.get("parentEmail"), lastRetrievedOrder.getParentEmail(), "Parent email does not match");
+      assertEquals(expectedOrder.get("studentName"), lastRetrievedOrder.getStudentName(), "Student name does not match");
+      assertEquals(expectedOrder.get("status"), lastRetrievedOrder.getStatus(), "Order status does not match");
+      assertEquals(Integer.parseInt(expectedOrder.get("number")), lastRetrievedOrder.getNumber(), "Order number does not match");
+      assertEquals(expectedOrder.get("date"), lastRetrievedOrder.getDate().toString(), "Order date does not match");
+      assertEquals(expectedOrder.get("level"), lastRetrievedOrder.getLevel(), "Order level does not match");
+      assertEquals(expectedOrder.get("authorizationCode"), lastRetrievedOrder.getAuthorizationCode(), "Authorization code does not match");
+      assertEquals(expectedOrder.get("penaltyAuthorizationCode"), lastRetrievedOrder.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
+      assertEquals(Double.parseDouble(expectedOrder.get("totalPrice")), lastRetrievedOrder.getTotalPrice(), 0.01, "Total price does not match");
+    }
   }
 
   @Then("the following order items shall be presented for the order with number {string}")
-  public void the_following_order_items_shall_be_presented_for_the_order_with_number(String string,
+  public void the_following_order_items_shall_be_presented_for_the_order_with_number(String orderNumberStr,
       io.cucumber.datatable.DataTable dataTable) {
     // Write code here that turns the phrase above into concrete actions
     // For automatic transformation, change DataTable to one of
@@ -510,13 +565,43 @@ public class OrderStepDefinitions {
     // Double, Byte, Short, Long, BigInteger or BigDecimal.
     //
     // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    assertEquals(orderNumber, lastRetrievedOrder.getNumber(), "Order number does not match the retrieved order");
+
+    List<Map<String, String>> expectedOrderItems = dataTable.asMaps(String.class, String.class);
+    List<TOOrderItem> actualOrderItems = lastRetrievedOrder.getItems();
+
+    assertEquals(expectedOrderItems.size(), actualOrderItems.size(), "Number of order items does not match");
+
+    for (int i = 0; i < expectedOrderItems.size(); i++) {
+      Map<String, String> expectedItem = expectedOrderItems.get(i);
+      TOOrderItem actualItem = actualOrderItems.get(i);
+
+      assertEquals(Integer.parseInt(expectedItem.get("quantity")), actualItem.getQuantity(), "Quantity does not match for item " + actualItem.getItemName());
+      assertEquals(expectedItem.get("itemName"), actualItem.getItemName(), "Item name does not match");
+      assertEquals(expectedItem.get("gradeBundleName"), actualItem.getGradeBundleName(), "Grade bundle name does not match for item " + actualItem.getItemName());
+      assertEquals(Integer.parseInt(expectedItem.get("price")), actualItem.getPrice(), "Price does not match for item " + actualItem.getItemName());
+
+      // Discount can be null, so we handle both cases
+      if (expectedItem.get("discount") != null && !expectedItem.get("discount").isEmpty()) {
+        assertEquals(expectedItem.get("discount"), actualItem.getDiscount());
+      } else {
+        assertNull(actualItem.getDiscount(), "Expected discount to be null for item " + actualItem.getItemName());
+      }
+    }
   }
 
   @Then("no order entities shall be presented")
   public void no_order_entities_shall_be_presented() {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    assertTrue(lastRetrievedOrder == null, "Expected no order entities to be presented, but found an order.");
+  }
+
+  private void callController(String result) {
+    error = "";
+    if (!result.isEmpty()) {
+      error += result;
+    }
   }
 
 }
