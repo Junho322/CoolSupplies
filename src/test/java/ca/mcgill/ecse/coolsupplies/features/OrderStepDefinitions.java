@@ -448,14 +448,9 @@ public class OrderStepDefinitions {
 
   @Then("the number of order items in the system shall be {string}")
   public void the_number_of_order_items_in_the_system_shall_be(String expectedCountStr) {
-    // Write code here that turns the phrase above into concrete actions
-    int expectedCount = Integer.parseInt(expectedCountStr);
-
-    // Retrieve the actual number of orders in the system
-    int actualCount = CoolSuppliesApplication.getCoolSupplies().getOrders().size();
-
-    // Assert that the actual count matches the expected count
-    assertEquals(expectedCount, actualCount, "The number of orders in the system does not match the expected count.");
+    List<OrderItem> orderItems = coolSupplies.getOrderItems();
+    assertEquals(Integer.parseInt(expectedCountStr), orderItems.size(),
+        "Number of order items in the system is incorrect");
   }
 
   @Then("the order {string} shall contain {string} items")
