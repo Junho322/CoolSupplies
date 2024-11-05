@@ -224,6 +224,10 @@ public class CoolSuppliesFeatureSet8Controller {
     );
   }
 
+
+
+
+
   public static String payForOrder(int orderNumber, String authCode) {
     // 1. Check if auth code is valid, if not say "Authorization code is invalid".
     // 2. Check if order exists, if not return "Order orderNumber does not exist".
@@ -236,6 +240,12 @@ public class CoolSuppliesFeatureSet8Controller {
     }
 
     Order order = Order.getWithNumber(orderNumber);
+
+
+    if(order.getOrderItems().isEmpty()) {
+        return "Order " + orderNumber + " has no items";
+    }
+
 
     try {
       boolean paymentProcessed = order.pay(authCode);
