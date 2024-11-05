@@ -509,4 +509,51 @@ public class CoolSuppliesFeatureSet8Controller {
     }
     return "Could not update the quantity of existing item of order";
 }
+
+    /**
+     * Adds an item to an order.
+     *
+     * @param itemName    The name of the item to add.
+     * @param quantity    The quantity of the item to add.
+     * @param orderNumber The number of the order to add the item to.
+     * @return A success message if the item was added to the order or an appropriate error message.
+     * @author Jack McDonald
+     */
+    public static String addItemToOrder(String itemName, int quantity, int orderNumber) {
+        CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+
+        try {
+            Order order = Order.getWithNumber(orderNumber);
+            if (order == null) {
+                return "Order " + orderNumber + " does not exist";
+            }
+
+            InventoryItem targetItem = Item.getWithName(itemName);
+            if (targetItem == null) {
+                return "Item " + itemName + " does not exist.";
+            }
+
+            //attempt to add the item to the order and store the result
+            boolean wasAdded = order.addItem(targetItem, quantity);
+
+            //most likely reason for failure is that the order is in a state where items cannot be added
+            if (!wasAdded) {
+                switch (order.getStatusFullName()) {
+                    case "Paid":
+                        return "Cannot add items to a paid order";
+                    case "Penalized":
+                        return "Cannot add items to a penalized order";
+                    case "Prepared":
+                        return "Cannot add items to a prepared order";
+                    case "PickedUp":
+                        return "Cannot add items to a picked up order";
+                    default:
+                        return "Could not add item to order";
+                }
+            }
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+        return "Could not add item to order";
+    }
 }

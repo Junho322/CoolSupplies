@@ -310,7 +310,10 @@ public class OrderStepDefinitions {
   public void the_parent_attempts_to_add_an_item_with_quantity_to_the_order(String string,
       String string2, String string3) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int quantity = Integer.parseInt(string2);
+    int orderNumber = Integer.parseInt(string3);
+
+    error = CoolSuppliesFeatureSet8Controller.addItemToOrder(string, quantity, orderNumber);
   }
 
   @When("the parent attempts to update an item {string} with quantity {string} in the order {string}")
