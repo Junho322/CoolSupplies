@@ -579,14 +579,11 @@ public class OrderStepDefinitions {
     //
     // For other transformations you can register a DataTableType.
     List<Map<String, String>> expectedOrders = dataTable.asMaps(String.class, String.class);
-    System.out.println(expectedOrders);
     if (lastRetrievedOrders == null && lastRetrievedOrder == null) {
       fail("No order was retrieved.");
     }
     if (lastRetrievedOrders == null) {
       for (Map<String, String> expectedOrder : expectedOrders) {
-        System.out.println("hi");
-        System.out.println(lastRetrievedOrder);
         assertEquals(expectedOrder.get("parentEmail"), lastRetrievedOrder.getParentEmail(), "Parent email does not match");
         assertEquals(expectedOrder.get("studentName"), lastRetrievedOrder.getStudentName(), "Student name does not match");
         assertEquals(expectedOrder.get("status"), lastRetrievedOrder.getStatus(), "Order status does not match");
