@@ -33,22 +33,22 @@ public class CoolSuppliesFeatureSet8Controller {
         }
 
         // Process order based on its status
-        return switch (order.getStatusFullName()) {
-            case "Penalized" -> "Cannot cancel a penalized order";
-            case "Prepared" -> "Cannot cancel a prepared order";
-            case "PickedUp" -> "Cannot cancel a picked up order";
-            case "Final" -> "Cannot cancel a finalized order";
-            case "Started", "Paid" -> {
-                try {
-                    order.cancelOrder();
-                    CoolSuppliesPersistence.save();
-                } catch (Exception e) {
-                    yield e.getMessage();
-                }
-                yield "Order canceled successfully";
+        switch (order.getStatusFullName()) {
+            case "Penalized":
+              return "Cannot cancel a penalized order";
+            case "Prepared":
+              return "Cannot cancel a prepared order";
+            case "PickedUp":
+              return "Cannot cancel a picked up order";
+            case "Final":
+              return "Cannot cancel a finalized order";
+            case "Started", "Paid": {
+                order.cancelOrder();
+                return "Order canceled successfully";
             }
-            default -> "Could not cancel the order";
-        };
+            default:
+              return "Could not cancel the order";
+        }
     }
 
     /**
@@ -77,22 +77,21 @@ public class CoolSuppliesFeatureSet8Controller {
       }
 
       // Process order based on its status
-      return switch (order.getStatusFullName()) {
-          case "Started" -> "Cannot pickup a started order";
-          case "Paid" -> "Cannot pickup a paid order";
-          case "Penalized" -> "Cannot pickup a penalized order";
-          case "PickedUp" -> "The order is already picked up";
-          case "Prepared" -> {
-              try {
-                  order.pickUp();
-                  CoolSuppliesPersistence.save();
-              } catch (Exception e) {
-                  yield e.getMessage();
-              }
-              yield "Order picked up successfully";
-          }
-          default -> "Could not pick up the order";
-      };
+      switch (order.getStatusFullName()) {
+          case "Started":
+            return "Cannot pickup a started order";
+          case "Paid":
+            return "Cannot pickup a paid order";
+          case "Penalized":
+            return "Cannot pickup a penalized order";
+          case "PickedUp":
+            return "The order is already picked up";
+          case "Prepared":
+            order.pickUp();
+            return "Order picked up successfully";
+          default:
+            return "Could not pick up the order";
+      }
   }
 
   /**
@@ -238,7 +237,23 @@ public class CoolSuppliesFeatureSet8Controller {
     );
   }
 
- public static String payForOrder(int orderNumber, String authCode) {
+  /** 
+   * Processes the payment for an order.
+   *
+   * @param orderNumber The number of the order to be paid.
+   * @param authCode The authorization code for the payment.
+   * @return A message indicating the result of the payment process:
+   *         - "Order orderNumber does not exist" if the order does not exist.
+   *         - "Order orderNumber has no items" if the order has no items.
+   *         - "Cannot pay for a penalized order" if the order is penalized.
+   *         - "Cannot pay for a prepared order" if the order is prepared.
+   *         - "Cannot pay for a picked up order" if the order is picked up.
+   *         - "The order is already paid" if the order is already paid.
+   *         - "Authorization code is invalid" if the authorization code is invalid.
+   *         - "Payment processed" if the payment is successfully processed.
+   * @author Hamza Khalfi
+   */
+  public static String payForOrder(int orderNumber, String authCode) {
     // 1. Check if auth code is valid, if not say "Authorization code is invalid".
     // 2. Check if order exists, if not return "Order orderNumber does not exist".
     // 3. Check if order is in correct state; if state == Paid, Penalized, Prepared OR PickedUp,
@@ -255,7 +270,6 @@ public class CoolSuppliesFeatureSet8Controller {
     if(order.getOrderItems().isEmpty()) {
         return "Order " + orderNumber + " has no items";
     }
-
 
     try {
       boolean paymentProcessed = order.pay(authCode);
@@ -280,7 +294,16 @@ public class CoolSuppliesFeatureSet8Controller {
     return "Payment processed";
   }
 
-
+  /**
+ * Starts the school year for an order.
+ *
+ * @param orderNumber The number of the order for which the school year is to be started.
+ * @return A message indicating the result of the operation:
+ *         - "Order orderNumber does not exist" if the order does not exist.
+ *         - "The school year has already been started" if the school year has already been started.
+ *         - An empty string if the school year is successfully started.
+ * @author Hamza Khalfi
+ */
   public static String startSchoolYear(int orderNumber ) {
 
     boolean orderExists = Order.hasWithNumber(orderNumber);
