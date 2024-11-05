@@ -97,7 +97,7 @@ class Order {
   }
 
   private void rejectUpdateOrder(PurchaseLevel level, Student student) {
-    throw new RuntimeException("Student" + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".")
+    throw new RuntimeException("Student" + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
   }
 
   private void rejectAddItem(InventoryItem item, int quantity) {

@@ -2,6 +2,7 @@ package ca.mcgill.ecse.coolsupplies.controller;
 
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
+import ca.mcgill.ecse.coolsupplies.model.InventoryItem;
 import ca.mcgill.ecse.coolsupplies.model.Parent;
 import ca.mcgill.ecse.coolsupplies.model.SchoolAdmin;
 import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
@@ -158,7 +159,7 @@ public class CoolSuppliesFeatureSet1Controller {
         }
         return "The parent does not exist.";
     }
-
+    
     /**
      * Retrieves a parent by email.
      *
