@@ -471,7 +471,7 @@ public class CoolSuppliesFeatureSet8Controller {
         List<OrderItem> orderItems = new ArrayList<>(coolSupplies.getOrderItems());
 
         //if item does not exist then print appropriate message
-        Item targetItem = (Item) InventoryItem.getWithName(itemName);
+        InventoryItem targetItem = (InventoryItem) InventoryItem.getWithName(itemName);
         if (targetItem == null){
             return "Item " + itemName + " does not exist.";
         }
