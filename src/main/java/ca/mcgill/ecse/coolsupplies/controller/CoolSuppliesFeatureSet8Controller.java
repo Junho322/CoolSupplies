@@ -4,6 +4,8 @@ import ca.mcgill.ecse.coolsupplies.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+
 public class CoolSuppliesFeatureSet8Controller {
     /**
      * Cancels an order. Checks for the order's existence and status to determine if cancellation is permitted.
@@ -224,7 +226,7 @@ public class CoolSuppliesFeatureSet8Controller {
     );
   }
 
-  public static String payForOrder(int orderNumber, String authCode) {
+ public static String payForOrder(int orderNumber, String authCode) {
     // 1. Check if auth code is valid, if not say "Authorization code is invalid".
     // 2. Check if order exists, if not return "Order orderNumber does not exist".
     // 3. Check if order is in correct state; if state == Paid, Penalized, Prepared OR PickedUp,
@@ -236,6 +238,12 @@ public class CoolSuppliesFeatureSet8Controller {
     }
 
     Order order = Order.getWithNumber(orderNumber);
+
+
+    if(order.getOrderItems().isEmpty()) {
+        return "Order " + orderNumber + " has no items";
+    }
+
 
     try {
       boolean paymentProcessed = order.pay(authCode);
@@ -259,7 +267,6 @@ public class CoolSuppliesFeatureSet8Controller {
   }
 
 
-
   public static String startSchoolYear(int orderNumber ) {
 
     boolean orderExists = Order.hasWithNumber(orderNumber);
@@ -271,6 +278,102 @@ public class CoolSuppliesFeatureSet8Controller {
     if(!yearStarted) return "The school year has already been started";
 
     return "";
+
+  }
+    /**
+     * 
+     * @param orderNumber
+     * @param newLevel
+     * @param StudentName
+     * @return a string message indicating if the update of an order was successful or not
+     * @author Shayan Yamnanidouzi Sorkhabi
+     */
+    public static String updateOrder(int orderNumber, String newLevel, String StudentName) {
+        //CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+        try {
+            Order order = Order.getWithNumber(orderNumber);
+            if (order == null) {
+                return "Order " + orderNumber + " does not exist";
+            }
+
+            if (Student.hasWithName(StudentName) == false) {
+                return "Student " + StudentName + " does not exist.";
+            }
+            Student aStudent = Student.getWithName(StudentName);
+
+            if (!newLevel.equalsIgnoreCase("mandatory") && !newLevel.equalsIgnoreCase("optional") && !newLevel.equalsIgnoreCase("recommended")) {
+                return "Purchase level " + newLevel + " does not exist.";
+            }
+             BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
+            
+             if (!order.getStatusFullName().equalsIgnoreCase("Started")) {
+                return switch (order.getStatusFullName()) {
+                    case "Paid" -> "Cannot update a paid order";
+                    case "Penalized" -> "Cannot update a penalized order";
+                    case "Prepared" -> "Cannot update a prepared order";
+                    case "PickedUp" -> "Cannot update a picked up order";
+                    case "Final" -> "Cannot update a finalized order";
+                    default -> "Could not update the order";
+                }; 
+             }
+            order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
+
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+        return "Could not update the order";
+    }
+
+    /**
+     * Deletes an item from an order, should either exist simultaneously and if the item exists in the order.
+     *
+     * @param itemName String: item name to delete
+     * @param orderNumber String: order number from which the item must be deleted
+     * @return String to show the result of the operation
+     * @author David Wang
+     *
+     * */
+    public static String deleteOrderItem(String itemName, String orderNumber) {
+      int orderNumberInt;
+      try {
+          orderNumberInt = Integer.parseInt(orderNumber);
+      } catch (Exception e) {
+          return "Order " + orderNumber + " does not exist";
+      }
+
+      Order order = Order.getWithNumber(orderNumberInt);
+
+      if (order == null) {
+          return "Order " + orderNumber + " does not exist";
+      }
+
+      String status = order.getStatusFullName();
+      switch (status) {
+          case "Penalized":
+          case "Paid":
+          case "Prepared":
+              return "Cannot delete items from a " + status.toLowerCase() + " order";
+          case "PickedUp":
+              return "Cannot delete items from a picked up order";
+          default:
+              break;
+      }
+
+      InventoryItem item = InventoryItem.getWithName(itemName);
+
+      if (item == null) {
+          return "Item " + itemName + " does not exist.";
+      }
+
+      List<OrderItem> itemsInOrder = order.getOrderItems();
+      for (int i = 0; i < order.getOrderItems().size(); i++) {
+          if (itemsInOrder.get(i).getItem() == item) {
+              // == equality should work as it should be the same memory address
+              itemsInOrder.get(i).delete();
+              return "Item " + itemName + " deleted successfully from order " + orderNumber;
+          }
+      }
+      return "Item " + itemName + " does not exist in the order " + orderNumber + ".";
 
   }
 }
