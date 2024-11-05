@@ -3,22 +3,12 @@ package ca.mcgill.ecse.coolsupplies.features;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.model.*;
 
-import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
-import ca.mcgill.ecse.coolsupplies.model.Order.Status;
-import ca.mcgill.ecse.coolsupplies.controller.*;
-
-import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
-import ca.mcgill.ecse.coolsupplies.model.*;
-
-import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
-import ca.mcgill.ecse.coolsupplies.model.Order.Status;
 import ca.mcgill.ecse.coolsupplies.controller.*;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
@@ -323,7 +313,7 @@ public class OrderStepDefinitions {
     //transform the strings into integers
     int aQuantity = Integer.parseInt(quantity);
     int orderNumber = Integer.parseInt(orderNum);
-    callController(CoolSuppliesFeatureSet8Controller.updateQuanitityOfAnExistingItemOfOrder(orderNumber, itemName, aQuantity));
+    callController(CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(orderNumber, itemName, aQuantity));
   }
 
   @When("the parent attempts to delete an item {string} from the order {string}")

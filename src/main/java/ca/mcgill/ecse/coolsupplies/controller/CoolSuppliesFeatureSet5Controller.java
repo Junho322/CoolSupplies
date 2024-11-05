@@ -8,6 +8,7 @@ import ca.mcgill.ecse.coolsupplies.model.Grade;
 import ca.mcgill.ecse.coolsupplies.model.Item;
 import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import ca.mcgill.ecse.coolsupplies.model.InventoryItem;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class CoolSuppliesFeatureSet5Controller {
 
   /**
    * Adds an item to the current bundle
-   * 
+   *
    * @param quantity    number of items to be added
    * @param level       requirement level of the item to be added
    * @param itemName    name of the item to be added
@@ -45,11 +46,11 @@ public class CoolSuppliesFeatureSet5Controller {
         if (!Item.hasWithName(itemName)) {
           return "The item does not exist.";
         }
-        
+
         CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
 
         BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(level);
-        
+
         Item aItem = (Item) Item.getWithName(itemName);
         GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
         List<BundleItem> bundleItems = aBundle.getBundleItems();
@@ -59,17 +60,18 @@ public class CoolSuppliesFeatureSet5Controller {
           }
         }
 
-        try {
+      try {
           coolSupplies.addBundleItem(quantity, aLevel, aBundle, aItem);
-          return "BundleItem added succefully.";
-        } catch (Exception e) {
+          CoolSuppliesPersistence.save();
+      } catch (Exception e) {
           return e.getMessage();
-        }
+      }
+        return "BundleItem added succefully.";
       }
 
     /**
      * Update the quantity and the requirement level of an item in the bundle
-     * 
+     *
      * @param itemName      name of the item that is to be updated
      * @param bundleName    name of the bundle in which the item is in
      * @param newQuantity   new quantity for the item
@@ -97,9 +99,14 @@ public class CoolSuppliesFeatureSet5Controller {
         List<BundleItem> bundleItems = aBundle.getBundleItems();
         for (BundleItem bundleItem : bundleItems) {
           if (bundleItem.getItem().equals(aItem)) {
-            bundleItem.setQuantity(newQuantity);
-            bundleItem.setLevel(aNewLevel);
-            return "Successfullly updated the bundle item.";
+              try {
+                  bundleItem.setQuantity(newQuantity);
+                  bundleItem.setLevel(aNewLevel);
+                  CoolSuppliesPersistence.save();
+              } catch (Exception e) {
+                  return e.getMessage();
+              }
+              return "Successfullly updated the bundle item.";
           }
         }
 
@@ -109,7 +116,7 @@ public class CoolSuppliesFeatureSet5Controller {
 
   /**
    * removes an item form the bundle
-   * 
+   *
    * @param itemName    name of the item to be removed
    * @param bundleName  name of the bundle in which the item that is to be removed was in
    * @return a string message indicating whether a desired item was removed or not in case of an error
@@ -120,15 +127,20 @@ public class CoolSuppliesFeatureSet5Controller {
     if (!GradeBundle.hasWithName(bundleName)) {
       return "The grade bundle does not exist.";
     }
-    
+
     Item aTargetItem = (Item) Item.getWithName(itemName);
     GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
 
     List<BundleItem> bundleItems = aBundle.getBundleItems();
     for (BundleItem bundleItem : bundleItems) {
       if (bundleItem.getItem().equals(aTargetItem)) {
-        aTargetItem.delete();
-        return "Bundle Item successfully deleted.";
+          try {
+              aTargetItem.delete();
+              CoolSuppliesPersistence.save();
+          } catch (Exception e) {
+              return e.getMessage();
+          }
+          return "Bundle Item successfully deleted.";
       }
     }
 
@@ -137,8 +149,8 @@ public class CoolSuppliesFeatureSet5Controller {
 
   /**
    * Gets a bundle item by its name and bundle name
-   * 
-   * @param itemName    name of the item 
+   *
+   * @param itemName    name of the item
    * @param bundleName  name of the bundle
    * @return a TOBundleItem object representing the bundle item found if not then it returns null
    * @author Shayan Yamanidouzi Sorkhabi
@@ -166,13 +178,13 @@ public class CoolSuppliesFeatureSet5Controller {
 
   /**
    * Gets all bundle items of a bundle
-   * 
+   *
    * @param bundleName  name if the bundle
    * @return all bundle items of a bundle
    * @author Shayan Yamanidouzi Sorkhabi
    */
   public static List<TOBundleItem> getBundleItems(String bundleName) {
-    
+
     List<TOBundleItem> TObundleItems = new ArrayList<>();
 
     if (!GradeBundle.hasWithName(bundleName)) {
@@ -180,7 +192,7 @@ public class CoolSuppliesFeatureSet5Controller {
     }
 
     GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
-    
+
     List<BundleItem> bundleItems = aBundle.getBundleItems();
     for (BundleItem bundleItem : bundleItems) {
       TOBundleItem toBundleItem = new TOBundleItem(bundleItem.getQuantity(), bundleItem.getLevel().toString(),bundleItem.getItem().getName(), bundleName);

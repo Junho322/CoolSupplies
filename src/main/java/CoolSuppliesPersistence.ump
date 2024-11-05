@@ -1,0 +1,35 @@
+class CoolSupplies {
+}
+
+class User {
+}
+
+class SchoolAdmin {
+}
+
+class Parent {
+}
+
+class Student {
+}
+
+class Order {
+}
+
+associationClass OrderItem {
+}
+
+class InventoryItem {
+}
+
+class Item {
+}
+
+class GradeBundle {
+}
+
+associationClass BundleItem {
+}
+
+class Grade {
+}
