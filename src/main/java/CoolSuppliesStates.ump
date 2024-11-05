@@ -11,7 +11,7 @@ class Order {
       }
       -> Started;
       updateOrder(PurchaseLevel level, Student student) [!isChildOfParent(student)] / {
-        throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
+        rejectUpdateOrder(level, student);
       }
       -> Started;
       addItem(InventoryItem item, int quantity) [!inventoryItemIsInOrder(item) && quantity > 0] / {
@@ -19,11 +19,11 @@ class Order {
       }
       -> Started;
       addItem(InventoryItem item, int quantity) [quantity <= 0] / {
-        throw new RuntimeException("Quantity must be greater than 0.");
+        rejectAddItem(item, quantity);
       }
       -> Started;
       addItem(InventoryItem item, int quantity) [inventoryItemIsInOrder(item)] / {
-        throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
+        rejectAddItem(item, quantity);
       }
       -> Started;
       updateItem(OrderItem item, int quantity) [quantity > 0] / {
@@ -31,7 +31,7 @@ class Order {
       }
       -> Started;
       updateItem(OrderItem item, int quantity) [quantity <= 0] / {
-        throw new RuntimeException("Quantity must be greater than 0.");
+        rejectUpdateItem(item, quantity);
       }
       -> Started;
       deleteItem(OrderItem item) [inventoryItemIsInOrder(item.getItem())] / {
@@ -39,7 +39,7 @@ class Order {
       }
       -> Started;
       deleteItem(OrderItem item) [!inventoryItemIsInOrder(item.getItem())] / {
-        throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
+        rejectDeleteItem(item);
       }
       -> Started;
       pay(String authorizationCode) [codeIsValid(authorizationCode)] / {
@@ -47,7 +47,7 @@ class Order {
       }
       -> Paid;
       pay(String authorizationCode) [!codeIsValid(authorizationCode)] / {
-        throw new RuntimeException("Authorization code is invalid");
+        rejectPay(authorizationCode);
       }
       -> Started;
       startSchoolYear() -> Penalized;
@@ -64,11 +64,11 @@ class Order {
       }
       -> Prepared;
       payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(authorizationCode)] / {
-        throw new RuntimeException("Authorization code is invalid");
+        rejectPayPenalty(authorizationCode, penaltyAuthCode);
       }
       -> Penalized;
       payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(penaltyAuthCode)] / {
-        throw new RuntimeException("Penalty authorization code is invalid");
+        rejectPayPenalty(authorizationCode, penaltyAuthCode);
       }
       -> Penalized;
     }
@@ -94,5 +94,39 @@ class Order {
 
   private Boolean codeIsValid(String code) {
     return code != null && !code.contains(" ") && !code.isEmpty();
+  }
+
+  private void rejectUpdateOrder(PurchaseLevel level, Student student) {
+    throw new RuntimeException("Student" + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".")
+  }
+
+  private void rejectAddItem(InventoryItem item, int quantity) {
+    if (quantity <=0) {
+      throw new RuntimeException("Quantity must be greater than 0.");
+    }
+    if (inventoryItemIsInOrder(item)) {
+      throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
+    }
+  }
+
+  private void rejectUpdateItem(OrderItem item, int quantity) {
+    throw new RuntimeException("Quantity must be greater than 0.");
+  }
+
+  private void rejectDeleteItem(OrderItem item) {
+    throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
+  }
+
+  private void rejectPay (String authorizationCode) {
+    throw new RuntimeException("Authorization code is invalid");
+  }
+
+  private void rejectPayPenalty (String authorizationCode, String penaltyAuthCode) {
+    if (!codeIsValid(authorizationCode)) {
+      throw new RuntimeException("Authorization code is invalid");
+    }
+    if (!codeIsValid(penaltyAuthCode)) {
+      throw new RuntimeException("Penalty authorization code is invalid");
+    }
   }
 }
