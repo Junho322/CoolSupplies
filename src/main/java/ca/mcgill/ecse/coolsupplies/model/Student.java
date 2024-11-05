@@ -6,7 +6,7 @@ import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import java.util.*;
 import java.sql.Date;
 
-// line 26 "../../../../../CoolSuppliesPersistence.ump"
+// line 30 "../../../../../CoolSuppliesPersistence.ump"
 // line 37 "../../../../../CoolSupplies.ump"
 public class Student
 {
@@ -297,7 +297,7 @@ public class Student
     }
   }
 
-  // line 28 "../../../../../CoolSuppliesPersistence.ump"
+  // line 32 "../../../../../CoolSuppliesPersistence.ump"
    public static  void reinitializeUniqueName(List<Student> students){
     studentsByName.clear();
     for (var student : students) {

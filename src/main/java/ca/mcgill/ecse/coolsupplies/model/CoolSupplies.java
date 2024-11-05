@@ -969,11 +969,15 @@ public class CoolSupplies
 
   // line 3 "../../../../../CoolSuppliesPersistence.ump"
    public void reinitialize(){
-    List users = getParents();
+    List<Parent> parentsT = getParents();
+    List<User> users = new ArrayList<>(parentsT);
     users.add(getAdmin());
-    
-    List inventoryItems = getItems();
-    inventoryItems.addAll(getBundles());
+
+    List<Item> itemsT = getItems();
+    List<GradeBundle> bundlesT = getBundles();
+    List<InventoryItem> inventoryItems = new ArrayList<>(bundlesT);
+    List<InventoryItem> inventoryItemsT = new ArrayList<>(itemsT);
+    inventoryItems.addAll(inventoryItemsT);
     
     User.reinitializeUniqueEmail(users);
     Student.reinitializeUniqueName(getStudents());

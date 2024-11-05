@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.coolsupplies.model;
 import java.util.*;
 
-// line 44 "../../../../../CoolSuppliesPersistence.ump"
+// line 48 "../../../../../CoolSuppliesPersistence.ump"
 // line 59 "../../../../../CoolSupplies.ump"
 public abstract class InventoryItem
 {
@@ -188,7 +188,7 @@ public abstract class InventoryItem
     }
   }
 
-  // line 46 "../../../../../CoolSuppliesPersistence.ump"
+  // line 50 "../../../../../CoolSuppliesPersistence.ump"
    public static  void reinitializeUniqueName(List<InventoryItem> items){
     inventoryitemsByName.clear();
     for (var item : items) {

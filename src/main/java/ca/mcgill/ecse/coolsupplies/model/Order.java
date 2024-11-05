@@ -7,7 +7,7 @@ import java.util.*;
 import java.sql.Date;
 
 // line 3 "../../../../../CoolSuppliesStates.ump"
-// line 35 "../../../../../CoolSuppliesPersistence.ump"
+// line 39 "../../../../../CoolSuppliesPersistence.ump"
 // line 42 "../../../../../CoolSupplies.ump"
 public class Order
 {
@@ -720,7 +720,7 @@ public class Order
     }
   }
 
-  // line 37 "../../../../../CoolSuppliesPersistence.ump"
+  // line 41 "../../../../../CoolSuppliesPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Order> orders){
     ordersByNumber.clear();
     for (var order : orders) {

@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.coolsupplies.model;
 import java.util.*;
 
-// line 17 "../../../../../CoolSuppliesPersistence.ump"
+// line 21 "../../../../../CoolSuppliesPersistence.ump"
 // line 19 "../../../../../CoolSupplies.ump"
 public abstract class User
 {
@@ -98,7 +98,7 @@ public abstract class User
     usersByEmail.remove(getEmail());
   }
 
-  // line 19 "../../../../../CoolSuppliesPersistence.ump"
+  // line 23 "../../../../../CoolSuppliesPersistence.ump"
    public static  void reinitializeUniqueEmail(List<User> users){
     usersByEmail.clear();
     for (var user : users) {

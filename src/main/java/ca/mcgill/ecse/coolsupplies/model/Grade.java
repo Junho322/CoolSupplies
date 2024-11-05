@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.coolsupplies.model;
 import java.util.*;
 
-// line 53 "../../../../../CoolSuppliesPersistence.ump"
+// line 57 "../../../../../CoolSuppliesPersistence.ump"
 // line 82 "../../../../../CoolSupplies.ump"
 public class Grade
 {
@@ -269,7 +269,7 @@ public class Grade
     }
   }
 
-  // line 55 "../../../../../CoolSuppliesPersistence.ump"
+  // line 59 "../../../../../CoolSuppliesPersistence.ump"
    public static  void reinitializeUniqueLevel(List<Grade> grades){
     gradesByLevel.clear();
     for (var grade : grades) {
