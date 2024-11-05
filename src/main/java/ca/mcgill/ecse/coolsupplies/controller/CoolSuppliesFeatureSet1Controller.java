@@ -2,8 +2,10 @@ package ca.mcgill.ecse.coolsupplies.controller;
 
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
+import ca.mcgill.ecse.coolsupplies.model.InventoryItem;
 import ca.mcgill.ecse.coolsupplies.model.Parent;
 import ca.mcgill.ecse.coolsupplies.model.SchoolAdmin;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,12 @@ public class CoolSuppliesFeatureSet1Controller {
             return "Password must contain a special character out of !#$, an upper case character, " +
                     "and a lower case character.";
 
-        admin.setPassword(password);
+        try {
+            admin.setPassword(password);
+            CoolSuppliesPersistence.save();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
         return "Admin password updated successfully";
     }
 
@@ -81,7 +88,12 @@ public class CoolSuppliesFeatureSet1Controller {
         if (Integer.toString(phoneNumber).length() != 7) // phone number length check
             return "The phone number must be seven digits.";
 
-        coolSupplies.addParent(email, password, name, phoneNumber);
+        try {
+            coolSupplies.addParent(email, password, name, phoneNumber);
+            CoolSuppliesPersistence.save();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
         return "Parent added successfully";
     }
 
@@ -110,9 +122,14 @@ public class CoolSuppliesFeatureSet1Controller {
 
         for (Parent parent : coolSupplies.getParents()) {
             if (parent.getEmail().equals(email)) { // email is unique
-                parent.setPassword(newPassword);
-                parent.setName(newName);
-                parent.setPhoneNumber(newPhoneNumber);
+                try {
+                    parent.setPassword(newPassword);
+                    parent.setName(newName);
+                    parent.setPhoneNumber(newPhoneNumber);
+                    CoolSuppliesPersistence.save();
+                } catch (Exception e) {
+                    return e.getMessage();
+                }
                 return "Parent updated successfully";
             }
         }
@@ -131,13 +148,18 @@ public class CoolSuppliesFeatureSet1Controller {
 
         for (Parent parent : coolSupplies.getParents()) {
             if (parent.getEmail().equals(email)) { // email is unique
-                parent.delete();
+                try {
+                    parent.delete();
+                    CoolSuppliesPersistence.save();
+                } catch (Exception e) {
+                    return e.getMessage();
+                }
                 return "Parent deleted successfully";
             }
         }
         return "The parent does not exist.";
     }
-
+    
     /**
      * Retrieves a parent by email.
      *

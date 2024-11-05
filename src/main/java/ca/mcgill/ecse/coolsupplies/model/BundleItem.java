@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse.coolsupplies.model;
 
-// line 73 "../../../../../CoolSupplies.ump"
+// line 74 "../../../../../CoolSupplies.ump"
 public class BundleItem
 {
 

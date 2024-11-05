@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 public class CoolSuppliesFeatureSet8Controller {
     /**
@@ -122,7 +123,8 @@ public class CoolSuppliesFeatureSet8Controller {
     try {
       boolean success = order.payPenalty(authorizationCode, penaltyAuthorizationCode);
       if (success) {
-        return "Penalty payment successful. The order is now prepared.";
+          CoolSuppliesPersistence.save();
+          return "Penalty payment successful. The order is now prepared.";
       } else {
         // Check specific statuses for message details
         if (order.getStatus() == Order.Status.PickedUp) {
@@ -271,6 +273,8 @@ public class CoolSuppliesFeatureSet8Controller {
 
     try {
       boolean paymentProcessed = order.pay(authCode);
+      CoolSuppliesPersistence.save();
+
       if (!paymentProcessed) {
         switch (order.getStatusFullName()) {
           case "Penalized":
@@ -284,7 +288,7 @@ public class CoolSuppliesFeatureSet8Controller {
         }
       }
     } catch (Exception e) {
-      return "Authorization code is invalid";
+      return e.getMessage();
     }
 
     return "Payment processed";
@@ -350,11 +354,11 @@ public class CoolSuppliesFeatureSet8Controller {
                 }; 
              }
             order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
-
+            CoolSuppliesPersistence.save();
+            return "Order updated successfully";
         } catch (RuntimeException e) {
             return e.getMessage();
         }
-        return "Could not update the order";
     }
 
     /**
@@ -402,7 +406,12 @@ public class CoolSuppliesFeatureSet8Controller {
       for (int i = 0; i < order.getOrderItems().size(); i++) {
           if (itemsInOrder.get(i).getItem() == item) {
               // == equality should work as it should be the same memory address
-              itemsInOrder.get(i).delete();
+              try {
+                  itemsInOrder.get(i).delete();
+                  CoolSuppliesPersistence.save();
+              } catch (Exception e) {
+                  return e.getMessage();
+              }
               return "Item " + itemName + " deleted successfully from order " + orderNumber;
           }
       }
@@ -483,11 +492,11 @@ public class CoolSuppliesFeatureSet8Controller {
         }
         return orders;
     }
-  public static String updateQuanitityOfAnExistingItemOfOrder(int orderNumber, String itemName, int quantity) {
+  public static String updateQuantityOfAnExistingItemOfOrder(int orderNumber, String itemName, int quantity) {
     //1. check if the order exists, if not "Order" + order number + "does not exist"
     //2. check items
         //verify item name exists, "Item" + item name + "does not exist in order" + order number
-        //verify the quanitites, "Quantity must be greater than 0"
+        //verify the quantities, "Quantity must be greater than 0"
     //3. check states using switch and case
         //paid, penalized, prepared, pickedup, final
 
@@ -537,6 +546,7 @@ public class CoolSuppliesFeatureSet8Controller {
         }
         //then update the item's quantity
         order.updateItem(targetOrderItem, quantity);
+        CoolSuppliesPersistence.save();
     }catch (RuntimeException e) {
         return e.getMessage();
     }
@@ -553,8 +563,6 @@ public class CoolSuppliesFeatureSet8Controller {
      * @author Jack McDonald
      */
     public static String addItemToOrder(String itemName, int quantity, int orderNumber) {
-        CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
-
         try {
             Order order = Order.getWithNumber(orderNumber);
             if (order == null) {
@@ -568,6 +576,7 @@ public class CoolSuppliesFeatureSet8Controller {
 
             //attempt to add the item to the order and store the result
             boolean wasAdded = order.addItem(targetItem, quantity);
+            CoolSuppliesPersistence.save();
 
             //most likely reason for failure is that the order is in a state where items cannot be added
             if (!wasAdded) {

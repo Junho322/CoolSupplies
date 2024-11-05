@@ -3,6 +3,7 @@ package ca.mcgill.ecse.coolsupplies.controller;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import ca.mcgill.ecse.coolsupplies.model.Grade;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class CoolSuppliesFeatureSet7Controller {
         try {
             // Uses addGrade() from CoolSupplies.java, which calls Grade.java constructor. Note that Exception handling is already done in Grade.java constructor.
             Grade newGrade = coolSupplies.addGrade(gradeLevel);
+            CoolSuppliesPersistence.save();
             return "Grade " + newGrade.getLevel() + " added successfully.";
         } catch (RuntimeException e) {
             return e.getMessage();
@@ -77,6 +79,7 @@ public class CoolSuppliesFeatureSet7Controller {
         try {
             // Attempt to set the new level; it will return false if the level already exists
             grade.setLevel(newGradeLevel);
+            CoolSuppliesPersistence.save();
             return "Grade " + currentGradeLevel + " updated successfully to Grade " + newGradeLevel + ".";
         } catch (RuntimeException e) {
             return e.getMessage();
@@ -102,6 +105,7 @@ public class CoolSuppliesFeatureSet7Controller {
         try {
             //Destructor for Grade.java will remove the grade from the gradesByLevel HashMap, remove bundles, remove students, and remove the grade from the CoolSupplies.java association.
             grade.delete();
+            CoolSuppliesPersistence.save();
             return "Grade removed successfully.";
         } catch (RuntimeException e) {
             return e.getMessage();

@@ -6,6 +6,7 @@ import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import ca.mcgill.ecse.coolsupplies.model.InventoryItem;
 import ca.mcgill.ecse.coolsupplies.model.Item;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 
 /**
@@ -41,8 +42,13 @@ public class CoolSuppliesFeatureSet3Controller {
 
     //we can now add the Item to the coolSupplies application using .addItem() from CoolSupplies.java
     //Exception handling is already done since Item.java constructor is called, which handles exceptions
-    coolSupplies.addItem(name, price);
-    return "Item added successfully.";
+    try {
+      coolSupplies.addItem(name, price);
+      CoolSuppliesPersistence.save();
+    } catch (Exception e) {
+      return e.getMessage();
+    }
+      return "Item added successfully.";
   }
 
   /**
@@ -76,10 +82,15 @@ public class CoolSuppliesFeatureSet3Controller {
     }
 
     //update name and price to new ones
-    targetItem.setName(newName);
-    targetItem.setPrice(newPrice);
+    try {
+      targetItem.setName(newName);
+      targetItem.setPrice(newPrice);
+      CoolSuppliesPersistence.save();
+    } catch (Exception e) {
+      return e.getMessage();
+    }
 
-    return "Item was succesfully updated";
+      return "Item was succesfully updated";
   }
   
   /**
@@ -97,9 +108,14 @@ public class CoolSuppliesFeatureSet3Controller {
     }
 
     //after checking, now delete item
-    targetItem.delete();
+    try {
+      targetItem.delete();
+      CoolSuppliesPersistence.save();
+    } catch (Exception e) {
+      return e.getMessage();
+    }
 
-    return "the item has successfully been deleted";
+      return "the item has successfully been deleted";
     
   }
 

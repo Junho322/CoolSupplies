@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.coolsupplies.model;
 import java.util.*;
 
-// line 68 "../../../../../CoolSupplies.ump"
+// line 69 "../../../../../CoolSupplies.ump"
 public class GradeBundle extends InventoryItem
 {
 

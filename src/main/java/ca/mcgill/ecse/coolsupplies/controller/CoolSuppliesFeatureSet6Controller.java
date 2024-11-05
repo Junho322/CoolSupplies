@@ -2,6 +2,7 @@ package ca.mcgill.ecse.coolsupplies.controller;
 
 import ca.mcgill.ecse.coolsupplies.model.*;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 import java.sql.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  * @author David Zhou
  */
 public class CoolSuppliesFeatureSet6Controller {
+
   /**
    * Adds a student to a parent's list of students.
    *
@@ -33,8 +35,13 @@ public class CoolSuppliesFeatureSet6Controller {
       return "The parent does not exist.";
     }
 
-    parent.addStudent(student);
-    return "Student added to parent.";
+      try {
+          parent.addStudent(student);
+          CoolSuppliesPersistence.save();
+      } catch (Exception e) {
+          return e.getMessage();
+      }
+      return "Student added to parent.";
   }
 
   /**
@@ -60,8 +67,13 @@ public class CoolSuppliesFeatureSet6Controller {
       return "The student is not associated with this parent.";
     }
 
-    parent.removeStudent(student);
-    return "Student removed from parent.";
+      try {
+          parent.removeStudent(student);
+          CoolSuppliesPersistence.save();
+      } catch (Exception e) {
+          return e.getMessage();
+      }
+      return "Student removed from parent.";
   }
 
   /**
@@ -159,8 +171,13 @@ public class CoolSuppliesFeatureSet6Controller {
         return "The level must be Mandatory, Recommended, or Optional.";
     }
 
-    coolSupplies.addOrder(number, date, purchaseLevel, parent, student);
-    return "Order created successfully.";
+      try {
+          coolSupplies.addOrder(number, date, purchaseLevel, parent, student);
+          CoolSuppliesPersistence.save();
+      } catch (Exception e) {
+          return e.getMessage();
+      }
+      return "Order created successfully.";
   }
 
   /**

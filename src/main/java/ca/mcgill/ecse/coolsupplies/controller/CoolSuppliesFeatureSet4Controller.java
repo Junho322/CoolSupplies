@@ -5,6 +5,7 @@ import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import ca.mcgill.ecse.coolsupplies.model.Grade;
 import ca.mcgill.ecse.coolsupplies.model.GradeBundle;
 import ca.mcgill.ecse.coolsupplies.model.InventoryItem;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.List;
  *  Delete
  *  Get
  */
-
 public class CoolSuppliesFeatureSet4Controller {
 
   /**
@@ -30,7 +30,6 @@ public class CoolSuppliesFeatureSet4Controller {
    * @return A String indicating success or failure of construction
    * @author David Wang
    */
-
   public static String addBundle(String name, int discount, String gradeLevel) {
 
     CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
@@ -54,10 +53,11 @@ public class CoolSuppliesFeatureSet4Controller {
     Grade grade = Grade.getWithLevel(gradeLevel);
     try { // catch any GradeBundle instantiation issues.
       new GradeBundle(name, discount, coolSupplies, grade);
-      return "GradeBundle added successfully.";
+      CoolSuppliesPersistence.save();
     } catch (Exception e) {
-      return "ERROR: GradeBundle not added successfully.";
+      return e.getMessage();
     }
+    return "GradeBundle added successfully.";
 
   }
 
@@ -72,7 +72,6 @@ public class CoolSuppliesFeatureSet4Controller {
    * @return A String indicating outcome of the update.
    * @author David Wang
    */
-
   public static String updateBundle(String name, String newName, int newDiscount,
                                     String newGradeLevel) {
 
@@ -97,11 +96,15 @@ public class CoolSuppliesFeatureSet4Controller {
     if (GradeBundle.hasWithName(newName)) {
       return "The name must be unique.";
     }
-    targetBundle.setName(newName);
-    targetBundle.setGrade(Grade.getWithLevel(newGradeLevel));
-    targetBundle.setDiscount(newDiscount);
-    System.out.println("success");
-    return "Successfully updated Bundle: " + name;
+    try {
+      targetBundle.setName(newName);
+      targetBundle.setGrade(Grade.getWithLevel(newGradeLevel));
+      targetBundle.setDiscount(newDiscount);
+      CoolSuppliesPersistence.save();
+    } catch (Exception e) {
+      return e.getMessage();
+    }
+      return "Successfully updated Bundle: " + name;
   }
 
   /**
@@ -112,14 +115,18 @@ public class CoolSuppliesFeatureSet4Controller {
    * @return A String indicating outcome of deletion
    * @author David Wang
    */
-
   public static String deleteBundle(String name) {
 
     GradeBundle targetBundle = (GradeBundle) GradeBundle.getWithName(name);
     if (targetBundle == null) {
       return "The grade bundle does not exist.";
     } else {
-      targetBundle.delete();
+      try {
+        targetBundle.delete();
+        CoolSuppliesPersistence.save();
+      } catch (Exception e) {
+        return e.getMessage();
+      }
       return "Bundle " + name + " successfully deleted.";
     }
   }
@@ -132,7 +139,6 @@ public class CoolSuppliesFeatureSet4Controller {
    * @return A TOGradeBundle of the given GradeBundle
    * @author David Wang
    */
-
   public static TOGradeBundle getBundle(String name) {
     GradeBundle targetBundle = (GradeBundle) GradeBundle.getWithName(name);
     if (targetBundle == null) {
@@ -147,7 +153,6 @@ public class CoolSuppliesFeatureSet4Controller {
    * @return A List<TOGradeBundle> of all GradeBundles within CoolSupplies.
    * @author David Wang
    */
-
   public static List<TOGradeBundle> getBundles() {
     CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
     List<GradeBundle> allGradeBundles = coolSupplies.getBundles();

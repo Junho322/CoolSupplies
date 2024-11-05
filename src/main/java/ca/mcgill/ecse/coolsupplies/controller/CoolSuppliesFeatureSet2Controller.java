@@ -7,7 +7,7 @@ import ca.mcgill.ecse.coolsupplies.model.Student;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import ca.mcgill.ecse.coolsupplies.model.Grade;
-
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 
 /**
@@ -43,7 +43,12 @@ public class CoolSuppliesFeatureSet2Controller {
                     : grade == null ? "The grade does not exist."
                     : "The name must be unique.";
         }
-        coolSupplies.addStudent(name,grade);
+        try {
+            coolSupplies.addStudent(name,grade);
+            CoolSuppliesPersistence.save();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
 
         return null;
     }
@@ -73,8 +78,13 @@ public class CoolSuppliesFeatureSet2Controller {
                     : "The grade does not exist.";
         }
         else{
-            targetStudent.setName(newName);
-            targetStudent.setGrade(grade);
+            try {
+                targetStudent.setName(newName);
+                targetStudent.setGrade(grade);
+                CoolSuppliesPersistence.save();
+            } catch (Exception e) {
+                return e.getMessage();
+            }
 
             return null;
         }
@@ -96,7 +106,12 @@ public class CoolSuppliesFeatureSet2Controller {
 
             return("The student does not exist.");
         }
-        student.delete();
+        try {
+            student.delete();
+            CoolSuppliesPersistence.save();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
 
         return "Success";
     }
