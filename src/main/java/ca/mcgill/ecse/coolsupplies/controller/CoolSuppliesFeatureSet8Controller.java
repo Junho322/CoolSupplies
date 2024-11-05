@@ -251,8 +251,12 @@ public class CoolSuppliesFeatureSet8Controller {
    *         - "Payment processed" if the payment is successfully processed.
    * @author Hamza Khalfi
    */
- public static String payForOrder(int orderNumber, String authCode) {
-    
+  public static String payForOrder(int orderNumber, String authCode) {
+    // 1. Check if auth code is valid, if not say "Authorization code is invalid".
+    // 2. Check if order exists, if not return "Order orderNumber does not exist".
+    // 3. Check if order is in correct state; if state == Paid, Penalized, Prepared OR PickedUp,
+    //    we return "Cannot pay for a <state> order".
+    // 4. If successfully paid, do nothing, but change the state.
 
     if (!Order.hasWithNumber(orderNumber)) {
       return "Order " + orderNumber + " does not exist";
@@ -264,7 +268,6 @@ public class CoolSuppliesFeatureSet8Controller {
     if(order.getOrderItems().isEmpty()) {
         return "Order " + orderNumber + " has no items";
     }
-
 
     try {
       boolean paymentProcessed = order.pay(authCode);
