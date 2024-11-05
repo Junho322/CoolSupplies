@@ -23,6 +23,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderStepDefinitions {
@@ -30,6 +32,7 @@ public class OrderStepDefinitions {
   private static CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
   public static String error = "";
   private TOOrder lastRetrievedOrder;
+  private List<TOOrder> lastRetrievedOrders;
 
   @Given("the following parent entities exist in the system")
   public void the_following_parent_entities_exist_in_the_system(
@@ -395,7 +398,7 @@ public class OrderStepDefinitions {
   @When("the school admin attempts to get from the system all orders")
   public void the_school_admin_attempts_to_get_from_the_system_all_orders() {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    lastRetrievedOrders = CoolSuppliesFeatureSet8Controller.getOrders();
   }
 
   @Then("the order {string} shall contain penalty authorization code {string}")
@@ -573,20 +576,54 @@ public class OrderStepDefinitions {
     //
     // For other transformations you can register a DataTableType.
     List<Map<String, String>> expectedOrders = dataTable.asMaps(String.class, String.class);
-
-    assertNotNull(lastRetrievedOrder, "No order was retrieved");
-
-    for (Map<String, String> expectedOrder : expectedOrders) {
-      assertEquals(expectedOrder.get("parentEmail"), lastRetrievedOrder.getParentEmail(), "Parent email does not match");
-      assertEquals(expectedOrder.get("studentName"), lastRetrievedOrder.getStudentName(), "Student name does not match");
-      assertEquals(expectedOrder.get("status"), lastRetrievedOrder.getStatus(), "Order status does not match");
-      assertEquals(Integer.parseInt(expectedOrder.get("number")), lastRetrievedOrder.getNumber(), "Order number does not match");
-      assertEquals(expectedOrder.get("date"), lastRetrievedOrder.getDate().toString(), "Order date does not match");
-      assertEquals(expectedOrder.get("level"), lastRetrievedOrder.getLevel(), "Order level does not match");
-      assertEquals(expectedOrder.get("authorizationCode"), lastRetrievedOrder.getAuthorizationCode(), "Authorization code does not match");
-      assertEquals(expectedOrder.get("penaltyAuthorizationCode"), lastRetrievedOrder.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
-      assertEquals(Double.parseDouble(expectedOrder.get("totalPrice")), lastRetrievedOrder.getTotalPrice(), 0.01, "Total price does not match");
+    System.out.println(expectedOrders);
+    if (lastRetrievedOrders == null && lastRetrievedOrder == null) {
+      fail("No order was retrieved.");
     }
+    if (lastRetrievedOrders == null) {
+      for (Map<String, String> expectedOrder : expectedOrders) {
+        System.out.println("hi");
+        System.out.println(lastRetrievedOrder);
+        assertEquals(expectedOrder.get("parentEmail"), lastRetrievedOrder.getParentEmail(), "Parent email does not match");
+        assertEquals(expectedOrder.get("studentName"), lastRetrievedOrder.getStudentName(), "Student name does not match");
+        assertEquals(expectedOrder.get("status"), lastRetrievedOrder.getStatus(), "Order status does not match");
+        assertEquals(Integer.parseInt(expectedOrder.get("number")), lastRetrievedOrder.getNumber(), "Order number does not match");
+        assertEquals(expectedOrder.get("date"), lastRetrievedOrder.getDate().toString(), "Order date does not match");
+        assertEquals(expectedOrder.get("level"), lastRetrievedOrder.getLevel(), "Order level does not match");
+        assertEquals(expectedOrder.get("authorizationCode"), lastRetrievedOrder.getAuthorizationCode(), "Authorization code does not match");
+        assertEquals(expectedOrder.get("penaltyAuthorizationCode"), lastRetrievedOrder.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
+        assertEquals(Double.parseDouble(expectedOrder.get("totalPrice")), lastRetrievedOrder.getTotalPrice(), 0.01, "Total price does not match");
+      }
+    } else {
+      assertEquals(expectedOrders.size(), lastRetrievedOrders.size());
+      for (var row : expectedOrders) {
+        String number = row.get("number");
+        String date = row.get("date");
+        String level = row.get("level");
+        String parentEmail = row.get("parentEmail");
+        String studentName = row.get("studentName");
+        String status = row.get("status");
+        String authorizationCode = row.get("authorizationCode");
+        String penaltyAuthorizationCode = row.get("penaltyAuthorizationCode");
+
+        boolean found = false;
+        for (TOOrder order : lastRetrievedOrders) {
+          if (order.getNumber() == Integer.parseInt(number)) {
+            assertEquals(date, order.getDate().toString());
+            assertEquals(level, order.getLevel());
+            assertEquals(parentEmail, order.getParentEmail());
+            assertEquals(studentName, order.getStudentName());
+            assertEquals(status, order.getStatus());
+            assertEquals(authorizationCode, order.getAuthorizationCode());
+            assertEquals(penaltyAuthorizationCode, order.getPenaltyAuthorizationCode());
+            found = true;
+            break;
+          }
+        }
+        assertTrue(found);
+      }
+    }
+
   }
 
   @Then("the following order items shall be presented for the order with number {string}")
@@ -600,27 +637,65 @@ public class OrderStepDefinitions {
     //
     // For other transformations you can register a DataTableType.
     int orderNumber = Integer.parseInt(orderNumberStr);
-    assertEquals(orderNumber, lastRetrievedOrder.getNumber(), "Order number does not match the retrieved order");
-
     List<Map<String, String>> expectedOrderItems = dataTable.asMaps(String.class, String.class);
-    List<TOOrderItem> actualOrderItems = lastRetrievedOrder.getItems();
 
-    assertEquals(expectedOrderItems.size(), actualOrderItems.size(), "Number of order items does not match");
+    if (lastRetrievedOrder == null && lastRetrievedOrders == null) {
+      fail("No order was retrieved at all.");
+    }
 
-    for (int i = 0; i < expectedOrderItems.size(); i++) {
-      Map<String, String> expectedItem = expectedOrderItems.get(i);
-      TOOrderItem actualItem = actualOrderItems.get(i);
+    if (lastRetrievedOrders == null) { // In the case that there is only one item being retrieved.
+      assertEquals(orderNumber, lastRetrievedOrder.getNumber(), "Order number does not match the retrieved order");
+      List<TOOrderItem> actualOrderItems = lastRetrievedOrder.getItems();
+      assertEquals(expectedOrderItems.size(), actualOrderItems.size(), "Number of order items does not match");
 
-      assertEquals(Integer.parseInt(expectedItem.get("quantity")), actualItem.getQuantity(), "Quantity does not match for item " + actualItem.getItemName());
-      assertEquals(expectedItem.get("itemName"), actualItem.getItemName(), "Item name does not match");
-      assertEquals(expectedItem.get("gradeBundleName"), actualItem.getGradeBundleName(), "Grade bundle name does not match for item " + actualItem.getItemName());
-      assertEquals(Integer.parseInt(expectedItem.get("price")), actualItem.getPrice(), "Price does not match for item " + actualItem.getItemName());
+      for (int i = 0; i < expectedOrderItems.size(); i++) {
+        Map<String, String> expectedItem = expectedOrderItems.get(i);
+        TOOrderItem actualItem = actualOrderItems.get(i);
 
-      // Discount can be null, so we handle both cases
-      if (expectedItem.get("discount") != null && !expectedItem.get("discount").isEmpty()) {
-        assertEquals(expectedItem.get("discount"), actualItem.getDiscount());
-      } else {
-        assertNull(actualItem.getDiscount(), "Expected discount to be null for item " + actualItem.getItemName());
+        assertEquals(Integer.parseInt(expectedItem.get("quantity")), actualItem.getQuantity(), "Quantity does not match for item " + actualItem.getItemName());
+        assertEquals(expectedItem.get("itemName"), actualItem.getItemName(), "Item name does not match");
+        assertEquals(expectedItem.get("gradeBundleName"), actualItem.getGradeBundleName(), "Grade bundle name does not match for item " + actualItem.getItemName());
+        assertEquals(Integer.parseInt(expectedItem.get("price")), actualItem.getPrice(), "Price does not match for item " + actualItem.getItemName());
+
+        // Discount can be null, so we handle both cases
+        if (expectedItem.get("discount") != null && !expectedItem.get("discount").isEmpty()) {
+          assertEquals(expectedItem.get("discount"), actualItem.getDiscount());
+        } else {
+          assertNull(actualItem.getDiscount(), "Expected discount to be null for item " + actualItem.getItemName());
+        }
+      }
+    }
+    else { // In the case there are multiple items that have been added into the system and that must be retrieved.
+      for (TOOrder order : CoolSuppliesFeatureSet8Controller.getOrders()) {
+        if (order.getNumber() == Integer.parseInt(orderNumberStr)) {
+          List<TOOrderItem> orderItems = order.getItems();
+          assertEquals(expectedOrderItems.size(), orderItems.size());
+
+          for (var row : expectedOrderItems) {
+            String itemName = row.get("itemName");
+            String bundleName = row.get("gradeBundleName");
+            String quantity = row.get("quantity");
+            String price = row.get("price");
+            String discount = row.get("discount");
+
+            Boolean found = false;
+            for (TOOrderItem orderItem : orderItems) {
+              if (orderItem.getItemName().equals(itemName)) {
+                if ((orderItem.getGradeBundleName() == null && bundleName != null) ||
+                        (orderItem.getGradeBundleName() != null && !orderItem.getGradeBundleName().equals(bundleName))) {
+                  continue;
+                }
+                assertEquals(quantity, String.valueOf(orderItem.getQuantity()));
+                assertEquals(price, String.valueOf(orderItem.getPrice()));
+                assertEquals(Objects.requireNonNullElse(discount, ""), orderItem.getDiscount());
+                found = true;
+                break;
+              }
+            }
+            assertEquals(true, found);
+          }
+          return;
+        }
       }
     }
   }

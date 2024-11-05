@@ -376,6 +376,80 @@ public class CoolSuppliesFeatureSet8Controller {
       return "Item " + itemName + " does not exist in the order " + orderNumber + ".";
 
   }
+
+    public static List<TOOrder> getOrders() {
+        CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+        List<TOOrder> orders = new ArrayList<>();
+
+        for (Order order : coolSupplies.getOrders()) {
+            // Create a list of item transfer objects for each order
+            List<TOOrderItem> orderItems = new ArrayList<>();
+            // Initialize the total price of the order for each order
+            double total = 0;
+
+            //iterate through each OrderItem in the order
+            for (OrderItem orderItem : order.getOrderItems()) {
+                InventoryItem inventoryItem = orderItem.getItem();
+
+                //if the item is an instance of Item, add the item to the total; no discount
+                if (inventoryItem instanceof Item) {
+                    Item item = (Item) inventoryItem;
+                    total += orderItem.getQuantity() * item.getPrice();
+                    orderItems.add(new TOOrderItem(orderItem.getQuantity(), item.getName(), "",
+                            item.getPrice(), ""));
+                }
+
+                //if the item is in a bundle, we need to do a few checks...
+                else if (inventoryItem instanceof GradeBundle) {
+                    //we don't know if a discount is applicable yet, so we'll add the items each temporary list
+                    List<TOOrderItem> bundleItemsDiscounted = new ArrayList<>();
+                    List<TOOrderItem> bundleItemsNondiscounted = new ArrayList<>();
+
+                    GradeBundle bundle = (GradeBundle) inventoryItem;
+                    int uniqueItemCount = 0;
+
+                    //iterate through each BundleItem in the bundle
+                    for (BundleItem bundleItem : bundle.getBundleItems()) {
+                        //check if BundleItem is eligible for purchase based on given purchase level
+                        if (bundleItem.getLevel() == BundleItem.PurchaseLevel.Mandatory ||
+                                (order.getLevel() == BundleItem.PurchaseLevel.Optional ||
+                                        order.getLevel() == bundleItem.getLevel())) {
+                            //bundle subtotal before a discount is applied
+                            total += bundleItem.getQuantity() * bundleItem.getItem().getPrice();
+                            //recall: two unique items are required for a discount
+                            uniqueItemCount++;
+
+                            //add BundleItem with and without a discount to temporary lists
+                            bundleItemsDiscounted.add(new TOOrderItem(bundleItem.getQuantity() *
+                                    orderItem.getQuantity(), bundleItem.getItem().getName(), bundle.getName(),
+                                    bundleItem.getItem().getPrice(), String.valueOf(bundleItem.getItem().getPrice()
+                                    * ((double) bundle.getDiscount() / -100)).replace(".0", "")));
+                            bundleItemsNondiscounted.add(new TOOrderItem(bundleItem.getQuantity() *
+                                    orderItem.getQuantity(), bundleItem.getItem().getName(), bundle.getName(),
+                                    bundleItem.getItem().getPrice(), ""));
+                        }
+                    }
+
+                    //apply discount if two unique items are present; otherwise, add non-discounted items to the order
+                    if (uniqueItemCount >= 2) {
+                        total -= bundle.getDiscount();
+                        orderItems.addAll(bundleItemsDiscounted);
+                    } else {
+                        orderItems.addAll(bundleItemsNondiscounted);
+                    }
+
+                }
+                //item is neither an instance of Item nor GradeBundle; throw an exception
+                else throw new RuntimeException("Item is not an instance of Item or GradeBundle");
+            }
+
+            //add the order to the list of orders
+            orders.add(new TOOrder(order.getParent().getEmail(), order.getStudent().getName(),
+                    order.getStatusFullName(), order.getNumber(), order.getDate(), order.getLevel().name(),
+                    order.getAuthorizationCode(), order.getPenaltyAuthorizationCode(), total, orderItems));
+        }
+        return orders;
+    }
   public static String updateQuanitityOfAnExistingItemOfOrder(int orderNumber, String itemName, int quantity) {
     //1. check if the order exists, if not "Order" + order number + "does not exist"
     //2. check items
@@ -395,16 +469,16 @@ public class CoolSuppliesFeatureSet8Controller {
         //get item from application to a variable
         CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
         List<OrderItem> orderItems = new ArrayList<>(coolSupplies.getOrderItems());
-        
+
         //if item does not exist then print appropriate message
         Item targetItem = (Item) InventoryItem.getWithName(itemName);
         if (targetItem == null){
             return "Item " + itemName + " does not exist.";
         }
 
-        //check if item is in the right order number 
+        //check if item is in the right order number
         OrderItem targetOrderItem = null;
-        
+
         for (int i = 0; i < orderItems.size(); i++){
             OrderItem tempOrderItem = orderItems.get(i);
             if (tempOrderItem.getItem() == targetItem){
@@ -418,7 +492,7 @@ public class CoolSuppliesFeatureSet8Controller {
         if (quantity <= 0) {
             return "Quantity must be greater than 0.";
         }
-        //use switch case to check all states 
+        //use switch case to check all states
         if (!order.getStatusFullName().equalsIgnoreCase("Started")){
             return switch (order.getStatusFullName()){
                 case "Paid" -> "Cannot update items in a paid order";
