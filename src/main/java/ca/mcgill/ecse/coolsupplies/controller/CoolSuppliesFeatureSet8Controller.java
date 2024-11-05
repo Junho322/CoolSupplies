@@ -7,6 +7,33 @@ import java.util.List;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
+/**
+ * CoolSuppliesFeatureSet8Controller class provides methods to manage orders, items, and payments
+ * within the CoolSupplies application. This includes updating orders, adding items to orders, updating item quantities,
+ * deleting items from orders, processing payments, paying penalties, picking up orders, canceling orders, viewing individual orders,
+ * retrieving all orders, and starting the school year for an order.
+ * 
+ * @author Jun Ho
+ * @author Hamza Khalfi
+ * @author Jack McDonald
+ * @author David Wang
+ * @author David Vo
+ * @author Shayan Yamnanidouzi Sorkhabi
+ * @author David Zhou
+ * 
+ * @see #updateOrder(int, String, String) Updates an order to a new level and assigns it to a student.
+ * @see #addItemToOrder(int, String, int) Adds a specific item with a quantity to an order.
+ * @see #updateQuantityOfAnExistingItemOfOrder(int, String, int) Updates the quantity of an existing item in an order.
+ * @see #deleteOrderItem(int, String) Deletes an item from an order if it exists.
+ * @see #payForOrder(int) Completes the payment process for an order.
+ * @see #payPenaltyForOrder(int) Pays a penalty associated with a penalized order.
+ * @see #pickUpOrder(int) Marks an order as picked up if conditions allow.
+ * @see #cancelOrder(int) Cancels an order if it meets cancellation criteria.
+ * @see #viewIndividualOrder(int) Retrieves detailed information about a specific order.
+ * @see #getOrders() Retrieves all orders within the system.
+ * @see #startSchoolYear() Resets attributes in preparation for a new school year.
+ */
+
 public class CoolSuppliesFeatureSet8Controller {
 
   /**
@@ -36,14 +63,20 @@ public class CoolSuppliesFeatureSet8Controller {
       BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
       
       if (!order.getStatusFullName().equalsIgnoreCase("Started")) {
-        return switch (order.getStatusFullName()) {
-          case "Paid" -> "Cannot update a paid order";
-          case "Penalized" -> "Cannot update a penalized order";
-          case "Prepared" -> "Cannot update a prepared order";
-          case "PickedUp" -> "Cannot update a picked up order";
-          case "Final" -> "Cannot update a finalized order";
-          default -> "Could not update the order";
-        }; 
+        switch (order.getStatusFullName()) {
+          case "Paid":
+              return "Cannot update a paid order";
+          case "Penalized":
+              return "Cannot update a penalized order";
+          case "Prepared":
+              return "Cannot update a prepared order";
+          case "PickedUp":
+              return "Cannot update a picked up order";
+          case "Final":
+              return "Cannot update a finalized order";
+          default:
+              return "Could not update the order";
+        }
       }
       order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
       CoolSuppliesPersistence.save();
@@ -144,13 +177,18 @@ public class CoolSuppliesFeatureSet8Controller {
         }
         //use switch case to check all states
         if (!order.getStatusFullName().equalsIgnoreCase("Started")){
-            return switch (order.getStatusFullName()){
-                case "Paid" -> "Cannot update items in a paid order";
-                case "Penalized" -> "Cannot update items in a penalized order";
-                case "Prepared" -> "Cannot update items in a prepared order";
-                case "PickedUp" -> "Cannot update items in a picked up order";
-                default -> "Could not update the quantity of existing item of order";
-            };
+          switch (order.getStatusFullName()) {
+            case "Paid":
+                return "Cannot update items in a paid order";
+            case "Penalized":
+                return "Cannot update items in a penalized order";
+            case "Prepared":
+                return "Cannot update items in a prepared order";
+            case "PickedUp":
+                return "Cannot update items in a picked up order";
+            default:
+                return "Could not update the quantity of existing item of order";
+          }
         }
         //then update the item's quantity
         order.updateItem(targetOrderItem, quantity);
@@ -224,15 +262,7 @@ public class CoolSuppliesFeatureSet8Controller {
    *
    * @param orderNumber The number of the order to be paid.
    * @param authCode The authorization code for the payment.
-   * @return A message indicating the result of the payment process:
-   *         - "Order orderNumber does not exist" if the order does not exist.
-   *         - "Order orderNumber has no items" if the order has no items.
-   *         - "Cannot pay for a penalized order" if the order is penalized.
-   *         - "Cannot pay for a prepared order" if the order is prepared.
-   *         - "Cannot pay for a picked up order" if the order is picked up.
-   *         - "The order is already paid" if the order is already paid.
-   *         - "Authorization code is invalid" if the authorization code is invalid.
-   *         - "Payment processed" if the payment is successfully processed.
+   * @return A message indicating the result of the payment process.
    * @author Hamza Khalfi
    */
   public static String payForOrder(int orderNumber, String authCode) {
@@ -323,18 +353,9 @@ public class CoolSuppliesFeatureSet8Controller {
   /**
    * Picks up an order. Checks for the order's existence and status to determine if pickup is permitted.
    *
-   *   "Order <orderNumber> does not exist" - if no order matches the given number.
-   *   "Cannot pickup a started order" - if the order is in a "Started" state.
-   *   "Cannot pickup a paid order" - if the order is in a "Paid" state.
-   *   "Cannot pickup a penalized order" - if the order is in a "Penalized" state.
-   *   "The order is already picked up" - if the order is in a "PickedUp" state.
-   *   "Order picked up successfully" - if the order is in a "Prepared" state and is picked up.
-   *   "Could not pick up the order" - for any unexpected cases.
-   *
    * @param orderNumber the unique identifier of the order to pick up.
    * @return a message indicating the result of the pickup attempt.
-   * 
-   * Author: David Vo
+   * @author David Vo
    */
   public String pickUpOrder(int orderNumber) {
     Order order = Order.getWithNumber(orderNumber);
@@ -495,6 +516,12 @@ public class CoolSuppliesFeatureSet8Controller {
     );
   }
 
+  /**
+   * Gets all orders in the system.
+   *
+   * @return A list of TOOrder objects representing all orders in the system.
+   * @author Jack McDonald
+   */
   public static List<TOOrder> getOrders() {
     CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
     List<TOOrder> orders = new ArrayList<>();
@@ -573,10 +600,7 @@ public class CoolSuppliesFeatureSet8Controller {
    * Starts the school year for an order.
    *
    * @param orderNumber The number of the order for which the school year is to be started.
-   * @return A message indicating the result of the operation:
-   *         - "Order orderNumber does not exist" if the order does not exist.
-   *         - "The school year has already been started" if the school year has already been started.
-   *         - An empty string if the school year is successfully started.
+   * @return A message indicating the result of the operation.
    * @author Hamza Khalfi
    */
   public static String startSchoolYear(int orderNumber ) {
