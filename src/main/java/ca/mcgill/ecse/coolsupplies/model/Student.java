@@ -6,7 +6,8 @@ import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import java.util.*;
 import java.sql.Date;
 
-// line 36 "../../../../../CoolSupplies.ump"
+// line 30 "../../../../../CoolSuppliesPersistence.ump"
+// line 37 "../../../../../CoolSupplies.ump"
 public class Student
 {
 
@@ -293,6 +294,14 @@ public class Student
     if(placeholderGrade != null)
     {
       placeholderGrade.removeStudent(this);
+    }
+  }
+
+  // line 32 "../../../../../CoolSuppliesPersistence.ump"
+   public static  void reinitializeUniqueName(List<Student> students){
+    studentsByName.clear();
+    for (var student : students) {
+      studentsByName.put(student.getName(), student);
     }
   }
 

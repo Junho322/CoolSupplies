@@ -6,7 +6,8 @@ import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import java.util.*;
 import java.sql.Date;
 
-// line 5 "../../../../../CoolSupplies.ump"
+// line 1 "../../../../../CoolSuppliesPersistence.ump"
+// line 6 "../../../../../CoolSupplies.ump"
 public class CoolSupplies
 {
 
@@ -964,6 +965,25 @@ public class CoolSupplies
       grades.remove(aGrade);
     }
     
+  }
+
+  // line 3 "../../../../../CoolSuppliesPersistence.ump"
+   public void reinitialize(){
+    List<Parent> parentsT = getParents();
+    List<User> users = new ArrayList<>(parentsT);
+    if (getAdmin() != null) {users.add(getAdmin());}
+
+    List<Item> itemsT = getItems();
+    List<GradeBundle> bundlesT = getBundles();
+    List<InventoryItem> inventoryItems = new ArrayList<>(bundlesT);
+    List<InventoryItem> inventoryItemsT = new ArrayList<>(itemsT);
+    inventoryItems.addAll(inventoryItemsT);
+    
+    User.reinitializeUniqueEmail(users);
+    Student.reinitializeUniqueName(getStudents());
+    Order.reinitializeUniqueNumber(getOrders());
+    InventoryItem.reinitializeUniqueName(inventoryItems);
+    Grade.reinitializeUniqueLevel(getGrades());
   }
 
 }

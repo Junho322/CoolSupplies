@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 public class CoolSuppliesFeatureSet8Controller {
     /**
@@ -122,7 +123,8 @@ public class CoolSuppliesFeatureSet8Controller {
     try {
       boolean success = order.payPenalty(authorizationCode, penaltyAuthorizationCode);
       if (success) {
-        return "Penalty payment successful. The order is now prepared.";
+          CoolSuppliesPersistence.save();
+          return "Penalty payment successful. The order is now prepared.";
       } else {
         // Check specific statuses for message details
         if (order.getStatus() == Order.Status.PickedUp) {
@@ -235,7 +237,23 @@ public class CoolSuppliesFeatureSet8Controller {
     );
   }
 
- public static String payForOrder(int orderNumber, String authCode) {
+  /** 
+   * Processes the payment for an order.
+   *
+   * @param orderNumber The number of the order to be paid.
+   * @param authCode The authorization code for the payment.
+   * @return A message indicating the result of the payment process:
+   *         - "Order orderNumber does not exist" if the order does not exist.
+   *         - "Order orderNumber has no items" if the order has no items.
+   *         - "Cannot pay for a penalized order" if the order is penalized.
+   *         - "Cannot pay for a prepared order" if the order is prepared.
+   *         - "Cannot pay for a picked up order" if the order is picked up.
+   *         - "The order is already paid" if the order is already paid.
+   *         - "Authorization code is invalid" if the authorization code is invalid.
+   *         - "Payment processed" if the payment is successfully processed.
+   * @author Hamza Khalfi
+   */
+  public static String payForOrder(int orderNumber, String authCode) {
     // 1. Check if auth code is valid, if not say "Authorization code is invalid".
     // 2. Check if order exists, if not return "Order orderNumber does not exist".
     // 3. Check if order is in correct state; if state == Paid, Penalized, Prepared OR PickedUp,
@@ -253,9 +271,10 @@ public class CoolSuppliesFeatureSet8Controller {
         return "Order " + orderNumber + " has no items";
     }
 
-
     try {
       boolean paymentProcessed = order.pay(authCode);
+      CoolSuppliesPersistence.save();
+
       if (!paymentProcessed) {
         switch (order.getStatusFullName()) {
           case "Penalized":
@@ -269,13 +288,22 @@ public class CoolSuppliesFeatureSet8Controller {
         }
       }
     } catch (Exception e) {
-      return "Authorization code is invalid";
+      return e.getMessage();
     }
 
     return "Payment processed";
   }
 
-
+  /**
+ * Starts the school year for an order.
+ *
+ * @param orderNumber The number of the order for which the school year is to be started.
+ * @return A message indicating the result of the operation:
+ *         - "Order orderNumber does not exist" if the order does not exist.
+ *         - "The school year has already been started" if the school year has already been started.
+ *         - An empty string if the school year is successfully started.
+ * @author Hamza Khalfi
+ */
   public static String startSchoolYear(int orderNumber ) {
 
     boolean orderExists = Order.hasWithNumber(orderNumber);
@@ -326,11 +354,11 @@ public class CoolSuppliesFeatureSet8Controller {
                 }; 
              }
             order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
-
+            CoolSuppliesPersistence.save();
+            return "Order updated successfully";
         } catch (RuntimeException e) {
             return e.getMessage();
         }
-        return "Could not update the order";
     }
 
     /**
@@ -378,7 +406,12 @@ public class CoolSuppliesFeatureSet8Controller {
       for (int i = 0; i < order.getOrderItems().size(); i++) {
           if (itemsInOrder.get(i).getItem() == item) {
               // == equality should work as it should be the same memory address
-              itemsInOrder.get(i).delete();
+              try {
+                  itemsInOrder.get(i).delete();
+                  CoolSuppliesPersistence.save();
+              } catch (Exception e) {
+                  return e.getMessage();
+              }
               return "Item " + itemName + " deleted successfully from order " + orderNumber;
           }
       }
@@ -459,11 +492,11 @@ public class CoolSuppliesFeatureSet8Controller {
         }
         return orders;
     }
-  public static String updateQuanitityOfAnExistingItemOfOrder(int orderNumber, String itemName, int quantity) {
+  public static String updateQuantityOfAnExistingItemOfOrder(int orderNumber, String itemName, int quantity) {
     //1. check if the order exists, if not "Order" + order number + "does not exist"
     //2. check items
         //verify item name exists, "Item" + item name + "does not exist in order" + order number
-        //verify the quanitites, "Quantity must be greater than 0"
+        //verify the quantities, "Quantity must be greater than 0"
     //3. check states using switch and case
         //paid, penalized, prepared, pickedup, final
 
@@ -513,6 +546,7 @@ public class CoolSuppliesFeatureSet8Controller {
         }
         //then update the item's quantity
         order.updateItem(targetOrderItem, quantity);
+        CoolSuppliesPersistence.save();
     }catch (RuntimeException e) {
         return e.getMessage();
     }
@@ -529,8 +563,6 @@ public class CoolSuppliesFeatureSet8Controller {
      * @author Jack McDonald
      */
     public static String addItemToOrder(String itemName, int quantity, int orderNumber) {
-        CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
-
         try {
             Order order = Order.getWithNumber(orderNumber);
             if (order == null) {
@@ -544,6 +576,7 @@ public class CoolSuppliesFeatureSet8Controller {
 
             //attempt to add the item to the order and store the result
             boolean wasAdded = order.addItem(targetItem, quantity);
+            CoolSuppliesPersistence.save();
 
             //most likely reason for failure is that the order is in a state where items cannot be added
             if (!wasAdded) {

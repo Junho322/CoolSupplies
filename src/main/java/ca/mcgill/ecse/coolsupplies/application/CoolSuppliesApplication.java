@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.application;
 
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
+import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 public class CoolSuppliesApplication {
 
@@ -13,7 +14,7 @@ public class CoolSuppliesApplication {
   public static CoolSupplies getCoolSupplies() {
     if (coolSupplies == null) {
       // these attributes are default, you should set them later with the setters
-      coolSupplies = new CoolSupplies();
+      coolSupplies = CoolSuppliesPersistence.load();
     }
     return coolSupplies;
   }
