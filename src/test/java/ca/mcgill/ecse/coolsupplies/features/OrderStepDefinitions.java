@@ -7,6 +7,13 @@ import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import ca.mcgill.ecse.coolsupplies.model.Order.Status;
 import ca.mcgill.ecse.coolsupplies.controller.*;
 
+import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.model.*;
+
+import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
+import ca.mcgill.ecse.coolsupplies.model.Order.Status;
+import ca.mcgill.ecse.coolsupplies.controller.*;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -16,6 +23,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderStepDefinitions {
@@ -23,6 +32,7 @@ public class OrderStepDefinitions {
   private static CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
   public static String error = "";
   private TOOrder lastRetrievedOrder;
+  private List<TOOrder> lastRetrievedOrders;
 
   @Given("the following parent entities exist in the system")
   public void the_following_parent_entities_exist_in_the_system(
@@ -290,29 +300,36 @@ public class OrderStepDefinitions {
 
   @When("the parent attempts to update an order with number {string} to purchase level {string} and student with name {string}")
   public void the_parent_attempts_to_update_an_order_with_number_to_purchase_level_and_student_with_name(
-      String string, String string2, String string3) {
+      String orderNumber, String purchaseLevel, String studentName) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int aOrderNumber = Integer.parseInt(orderNumber);
+    callController(CoolSuppliesFeatureSet8Controller.updateOrder(aOrderNumber, purchaseLevel, studentName));
   }
 
   @When("the parent attempts to add an item {string} with quantity {string} to the order {string}")
   public void the_parent_attempts_to_add_an_item_with_quantity_to_the_order(String string,
       String string2, String string3) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int quantity = Integer.parseInt(string2);
+    int orderNumber = Integer.parseInt(string3);
+
+    error = CoolSuppliesFeatureSet8Controller.addItemToOrder(string, quantity, orderNumber);
   }
 
   @When("the parent attempts to update an item {string} with quantity {string} in the order {string}")
-  public void the_parent_attempts_to_update_an_item_with_quantity_in_the_order(String string,
-      String string2, String string3) {
+  public void the_parent_attempts_to_update_an_item_with_quantity_in_the_order(String itemName,
+  String quantity, String orderNum) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    //transform the strings into integers
+    int aQuantity = Integer.parseInt(quantity);
+    int orderNumber = Integer.parseInt(orderNum);
+    callController(CoolSuppliesFeatureSet8Controller.updateQuanitityOfAnExistingItemOfOrder(orderNumber, itemName, aQuantity));
   }
 
   @When("the parent attempts to delete an item {string} from the order {string}")
-  public void the_parent_attempts_to_delete_an_item_from_the_order(String string, String string2) {
+  public void the_parent_attempts_to_delete_an_item_from_the_order(String itemName, String orderNum) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    error = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, orderNum);
   }
 
   @When("the parent attempts to get from the system the order with number {string}")
@@ -385,7 +402,7 @@ public class OrderStepDefinitions {
   @When("the school admin attempts to get from the system all orders")
   public void the_school_admin_attempts_to_get_from_the_system_all_orders() {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    lastRetrievedOrders = CoolSuppliesFeatureSet8Controller.getOrders();
   }
 
   @Then("the order {string} shall contain penalty authorization code {string}")
@@ -431,18 +448,24 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain {string} item")
-  public void the_order_shall_contain_item(String string, String string2) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_order_shall_contain_item(String orderNumberStr, String qtyStr) {
+    Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
+    int qty = Integer.parseInt(qtyStr);
+    assertEquals(qty, order.getOrderItems().size());
   }
 
   @Then("the order {string} shall not contain {string}")
-  public void the_order_shall_not_contain(String orderNumberStr, String expectedStatus) {
+  public void the_order_shall_not_contain(String orderNumberStr, String itemName) {
     // Write code here that turns the phrase above into concrete actions
-    int orderNumber = Integer.parseInt(orderNumberStr);
-    Order order = Order.getWithNumber(orderNumber);
-    assertNotNull(order, "Order should exist.");
-    assertEquals(expectedStatus, order.getStatusFullName(), "Order status does not match expected.");
+    Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
+    List<OrderItem> itemsInOrder = order.getOrderItems();
+    InventoryItem item = InventoryItem.getWithName(itemName);
+
+    for (OrderItem orderItem : itemsInOrder) {
+      if (orderItem.getItem() == item) {
+        fail();
+      }
+    }
   }
 
 
@@ -455,23 +478,48 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain {string} items")
-  public void the_order_shall_contain_items(String string, String string2) {
+  public void the_order_shall_contain_items(String orderNumberStr, String size) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int expectedItemQty = Integer.parseInt(size);
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    int actualItemQty= Order.getWithNumber(orderNumber).getOrderItems().size();
+    assertEquals(expectedItemQty, actualItemQty);
   }
 
   @Then("the order {string} shall not contain {string} with quantity {string}")
   public void the_order_shall_not_contain_with_quantity(String string, String string2,
       String string3) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    Order order = Order.getWithNumber(Integer.parseInt(string));
+
+    if (order == null) {
+      fail("Order " + string + " not found");
+    }
+
+    for (OrderItem orderItem : order.getOrderItems()) {
+      if (orderItem.getItem().getName().equals(string2)) {
+        assertNotEquals(Integer.parseInt(string3), orderItem.getQuantity());
+        return;
+      }
+    }
   }
 
 
   @Then("the order {string} shall contain {string} with quantity {string}")
-  public void the_order_shall_contain_with_quantity(String string, String string2, String string3) {
+  public void the_order_shall_contain_with_quantity(String orderNumberStr, String itemName, String expectedQtyStr) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
+    int expectedQty = Integer.parseInt(expectedQtyStr);
+    InventoryItem actualItem = InventoryItem.getWithName(itemName);
+    List<OrderItem> itemsInOrder = order.getOrderItems();
+
+    for (OrderItem item : itemsInOrder) {
+      if (item.getItem().equals(actualItem)) {
+        assertEquals(expectedQty, item.getQuantity());
+        return;
+      }
+    }
+    fail();
   }
 
 
@@ -499,16 +547,20 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain level {string} and student {string}")
-  public void the_order_shall_contain_level_and_student(String string, String string2,
-      String string3) {
+  public void the_order_shall_contain_level_and_student(String orderNumberString, String expectedLevel,
+      String expectedStudentName) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-  }
+    int orderNumber = Integer.parseInt(orderNumberString);
+    Order order = coolSupplies.getOrders().stream()
+    .filter(o -> o.getNumber() == orderNumber)
+    .findFirst()
+    .orElseThrow(() -> new RuntimeException("Order " + orderNumber + " not found"));
 
-  @Given("order {string} is marked as {string}")
-  public void order_is_marked_as(String string, String string2) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    String actualLevel = order.getLevel().toString();
+    assertEquals(expectedLevel, actualLevel); //verify the level
+
+    String actualStudentName = order.getStudent().getName();
+    assertEquals(expectedStudentName, actualStudentName); //verify the student
   }
 
   @Then("the error {string} shall be raised")
@@ -528,20 +580,54 @@ public class OrderStepDefinitions {
     //
     // For other transformations you can register a DataTableType.
     List<Map<String, String>> expectedOrders = dataTable.asMaps(String.class, String.class);
-
-    assertNotNull(lastRetrievedOrder, "No order was retrieved");
-
-    for (Map<String, String> expectedOrder : expectedOrders) {
-      assertEquals(expectedOrder.get("parentEmail"), lastRetrievedOrder.getParentEmail(), "Parent email does not match");
-      assertEquals(expectedOrder.get("studentName"), lastRetrievedOrder.getStudentName(), "Student name does not match");
-      assertEquals(expectedOrder.get("status"), lastRetrievedOrder.getStatus(), "Order status does not match");
-      assertEquals(Integer.parseInt(expectedOrder.get("number")), lastRetrievedOrder.getNumber(), "Order number does not match");
-      assertEquals(expectedOrder.get("date"), lastRetrievedOrder.getDate().toString(), "Order date does not match");
-      assertEquals(expectedOrder.get("level"), lastRetrievedOrder.getLevel(), "Order level does not match");
-      assertEquals(expectedOrder.get("authorizationCode"), lastRetrievedOrder.getAuthorizationCode(), "Authorization code does not match");
-      assertEquals(expectedOrder.get("penaltyAuthorizationCode"), lastRetrievedOrder.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
-      assertEquals(Double.parseDouble(expectedOrder.get("totalPrice")), lastRetrievedOrder.getTotalPrice(), 0.01, "Total price does not match");
+    System.out.println(expectedOrders);
+    if (lastRetrievedOrders == null && lastRetrievedOrder == null) {
+      fail("No order was retrieved.");
     }
+    if (lastRetrievedOrders == null) {
+      for (Map<String, String> expectedOrder : expectedOrders) {
+        System.out.println("hi");
+        System.out.println(lastRetrievedOrder);
+        assertEquals(expectedOrder.get("parentEmail"), lastRetrievedOrder.getParentEmail(), "Parent email does not match");
+        assertEquals(expectedOrder.get("studentName"), lastRetrievedOrder.getStudentName(), "Student name does not match");
+        assertEquals(expectedOrder.get("status"), lastRetrievedOrder.getStatus(), "Order status does not match");
+        assertEquals(Integer.parseInt(expectedOrder.get("number")), lastRetrievedOrder.getNumber(), "Order number does not match");
+        assertEquals(expectedOrder.get("date"), lastRetrievedOrder.getDate().toString(), "Order date does not match");
+        assertEquals(expectedOrder.get("level"), lastRetrievedOrder.getLevel(), "Order level does not match");
+        assertEquals(expectedOrder.get("authorizationCode"), lastRetrievedOrder.getAuthorizationCode(), "Authorization code does not match");
+        assertEquals(expectedOrder.get("penaltyAuthorizationCode"), lastRetrievedOrder.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
+        assertEquals(Double.parseDouble(expectedOrder.get("totalPrice")), lastRetrievedOrder.getTotalPrice(), 0.01, "Total price does not match");
+      }
+    } else {
+      assertEquals(expectedOrders.size(), lastRetrievedOrders.size());
+      for (var row : expectedOrders) {
+        String number = row.get("number");
+        String date = row.get("date");
+        String level = row.get("level");
+        String parentEmail = row.get("parentEmail");
+        String studentName = row.get("studentName");
+        String status = row.get("status");
+        String authorizationCode = row.get("authorizationCode");
+        String penaltyAuthorizationCode = row.get("penaltyAuthorizationCode");
+
+        boolean found = false;
+        for (TOOrder order : lastRetrievedOrders) {
+          if (order.getNumber() == Integer.parseInt(number)) {
+            assertEquals(date, order.getDate().toString());
+            assertEquals(level, order.getLevel());
+            assertEquals(parentEmail, order.getParentEmail());
+            assertEquals(studentName, order.getStudentName());
+            assertEquals(status, order.getStatus());
+            assertEquals(authorizationCode, order.getAuthorizationCode());
+            assertEquals(penaltyAuthorizationCode, order.getPenaltyAuthorizationCode());
+            found = true;
+            break;
+          }
+        }
+        assertTrue(found);
+      }
+    }
+
   }
 
   @Then("the following order items shall be presented for the order with number {string}")
@@ -555,27 +641,65 @@ public class OrderStepDefinitions {
     //
     // For other transformations you can register a DataTableType.
     int orderNumber = Integer.parseInt(orderNumberStr);
-    assertEquals(orderNumber, lastRetrievedOrder.getNumber(), "Order number does not match the retrieved order");
-
     List<Map<String, String>> expectedOrderItems = dataTable.asMaps(String.class, String.class);
-    List<TOOrderItem> actualOrderItems = lastRetrievedOrder.getItems();
 
-    assertEquals(expectedOrderItems.size(), actualOrderItems.size(), "Number of order items does not match");
+    if (lastRetrievedOrder == null && lastRetrievedOrders == null) {
+      fail("No order was retrieved at all.");
+    }
 
-    for (int i = 0; i < expectedOrderItems.size(); i++) {
-      Map<String, String> expectedItem = expectedOrderItems.get(i);
-      TOOrderItem actualItem = actualOrderItems.get(i);
+    if (lastRetrievedOrders == null) { // In the case that there is only one item being retrieved.
+      assertEquals(orderNumber, lastRetrievedOrder.getNumber(), "Order number does not match the retrieved order");
+      List<TOOrderItem> actualOrderItems = lastRetrievedOrder.getItems();
+      assertEquals(expectedOrderItems.size(), actualOrderItems.size(), "Number of order items does not match");
 
-      assertEquals(Integer.parseInt(expectedItem.get("quantity")), actualItem.getQuantity(), "Quantity does not match for item " + actualItem.getItemName());
-      assertEquals(expectedItem.get("itemName"), actualItem.getItemName(), "Item name does not match");
-      assertEquals(expectedItem.get("gradeBundleName"), actualItem.getGradeBundleName(), "Grade bundle name does not match for item " + actualItem.getItemName());
-      assertEquals(Integer.parseInt(expectedItem.get("price")), actualItem.getPrice(), "Price does not match for item " + actualItem.getItemName());
+      for (int i = 0; i < expectedOrderItems.size(); i++) {
+        Map<String, String> expectedItem = expectedOrderItems.get(i);
+        TOOrderItem actualItem = actualOrderItems.get(i);
 
-      // Discount can be null, so we handle both cases
-      if (expectedItem.get("discount") != null && !expectedItem.get("discount").isEmpty()) {
-        assertEquals(expectedItem.get("discount"), actualItem.getDiscount());
-      } else {
-        assertNull(actualItem.getDiscount(), "Expected discount to be null for item " + actualItem.getItemName());
+        assertEquals(Integer.parseInt(expectedItem.get("quantity")), actualItem.getQuantity(), "Quantity does not match for item " + actualItem.getItemName());
+        assertEquals(expectedItem.get("itemName"), actualItem.getItemName(), "Item name does not match");
+        assertEquals(expectedItem.get("gradeBundleName"), actualItem.getGradeBundleName(), "Grade bundle name does not match for item " + actualItem.getItemName());
+        assertEquals(Integer.parseInt(expectedItem.get("price")), actualItem.getPrice(), "Price does not match for item " + actualItem.getItemName());
+
+        // Discount can be null, so we handle both cases
+        if (expectedItem.get("discount") != null && !expectedItem.get("discount").isEmpty()) {
+          assertEquals(expectedItem.get("discount"), actualItem.getDiscount());
+        } else {
+          assertNull(actualItem.getDiscount(), "Expected discount to be null for item " + actualItem.getItemName());
+        }
+      }
+    }
+    else { // In the case there are multiple items that have been added into the system and that must be retrieved.
+      for (TOOrder order : CoolSuppliesFeatureSet8Controller.getOrders()) {
+        if (order.getNumber() == Integer.parseInt(orderNumberStr)) {
+          List<TOOrderItem> orderItems = order.getItems();
+          assertEquals(expectedOrderItems.size(), orderItems.size());
+
+          for (var row : expectedOrderItems) {
+            String itemName = row.get("itemName");
+            String bundleName = row.get("gradeBundleName");
+            String quantity = row.get("quantity");
+            String price = row.get("price");
+            String discount = row.get("discount");
+
+            Boolean found = false;
+            for (TOOrderItem orderItem : orderItems) {
+              if (orderItem.getItemName().equals(itemName)) {
+                if ((orderItem.getGradeBundleName() == null && bundleName != null) ||
+                        (orderItem.getGradeBundleName() != null && !orderItem.getGradeBundleName().equals(bundleName))) {
+                  continue;
+                }
+                assertEquals(quantity, String.valueOf(orderItem.getQuantity()));
+                assertEquals(price, String.valueOf(orderItem.getPrice()));
+                assertEquals(Objects.requireNonNullElse(discount, ""), orderItem.getDiscount());
+                found = true;
+                break;
+              }
+            }
+            assertEquals(true, found);
+          }
+          return;
+        }
       }
     }
   }
@@ -586,6 +710,10 @@ public class OrderStepDefinitions {
     assertTrue(lastRetrievedOrder == null, "Expected no order entities to be presented, but found an order.");
   }
 
+  /**
+   * helper method for error handling
+   * @param result
+   */
   private void callController(String result) {
     error = "";
     if (!result.isEmpty()) {
