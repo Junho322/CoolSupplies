@@ -100,13 +100,13 @@ public class CoolSuppliesFeatureSet8Controller {
   }
 
   /**
-   * Updates the quantity of an existing item in an order.
+   * Updates the quantity of an existing item in an order. The item is an InventoryItem meaning that it can be a Bundle
    *
-   * @param orderNumber the number of the order to update
-   * @param itemName the name of the item to update
-   * @param quantity the new quantity for the item
-   * @return a message indicating the result of the update operation
-   * @author Jun Ho
+   * @param orderNumber the number of the order to update. To be more precise, it is the order which contains the item to be updated
+   * @param itemName the name of the item to update its quantity
+   * @param quantity the new quantity for the item to be updated to
+   * @return a message indicating the result of the update operation, an appropriate error message depending on the scenario (gherkin)
+   * @author Jun Ho Oh
    */
   public static String updateQuantityOfAnExistingItemOfOrder(int orderNumber, String itemName, int quantity) {
     try {
