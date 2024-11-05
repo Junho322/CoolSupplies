@@ -7,6 +7,13 @@ import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import ca.mcgill.ecse.coolsupplies.model.Order.Status;
 import ca.mcgill.ecse.coolsupplies.controller.*;
 
+import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
+import ca.mcgill.ecse.coolsupplies.model.*;
+
+import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
+import ca.mcgill.ecse.coolsupplies.model.Order.Status;
+import ca.mcgill.ecse.coolsupplies.controller.*;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -290,9 +297,10 @@ public class OrderStepDefinitions {
 
   @When("the parent attempts to update an order with number {string} to purchase level {string} and student with name {string}")
   public void the_parent_attempts_to_update_an_order_with_number_to_purchase_level_and_student_with_name(
-      String string, String string2, String string3) {
+      String orderNumber, String purchaseLevel, String studentName) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int aOrderNumber = Integer.parseInt(orderNumber);
+    callController(CoolSuppliesFeatureSet8Controller.updateOrder(aOrderNumber, purchaseLevel, studentName));
   }
 
   @When("the parent attempts to add an item {string} with quantity {string} to the order {string}")
@@ -310,9 +318,9 @@ public class OrderStepDefinitions {
   }
 
   @When("the parent attempts to delete an item {string} from the order {string}")
-  public void the_parent_attempts_to_delete_an_item_from_the_order(String string, String string2) {
+  public void the_parent_attempts_to_delete_an_item_from_the_order(String itemName, String orderNum) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    error = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, orderNum);
   }
 
   @When("the parent attempts to get from the system the order with number {string}")
@@ -430,18 +438,24 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain {string} item")
-  public void the_order_shall_contain_item(String string, String string2) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_order_shall_contain_item(String orderNumberStr, String qtyStr) {
+    Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
+    int qty = Integer.parseInt(qtyStr);
+    assertEquals(qty, order.getOrderItems().size());
   }
 
   @Then("the order {string} shall not contain {string}")
-  public void the_order_shall_not_contain(String orderNumberStr, String expectedStatus) {
+  public void the_order_shall_not_contain(String orderNumberStr, String itemName) {
     // Write code here that turns the phrase above into concrete actions
-    int orderNumber = Integer.parseInt(orderNumberStr);
-    Order order = Order.getWithNumber(orderNumber);
-    assertNotNull(order, "Order should exist.");
-    assertEquals(expectedStatus, order.getStatusFullName(), "Order status does not match expected.");
+    Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
+    List<OrderItem> itemsInOrder = order.getOrderItems();
+    InventoryItem item = InventoryItem.getWithName(itemName);
+
+    for (OrderItem orderItem : itemsInOrder) {
+      if (orderItem.getItem() == item) {
+        fail();
+      }
+    }
   }
 
 
@@ -454,9 +468,12 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain {string} items")
-  public void the_order_shall_contain_items(String string, String string2) {
+  public void the_order_shall_contain_items(String orderNumberStr, String size) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int expectedItemQty = Integer.parseInt(size);
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    int actualItemQty= Order.getWithNumber(orderNumber).getOrderItems().size();
+    assertEquals(expectedItemQty, actualItemQty);
   }
 
   @Then("the order {string} shall not contain {string} with quantity {string}")
@@ -468,9 +485,20 @@ public class OrderStepDefinitions {
 
 
   @Then("the order {string} shall contain {string} with quantity {string}")
-  public void the_order_shall_contain_with_quantity(String string, String string2, String string3) {
+  public void the_order_shall_contain_with_quantity(String orderNumberStr, String itemName, String expectedQtyStr) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
+    int expectedQty = Integer.parseInt(expectedQtyStr);
+    InventoryItem actualItem = InventoryItem.getWithName(itemName);
+    List<OrderItem> itemsInOrder = order.getOrderItems();
+
+    for (OrderItem item : itemsInOrder) {
+      if (item.getItem().equals(actualItem)) {
+        assertEquals(expectedQty, item.getQuantity());
+        return;
+      }
+    }
+    fail();
   }
 
 
@@ -498,16 +526,20 @@ public class OrderStepDefinitions {
   }
 
   @Then("the order {string} shall contain level {string} and student {string}")
-  public void the_order_shall_contain_level_and_student(String string, String string2,
-      String string3) {
+  public void the_order_shall_contain_level_and_student(String orderNumberString, String expectedLevel,
+      String expectedStudentName) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-  }
+    int orderNumber = Integer.parseInt(orderNumberString);
+    Order order = coolSupplies.getOrders().stream()
+    .filter(o -> o.getNumber() == orderNumber)
+    .findFirst()
+    .orElseThrow(() -> new RuntimeException("Order " + orderNumber + " not found"));
 
-  @Given("order {string} is marked as {string}")
-  public void order_is_marked_as(String string, String string2) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    String actualLevel = order.getLevel().toString();
+    assertEquals(expectedLevel, actualLevel); //verify the level
+
+    String actualStudentName = order.getStudent().getName();
+    assertEquals(expectedStudentName, actualStudentName); //verify the student
   }
 
   @Then("the error {string} shall be raised")
@@ -585,6 +617,10 @@ public class OrderStepDefinitions {
     assertTrue(lastRetrievedOrder == null, "Expected no order entities to be presented, but found an order.");
   }
 
+  /**
+   * helper method for error handling
+   * @param result
+   */
   private void callController(String result) {
     error = "";
     if (!result.isEmpty()) {
