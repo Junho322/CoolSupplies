@@ -682,7 +682,7 @@ public class Order
 
   // line 100 "../../../../../CoolSuppliesStates.ump"
    private void rejectUpdateOrder(PurchaseLevel level, Student student){
-    throw new RuntimeException("Student" + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
+    throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
   }
 
   // line 104 "../../../../../CoolSuppliesStates.ump"

@@ -971,7 +971,7 @@ public class CoolSupplies
    public void reinitialize(){
     List<Parent> parentsT = getParents();
     List<User> users = new ArrayList<>(parentsT);
-    users.add(getAdmin());
+    if (getAdmin() != null) {users.add(getAdmin());}
 
     List<Item> itemsT = getItems();
     List<GradeBundle> bundlesT = getBundles();

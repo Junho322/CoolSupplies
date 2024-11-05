@@ -57,8 +57,8 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication'
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    sourceCompatibility = 17
+    targetCompatibility = 17
 }
 
 tasks.named('test') {
