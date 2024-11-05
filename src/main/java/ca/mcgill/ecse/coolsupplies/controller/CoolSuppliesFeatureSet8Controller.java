@@ -225,8 +225,21 @@ public class CoolSuppliesFeatureSet8Controller {
   }
 
 
-
-
+  /**
+   * Processes the payment for an order.
+   *
+   * @param orderNumber The number of the order to be paid.
+   * @param authCode The authorization code for the payment.
+   * @return A message indicating the result of the payment process:
+   *         - "Order orderNumber does not exist" if the order does not exist.
+   *         - "Order orderNumber has no items" if the order has no items.
+   *         - "Cannot pay for a penalized order" if the order is penalized.
+   *         - "Cannot pay for a prepared order" if the order is prepared.
+   *         - "Cannot pay for a picked up order" if the order is picked up.
+   *         - "The order is already paid" if the order is already paid.
+   *         - "Authorization code is invalid" if the authorization code is invalid.
+   *         - "Payment processed" if the payment is successfully processed.
+   */
 
   public static String payForOrder(int orderNumber, String authCode) {
     // 1. Check if auth code is valid, if not say "Authorization code is invalid".
@@ -269,6 +282,16 @@ public class CoolSuppliesFeatureSet8Controller {
   }
 
 
+
+  /**
+   * Starts the school year for an order.
+   *
+   * @param orderNumber The number of the order for which the school year is to be started.
+   * @return A message indicating the result of the operation:
+   *         - "Order orderNumber does not exist" if the order does not exist.
+   *         - "The school year has already been started" if the school year has already been started.
+   *         - An empty string if the school year is successfully started.
+   */
 
   public static String startSchoolYear(int orderNumber ) {
 
