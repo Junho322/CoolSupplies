@@ -376,4 +376,63 @@ public class CoolSuppliesFeatureSet8Controller {
       return "Item " + itemName + " does not exist in the order " + orderNumber + ".";
 
   }
+  public static String updateQuanitityOfAnExistingItemOfOrder(int orderNumber, String itemName, int quantity) {
+    //1. check if the order exists, if not "Order" + order number + "does not exist"
+    //2. check items
+        //verify item name exists, "Item" + item name + "does not exist in order" + order number
+        //verify the quanitites, "Quantity must be greater than 0"
+    //3. check states using switch and case
+        //paid, penalized, prepared, pickedup, final
+
+    //check order existence
+    try {
+        Order order = Order.getWithNumber(orderNumber);
+        if (order == null) {
+            return "Order " + orderNumber + " does not exist";
+        }
+
+        //check items for the entire application then specific to the order number
+        //get item from application to a variable
+        CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+        List<OrderItem> orderItems = new ArrayList<>(coolSupplies.getOrderItems());
+        
+        //if item does not exist then print appropriate message
+        Item targetItem = (Item) InventoryItem.getWithName(itemName);
+        if (targetItem == null){
+            return "Item " + itemName + " does not exist.";
+        }
+
+        //check if item is in the right order number 
+        OrderItem targetOrderItem = null;
+        
+        for (int i = 0; i < orderItems.size(); i++){
+            OrderItem tempOrderItem = orderItems.get(i);
+            if (tempOrderItem.getItem() == targetItem){
+                targetOrderItem = tempOrderItem;
+            }
+        }
+        if (targetOrderItem == null){
+            return "Item " + itemName + " does not exist in the order " + orderNumber + ".";
+        }
+        //check if quantity indicated is positive (greater than 0)
+        if (quantity <= 0) {
+            return "Quantity must be greater than 0.";
+        }
+        //use switch case to check all states 
+        if (!order.getStatusFullName().equalsIgnoreCase("Started")){
+            return switch (order.getStatusFullName()){
+                case "Paid" -> "Cannot update items in a paid order";
+                case "Penalized" -> "Cannot update items in a penalized order";
+                case "Prepared" -> "Cannot update items in a prepared order";
+                case "PickedUp" -> "Cannot update items in a picked up order";
+                default -> "Could not update the quantity of existing item of order";
+            };
+        }
+        //then update the item's quantity
+        order.updateItem(targetOrderItem, quantity);
+    }catch (RuntimeException e) {
+        return e.getMessage();
+    }
+    return "Could not update the quantity of existing item of order";
+}
 }

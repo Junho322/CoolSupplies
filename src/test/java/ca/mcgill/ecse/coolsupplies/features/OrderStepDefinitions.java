@@ -311,10 +311,13 @@ public class OrderStepDefinitions {
   }
 
   @When("the parent attempts to update an item {string} with quantity {string} in the order {string}")
-  public void the_parent_attempts_to_update_an_item_with_quantity_in_the_order(String string,
-      String string2, String string3) {
+  public void the_parent_attempts_to_update_an_item_with_quantity_in_the_order(String itemName,
+  String quantity, String orderNum) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    //transform the strings into integers
+    int aQuantity = Integer.parseInt(quantity);
+    int orderNumber = Integer.parseInt(orderNum);
+    callController(CoolSuppliesFeatureSet8Controller.updateQuanitityOfAnExistingItemOfOrder(orderNumber, itemName, aQuantity));
   }
 
   @When("the parent attempts to delete an item {string} from the order {string}")
@@ -480,7 +483,18 @@ public class OrderStepDefinitions {
   public void the_order_shall_not_contain_with_quantity(String string, String string2,
       String string3) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    Order order = Order.getWithNumber(Integer.parseInt(string));
+
+    if (order == null) {
+      fail("Order " + string + " not found");
+    }
+
+    for (OrderItem orderItem : order.getOrderItems()) {
+      if (orderItem.getItem().getName().equals(string2)) {
+        assertNotEquals(Integer.parseInt(string3), orderItem.getQuantity());
+        return;
+      }
+    }
   }
 
 
