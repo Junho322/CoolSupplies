@@ -4,7 +4,8 @@
 package ca.mcgill.ecse.coolsupplies.model;
 import java.util.*;
 
-// line 81 "../../../../../CoolSupplies.ump"
+// line 57 "../../../../../CoolSuppliesPersistence.ump"
+// line 82 "../../../../../CoolSupplies.ump"
 public class Grade
 {
 
@@ -265,6 +266,14 @@ public class Grade
     if(placeholderCoolSupplies != null)
     {
       placeholderCoolSupplies.removeGrade(this);
+    }
+  }
+
+  // line 59 "../../../../../CoolSuppliesPersistence.ump"
+   public static  void reinitializeUniqueLevel(List<Grade> grades){
+    gradesByLevel.clear();
+    for (var grade : grades) {
+      gradesByLevel.put(grade.getLevel(), grade);
     }
   }
 

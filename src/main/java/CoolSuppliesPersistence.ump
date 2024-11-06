@@ -1,0 +1,64 @@
+class CoolSupplies {
+  public void reinitialize() {
+    List<Parent> parentsT = getParents();
+    List<User> users = new ArrayList<>(parentsT);
+    if (getAdmin() != null) {users.add(getAdmin());}
+
+    List<Item> itemsT = getItems();
+    List<GradeBundle> bundlesT = getBundles();
+    List<InventoryItem> inventoryItems = new ArrayList<>(bundlesT);
+    List<InventoryItem> inventoryItemsT = new ArrayList<>(itemsT);
+    inventoryItems.addAll(inventoryItemsT);
+    
+    User.reinitializeUniqueEmail(users);
+    Student.reinitializeUniqueName(getStudents());
+    Order.reinitializeUniqueNumber(getOrders());
+    InventoryItem.reinitializeUniqueName(inventoryItems);
+    Grade.reinitializeUniqueLevel(getGrades());
+  }
+}
+
+class User {
+  public static void reinitializeUniqueEmail(List<User> users) {
+    usersByEmail.clear();
+    for (var user : users) {
+      usersByEmail.put(user.getEmail(), user);
+    }
+  }
+}
+
+class Student {
+  public static void reinitializeUniqueName(List<Student> students) {
+    studentsByName.clear();
+    for (var student : students) {
+      studentsByName.put(student.getName(), student);
+    }
+  }
+}
+
+class Order {
+  public static void reinitializeUniqueNumber(List<Order> orders) {
+    ordersByNumber.clear();
+    for (var order : orders) {
+      ordersByNumber.put(order.getNumber(), order);
+    }
+  }
+}
+
+class InventoryItem {
+  public static void reinitializeUniqueName(List<InventoryItem> items) {
+    inventoryitemsByName.clear();
+    for (var item : items) {
+      inventoryitemsByName.put(item.getName(), item);
+    }
+  }
+}
+
+class Grade {
+  public static void reinitializeUniqueLevel(List<Grade> grades) {
+    gradesByLevel.clear();
+    for (var grade : grades) {
+      gradesByLevel.put(grade.getLevel(), grade);
+    }
+  }
+}

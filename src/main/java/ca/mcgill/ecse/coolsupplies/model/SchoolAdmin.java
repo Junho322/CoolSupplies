@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.coolsupplies.model;
 import java.util.*;
 
-// line 24 "../../../../../CoolSupplies.ump"
+// line 25 "../../../../../CoolSupplies.ump"
 public class SchoolAdmin extends User
 {
 
