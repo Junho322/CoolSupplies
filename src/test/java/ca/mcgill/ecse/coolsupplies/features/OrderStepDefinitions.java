@@ -272,17 +272,17 @@ public class OrderStepDefinitions {
       case "Started":
         break;
       case "Paid":
-        order.pay("1234");
+        order.pay("3972");
         break;
       case "Prepared":
-        order.pay("1234");
+        order.pay("3972");
         order.startSchoolYear();
         break;
       case "Penalized":
         order.startSchoolYear();
         break;
       case "PickedUp":
-        order.pay("1234");
+        order.pay("3972");
         order.startSchoolYear();
         order.pickUp();
     }
@@ -416,9 +416,11 @@ public class OrderStepDefinitions {
 
 
   @Then("the order {string} shall not contain authorization code {string}")
-  public void the_order_shall_not_contain_authorization_code(String string, String string2) {
-    // Write code here that turns the phrase above into concrete actions
-    // throw new io.cucumbser.java.PendingException();
+  public void the_order_shall_not_contain_authorization_code(String orderNumberStr, String authCode) {
+    int orderNumber = Integer.parseInt(orderNumberStr);
+    Order order = Order.getWithNumber(orderNumber);
+    assertNotNull(order, "Order should exist");
+    assertNotEquals(authCode, order.getAuthorizationCode());
   }
 
   @Then("the order {string} shall not exist in the system")
@@ -433,7 +435,7 @@ public class OrderStepDefinitions {
   public void the_order_shall_contain_authorization_code(String orderString, String authString) {
     // Write code here that turns the phrase above into concrete actions
     Order order = Order.getWithNumber(Integer.parseInt(orderString));
-
+    assertNotNull(order, "Order should exist");
     assertEquals(order.getAuthorizationCode(),authString);
   }
 
@@ -441,6 +443,7 @@ public class OrderStepDefinitions {
   public void the_order_shall_contain_item(String orderNumberStr, String qtyStr) {
     Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
     int qty = Integer.parseInt(qtyStr);
+    assertNotNull(order, "Order should exist");
     assertEquals(qty, order.getOrderItems().size());
   }
 
