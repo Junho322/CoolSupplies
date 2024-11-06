@@ -18,11 +18,7 @@ class Order {
         addOrderItem(quantity, coolSupplies, item);
       }
       -> Started;
-      addItem(InventoryItem item, int quantity) [quantity <= 0] / {
-        rejectAddItem(item, quantity);
-      }
-      -> Started;
-      addItem(InventoryItem item, int quantity) [inventoryItemIsInOrder(item)] / {
+      addItem(InventoryItem item, int quantity) [quantity <= 0 || inventoryItemIsInOrder(item)] / {
         rejectAddItem(item, quantity);
       }
       -> Started;
@@ -63,11 +59,7 @@ class Order {
         setPenaltyAuthorizationCode(penaltyAuthCode);
       }
       -> Prepared;
-      payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(authorizationCode)] / {
-        rejectPayPenalty(authorizationCode, penaltyAuthCode);
-      }
-      -> Penalized;
-      payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(penaltyAuthCode)] / {
+      payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(authorizationCode) || !codeIsValid(penaltyAuthCode)] / {
         rejectPayPenalty(authorizationCode, penaltyAuthCode);
       }
       -> Penalized;
@@ -107,6 +99,7 @@ class Order {
     if (inventoryItemIsInOrder(item)) {
       throw new RuntimeException("Item " + item.getName() + " already exists in the order " + getNumber() + ".");
     }
+    throw new RuntimeException("Could not add Item.");
   }
 
   private void rejectUpdateItem(OrderItem item, int quantity) {
@@ -128,5 +121,6 @@ class Order {
     if (!codeIsValid(penaltyAuthCode)) {
       throw new RuntimeException("Penalty authorization code is invalid");
     }
+    throw new RuntimeException("Could not Pay Penalty.");
   }
 }
