@@ -981,7 +981,7 @@ public class CoolSupplies
     
     User.reinitializeUniqueEmail(users);
     Student.reinitializeUniqueName(getStudents());
-    Order.reinitializeUniqueNumber(getOrders());
+    //Order.rueNumbereinitializeUniq(getOrders());
     InventoryItem.reinitializeUniqueName(inventoryItems);
     Grade.reinitializeUniqueLevel(getGrades());
   }
