@@ -366,23 +366,23 @@ public class CoolSuppliesFeatureSet8Controller {
     }
 
     // Process order based on its status
-    return switch (order.getStatusFullName()) {
-        case "Started" -> "Cannot pickup a started order";
-        case "Paid" -> "Cannot pickup a paid order";
-        case "Penalized" -> "Cannot pickup a penalized order";
-        case "PickedUp" -> "The order is already picked up";
-        case "Prepared" -> {
-            try {
-                order.pickUp();
-                CoolSuppliesPersistence.save();
-            } catch (Exception e) {
-                yield e.getMessage();
-            }
-            yield "Order picked up successfully";
-        }
-        default -> "Could not pick up the order";
-    };
-}
+    switch (order.getStatusFullName()) {
+      case "Started":
+        return "Cannot pickup a started order";
+      case "Paid":
+        return "Cannot pickup a paid order";
+      case "Penalized":
+        return "Cannot pickup a penalized order";
+      case "PickedUp":
+        return "The order is already picked up";
+      case "Prepared":
+        order.pickUp();
+        CoolSuppliesPersistence.save();
+        return "Order picked up successfully";
+      default:
+        return "Could not pick up the order";
+    }
+  }
 
   /**
    * Cancels an order. Checks for the order's existence and status to determine if cancellation is permitted.
@@ -400,23 +400,24 @@ public class CoolSuppliesFeatureSet8Controller {
     }
 
     // Process order based on its status
-    return switch (order.getStatusFullName()) {
-        case "Penalized" -> "Cannot cancel a penalized order";
-        case "Prepared" -> "Cannot cancel a prepared order";
-        case "PickedUp" -> "Cannot cancel a picked up order";
-        case "Final" -> "Cannot cancel a finalized order";
-        case "Started", "Paid" -> {
-            try {
-                order.cancelOrder();
-                CoolSuppliesPersistence.save();
-            } catch (Exception e) {
-                yield e.getMessage();
-            }
-            yield "Order canceled successfully";
-        }
-        default -> "Could not cancel the order";
-    };
-}
+    switch (order.getStatusFullName()) {
+      case "Penalized":
+        return "Cannot cancel a penalized order";
+      case "Prepared":
+        return "Cannot cancel a prepared order";
+      case "PickedUp":
+        return "Cannot cancel a picked up order";
+      case "Final":
+        return "Cannot cancel a finalized order";
+      case "Started", "Paid": {
+          order.cancelOrder();
+          CoolSuppliesPersistence.save();
+          return "Order canceled successfully";
+      }
+      default:
+        return "Could not cancel the order";
+    }
+  }
 
   /**
    * Retrieves the details of an individual order, including all related information.

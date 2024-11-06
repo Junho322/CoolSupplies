@@ -8,4 +8,5 @@
     },
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.autobuild.enabled": false,
+    "java.debug.settings.onBuildFailureProceed": true,
 }
