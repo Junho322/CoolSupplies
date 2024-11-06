@@ -377,6 +377,7 @@ public class CoolSuppliesFeatureSet8Controller {
         return "The order is already picked up";
       case "Prepared":
         order.pickUp();
+        CoolSuppliesPersistence.save();
         return "Order picked up successfully";
       default:
         return "Could not pick up the order";
@@ -410,6 +411,7 @@ public class CoolSuppliesFeatureSet8Controller {
         return "Cannot cancel a finalized order";
       case "Started", "Paid": {
           order.cancelOrder();
+          CoolSuppliesPersistence.save();
           return "Order canceled successfully";
       }
       default:
