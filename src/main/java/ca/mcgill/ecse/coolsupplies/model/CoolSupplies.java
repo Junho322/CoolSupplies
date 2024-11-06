@@ -6,8 +6,10 @@ import ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
 import java.util.*;
 import java.sql.Date;
 
-// line 1 "../../../../../CoolSuppliesPersistence.ump"
-// line 6 "../../../../../CoolSupplies.ump"
+// line 1 "../../../../../../CoolSuppliesPersistence.ump"
+// line 68 "../../../../../../CoolSuppliesPersistence.ump"
+// line 7 "../../../../../../model.ump"
+// line 91 "../../../../../../model.ump"
 public class CoolSupplies
 {
 
@@ -967,7 +969,7 @@ public class CoolSupplies
     
   }
 
-  // line 3 "../../../../../CoolSuppliesPersistence.ump"
+  // line 3 "../../../../../../CoolSuppliesPersistence.ump"
    public void reinitialize(){
     List<Parent> parentsT = getParents();
     List<User> users = new ArrayList<>(parentsT);
@@ -981,7 +983,7 @@ public class CoolSupplies
     
     User.reinitializeUniqueEmail(users);
     Student.reinitializeUniqueName(getStudents());
-    //Order.rueNumbereinitializeUniq(getOrders());
+    Order.reinitializeUniqueNumber(getOrders());
     InventoryItem.reinitializeUniqueName(inventoryItems);
     Grade.reinitializeUniqueLevel(getGrades());
   }

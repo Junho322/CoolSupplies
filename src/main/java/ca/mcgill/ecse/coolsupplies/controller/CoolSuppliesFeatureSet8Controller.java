@@ -362,7 +362,7 @@ public class CoolSuppliesFeatureSet8Controller {
     
     // Check if order exists
     if (order == null) {
-      return "Order " + orderNumber + " does not exist";
+        return "Order " + orderNumber + " does not exist";
     }
 
     // Process order based on its status
@@ -396,7 +396,7 @@ public class CoolSuppliesFeatureSet8Controller {
     
     // Check if order exists
     if (order == null) {
-      return "Order " + orderNumber + " does not exist";
+        return "Order " + orderNumber + " does not exist";
     }
 
     // Process order based on its status
