@@ -13,3 +13,4 @@ bin
 
 **/*.class
 data.json
+.vscode/settings.json
