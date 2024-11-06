@@ -272,17 +272,17 @@ public class OrderStepDefinitions {
       case "Started":
         break;
       case "Paid":
-        order.pay("1234");
+        order.pay("3972");
         break;
       case "Prepared":
-        order.pay("1234");
+        order.pay("3972");
         order.startSchoolYear();
         break;
       case "Penalized":
         order.startSchoolYear();
         break;
       case "PickedUp":
-        order.pay("1234");
+        order.pay("3972");
         order.startSchoolYear();
         order.pickUp();
     }
