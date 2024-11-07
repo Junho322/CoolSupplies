@@ -5,76 +5,153 @@ class Order {
   
   status {
     Started {
+      /**
+       * Updates the order with a new purchase level and assigns it to a student if the student is
+       * a child of the order's parent.
+       */
       updateOrder(PurchaseLevel level, Student student) [isChildOfParent(student)] / {
         setLevel(level);
         setStudent(student);
       }
       -> Started;
+
+      /**
+       * Rejects the update if the student is not a child of the order's parent.
+       */
       updateOrder(PurchaseLevel level, Student student) [!isChildOfParent(student)] / {
         rejectUpdateOrder(level, student);
       }
       -> Started;
+
+      /**
+       * Adds an item to the order if it is not already included and quantity is positive.
+       */
       addItem(InventoryItem item, int quantity) [!inventoryItemIsInOrder(item) && quantity > 0] / {
         addOrderItem(quantity, coolSupplies, item);
       }
       -> Started;
+
+      /**
+       * Rejects adding an item if the item is already in the order or if the quantity is non-positive.
+       */
       addItem(InventoryItem item, int quantity) [quantity <= 0 || inventoryItemIsInOrder(item)] / {
         rejectAddItem(item, quantity);
       }
       -> Started;
+
+      /**
+       * Updates the quantity of an existing item in the order if the quantity is positive.
+       */
       updateItem(OrderItem item, int quantity) [quantity > 0] / {
         item.setQuantity(quantity);
       }
       -> Started;
+
+      /**
+       * Rejects updating the item if the quantity is non-positive.
+       */
       updateItem(OrderItem item, int quantity) [quantity <= 0] / {
         rejectUpdateItem(item, quantity);
       }
       -> Started;
+
+      /**
+       * Deletes an item from the order if it exists.
+       */
       deleteItem(OrderItem item) [inventoryItemIsInOrder(item.getItem())] / {
         item.delete();
       }
       -> Started;
+
+      /**
+       * Rejects deletion if the item does not exist in the order.
+       */
       deleteItem(OrderItem item) [!inventoryItemIsInOrder(item.getItem())] / {
         rejectDeleteItem(item);
       }
       -> Started;
+
+      /**
+       * Processes the payment if the authorization code is valid.
+       */
       pay(String authorizationCode) [codeIsValid(authorizationCode)] / {
         setAuthorizationCode(authorizationCode);
       }
       -> Paid;
+
+      /**
+       * Rejects the payment if the authorization code is invalid.
+       */
       pay(String authorizationCode) [!codeIsValid(authorizationCode)] / {
         rejectPay(authorizationCode);
       }
       -> Started;
+
+      /**
+       * Transitions the order to a penalized state, marking the beginning of a new school year.
+       */
       startSchoolYear() -> Penalized;
+
+      /**
+       * Cancels the order, marking it as final.
+       */
       cancelOrder() -> Final;
     }
     Paid {
+      /**
+       * Cancels the order, marking it as final.
+       */
       cancelOrder() -> Final;
+
+      /**
+       * Transitions the order to a prepared state, marking the beginning of a new school year.
+       */
       startSchoolYear() -> Prepared;
     }
     Penalized {
+      /**
+       * Processes payment of the penalty if both authorization codes are valid.
+       */
       payPenalty(String authorizationCode, String penaltyAuthCode) [codeIsValid(authorizationCode) && codeIsValid(penaltyAuthCode)] / {
         setAuthorizationCode(authorizationCode);
         setPenaltyAuthorizationCode(penaltyAuthCode);
       }
       -> Prepared;
+
+      /**
+       * Rejects payment of the penalty if any authorization code is invalid.
+       */
       payPenalty(String authorizationCode, String penaltyAuthCode) [!codeIsValid(authorizationCode) || !codeIsValid(penaltyAuthCode)] / {
         rejectPayPenalty(authorizationCode, penaltyAuthCode);
       }
       -> Penalized;
     }
     Prepared {
+      /**
+       * Marks the order as picked up.
+       */
       pickUp() -> PickedUp;
     }
     PickedUp {
     }
   }
 
+  /**
+   * Checks if the provided student is a child of the order's parent.
+   *
+   * @param student the student to verify as a child of the order's parent
+   * @return true if the student is a child of the parent, otherwise false
+   */
   private Boolean isChildOfParent(Student student) {
     return student.getParent() == getParent();
   }
 
+  /**
+   * Checks if the given inventory item is already included in the order.
+   *
+   * @param item the inventory item to check for in the order
+   * @return true if the item is in the order, otherwise false
+   */
   private Boolean inventoryItemIsInOrder(InventoryItem item) {
     for (OrderItem orderItem : getOrderItems()) {
       if (orderItem.getItem() == item) {
@@ -84,14 +161,32 @@ class Order {
     return false;
   }
 
+  /**
+   * Validates the provided code by ensuring it is non-null, non-empty, and contains no spaces.
+   *
+   * @param code the code to validate
+   * @return true if the code is valid, otherwise false
+   */
   private Boolean codeIsValid(String code) {
     return code != null && !code.contains(" ") && !code.isEmpty();
   }
 
+  /**
+   * Throws an exception if an update to the order is rejected due to a mismatched parent-student relationship.
+   *
+   * @param level the purchase level intended for the update
+   * @param student the student intended for the update
+   */
   private void rejectUpdateOrder(PurchaseLevel level, Student student) {
     throw new RuntimeException("Student " + student.getName() + " is not a child of the parent " + getParent().getEmail() + ".");
   }
 
+  /**
+   * Throws an exception if an item cannot be added to the order due to invalid quantity or duplicate entry.
+   *
+   * @param item the inventory item to add to the order
+   * @param quantity the quantity of the item to add
+   */
   private void rejectAddItem(InventoryItem item, int quantity) {
     if (quantity <=0) {
       throw new RuntimeException("Quantity must be greater than 0.");
@@ -102,18 +197,40 @@ class Order {
     throw new RuntimeException("Could not add Item.");
   }
 
+  /**
+   * Throws an exception if an item quantity cannot be updated to a non-positive value.
+   *
+   * @param item the order item whose quantity is to be updated
+   * @param quantity the new quantity for the item
+   */
   private void rejectUpdateItem(OrderItem item, int quantity) {
     throw new RuntimeException("Quantity must be greater than 0.");
   }
 
+  /**
+   * Throws an exception if an item cannot be deleted from the order due to its absence.
+   *
+   * @param item the order item to delete
+   */
   private void rejectDeleteItem(OrderItem item) {
     throw new RuntimeException("Item " + item.getItem().getName() + " does not exist in the order " + getNumber() + ".");
   }
 
+  /**
+   * Throws an exception if the authorization code provided for payment is invalid.
+   *
+   * @param authorizationCode the authorization code to validate for payment
+   */
   private void rejectPay (String authorizationCode) {
     throw new RuntimeException("Authorization code is invalid");
   }
 
+  /**
+   * Throws an exception if either the main or penalty authorization code provided for payment is invalid.
+   *
+   * @param authorizationCode the main authorization code for payment
+   * @param penaltyAuthCode the penalty authorization code for payment
+   */
   private void rejectPayPenalty (String authorizationCode, String penaltyAuthCode) {
     if (!codeIsValid(authorizationCode)) {
       throw new RuntimeException("Authorization code is invalid");
