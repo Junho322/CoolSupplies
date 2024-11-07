@@ -24,6 +24,9 @@ public class OrderStepDefinitions {
   private TOOrder lastRetrievedOrder;
   private List<TOOrder> lastRetrievedOrders;
 
+  /** 
+  * @author David Zhou
+  */
   @Given("the following parent entities exist in the system")
   public void the_following_parent_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -43,7 +46,9 @@ public class OrderStepDefinitions {
     }
   }
 
-
+  /** 
+  * @author David Zhou
+  */
   @Given("the following grade entities exist in the system")
   public void the_following_grade_entities_exist_in_the_system(
 
@@ -56,6 +61,9 @@ public class OrderStepDefinitions {
     }
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Given("the following student entities exist in the system")
   public void the_following_student_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -69,6 +77,9 @@ public class OrderStepDefinitions {
     }
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Given("the following student entities exist for a parent in the system")
   public void the_following_student_entities_exist_for_a_parent_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -92,6 +103,9 @@ public class OrderStepDefinitions {
     }
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Given("the following item entities exist in the system")
   public void the_following_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -101,15 +115,15 @@ public class OrderStepDefinitions {
       String name = row.get(0);
       int price = Integer.parseInt(row.get(1));
 
-
       Item item = new Item(name, price, coolSupplies);
-
 
       coolSupplies.addItem(item);
     }
-
-
   }
+
+  /** 
+  * @author David Zhou
+  */
   @Given("the following grade bundle entities exist in the system")
   public void the_following_grade_bundle_entities_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> bundleList = dataTable.asMaps();
@@ -127,6 +141,9 @@ public class OrderStepDefinitions {
     }
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Given("the following bundle item entities exist in the system")
   public void the_following_bundle_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -143,7 +160,6 @@ public class OrderStepDefinitions {
         }
       }
 
-
       String level = bundleItem.get("level");
       BundleItem.PurchaseLevel pLevel = BundleItem.PurchaseLevel.valueOf(level);
 
@@ -152,14 +168,13 @@ public class OrderStepDefinitions {
       String itemName = bundleItem.get("itemName");
       InventoryItem item = Item.getWithName(itemName);
 
-
       new BundleItem(quantity, pLevel, coolSupplies, gradeBundle, (Item) item);
-
     }
-
-
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Given("the following order entities exist in the system")
   public void the_following_order_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -171,7 +186,6 @@ public class OrderStepDefinitions {
 
       String dateString = order.get("date");
       Date date = Date.valueOf(dateString);
-
 
       String level = order.get("level");
       BundleItem.PurchaseLevel pLevel = BundleItem.PurchaseLevel.valueOf(level);
@@ -227,10 +241,11 @@ public class OrderStepDefinitions {
         }
       }
     }
-
-
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Given("the following order item entities exist in the system")
   public void the_following_order_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -263,6 +278,12 @@ public class OrderStepDefinitions {
     }
   }
 
+  /** 
+  * @author David Zhou
+  * @author David Wang
+  * @author David Vo
+  * @author Hamza Khalfi
+  */
   @Given("the order {string} is marked as {string}")
   public void the_order_is_marked_as(String orderNumString, String statusString) {
 
@@ -288,6 +309,9 @@ public class OrderStepDefinitions {
     }
   }
 
+  /** 
+  * @author Shayan Yamnanidouzi Sorkhabi
+  */
   @When("the parent attempts to update an order with number {string} to purchase level {string} and student with name {string}")
   public void the_parent_attempts_to_update_an_order_with_number_to_purchase_level_and_student_with_name(
       String orderNumber, String purchaseLevel, String studentName) {
@@ -296,6 +320,9 @@ public class OrderStepDefinitions {
     callController(CoolSuppliesFeatureSet8Controller.updateOrder(aOrderNumber, purchaseLevel, studentName));
   }
 
+   /** 
+  * @author Jack McDonald
+  */
   @When("the parent attempts to add an item {string} with quantity {string} to the order {string}")
   public void the_parent_attempts_to_add_an_item_with_quantity_to_the_order(String string,
       String string2, String string3) {
@@ -306,6 +333,9 @@ public class OrderStepDefinitions {
     error = CoolSuppliesFeatureSet8Controller.addItemToOrder(string, quantity, orderNumber);
   }
 
+  /** 
+  * @author Jun Ho
+  */
   @When("the parent attempts to update an item {string} with quantity {string} in the order {string}")
   public void the_parent_attempts_to_update_an_item_with_quantity_in_the_order(String itemName,
   String quantity, String orderNum) {
@@ -316,12 +346,19 @@ public class OrderStepDefinitions {
     callController(CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(orderNumber, itemName, aQuantity));
   }
 
+  /** 
+  * @author Shayan Yamnanidouzi Sorkhabi
+  * @author Jun Ho
+  */
   @When("the parent attempts to delete an item {string} from the order {string}")
   public void the_parent_attempts_to_delete_an_item_from_the_order(String itemName, String orderNum) {
     // Write code here that turns the phrase above into concrete actions
     error = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, orderNum);
   }
 
+  /** 
+  * @author David Zhou
+  */
   @When("the parent attempts to get from the system the order with number {string}")
   public void the_parent_attempts_to_get_from_the_system_the_order_with_number(String orderNumberStr) {
     // Write code here that turns the phrase above into concrete actions
@@ -342,8 +379,9 @@ public class OrderStepDefinitions {
     }
   }
 
-
-
+  /** 
+  * @author David Vo
+  */
   @When("the parent attempts to cancel the order {string}")
   public void the_parent_attempts_to_cancel_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -351,6 +389,9 @@ public class OrderStepDefinitions {
       error = controller.cancelOrder(orderNumber);
   }
 
+  /** 
+  * @author Hamza Khalfi
+  */
   @When("the parent attempts to pay for the order {string} with authorization code {string}")
   public void the_parent_attempts_to_pay_for_the_order_with_authorization_code(String orderString,
                                                                                String authCodeString) {
@@ -358,12 +399,18 @@ public class OrderStepDefinitions {
 
   }
 
+  /** 
+  * @author Hamza Khalfi
+  */
   @When("the admin attempts to start a school year for the order {string}")
   public void the_admin_attempts_to_start_a_school_year_for_the_order(String orderString) {
     int orderNr = Integer.parseInt(orderString);
     callController(CoolSuppliesFeatureSet8Controller.startSchoolYear(orderNr));
   }
 
+  /** 
+  * @author David Zhou
+  */
   @When("the parent attempts to pay penalty for the order {string} with penalty authorization code {string} and authorization code {string}")
   public void the_parent_attempts_to_pay_penalty_for_the_order_with_penalty_authorization_code_and_authorization_code(
       String orderNumberStr, String penaltyAuthCode, String authCode) {
@@ -381,7 +428,9 @@ public class OrderStepDefinitions {
     }
   }
 
-
+  /** 
+  * @author David Vo
+  */
   @When("the student attempts to pickup the order {string}")
   public void the_student_attempts_to_pickup_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -389,12 +438,18 @@ public class OrderStepDefinitions {
     error = controller.pickUpOrder(orderNumber);
   }
 
+  /** 
+  * @author David Wang
+  */
   @When("the school admin attempts to get from the system all orders")
   public void the_school_admin_attempts_to_get_from_the_system_all_orders() {
     // Write code here that turns the phrase above into concrete actions
     lastRetrievedOrders = CoolSuppliesFeatureSet8Controller.getOrders();
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Then("the order {string} shall contain penalty authorization code {string}")
   public void the_order_shall_contain_penalty_authorization_code(String orderNumberStr, String penaltyAuthCode) {
     // Write code here that turns the phrase above into concrete actions
@@ -404,6 +459,9 @@ public class OrderStepDefinitions {
     assertEquals(penaltyAuthCode, order.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Then("the order {string} shall not contain penalty authorization code {string}")
   public void the_order_shall_not_contain_penalty_authorization_code(String orderNumberStr,
       String penaltyAuthCode) {
@@ -414,7 +472,9 @@ public class OrderStepDefinitions {
     assertNotEquals(penaltyAuthCode, order.getPenaltyAuthorizationCode());
   }
 
-
+  /** 
+  * @author Hamza Khalfi
+  */
   @Then("the order {string} shall not contain authorization code {string}")
   public void the_order_shall_not_contain_authorization_code(String orderNumberStr, String authCode) {
     int orderNumber = Integer.parseInt(orderNumberStr);
@@ -423,6 +483,9 @@ public class OrderStepDefinitions {
     assertNotEquals(authCode, order.getAuthorizationCode());
   }
 
+  /** 
+  * @author David Vo
+  */
   @Then("the order {string} shall not exist in the system")
   public void the_order_shall_not_exist_in_the_system(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -431,6 +494,10 @@ public class OrderStepDefinitions {
     assertNull(order, "The order should not exist in the system after cancellation.");
   }
 
+  /** 
+  * @author Hamza Khalfi
+  * @author David Zhou
+  */
   @Then("the order {string} shall contain authorization code {string}")
   public void the_order_shall_contain_authorization_code(String orderString, String authString) {
     // Write code here that turns the phrase above into concrete actions
@@ -439,6 +506,10 @@ public class OrderStepDefinitions {
     assertEquals(order.getAuthorizationCode(),authString);
   }
 
+  /** 
+  * @author Hamza Khalfi
+  * @author Shayan Yamnanidouzi Sorkhabi
+  */
   @Then("the order {string} shall contain {string} item")
   public void the_order_shall_contain_item(String orderNumberStr, String qtyStr) {
     Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
@@ -447,6 +518,10 @@ public class OrderStepDefinitions {
     assertEquals(qty, order.getOrderItems().size());
   }
 
+  /** 
+  * @author David Zhou
+  * @author Shayan Yamnanidouzi Sorkhabi
+  */
   @Then("the order {string} shall not contain {string}")
   public void the_order_shall_not_contain(String orderNumberStr, String itemName) {
     // Write code here that turns the phrase above into concrete actions
@@ -461,8 +536,9 @@ public class OrderStepDefinitions {
     }
   }
 
-
-
+  /** 
+  * @author David Zhou
+  */
   @Then("the number of order items in the system shall be {string}")
   public void the_number_of_order_items_in_the_system_shall_be(String expectedCountStr) {
     List<OrderItem> orderItems = coolSupplies.getOrderItems();
@@ -470,6 +546,9 @@ public class OrderStepDefinitions {
         "Number of order items in the system is incorrect");
   }
 
+  /** 
+  * @author Shayan Yamnanidouzi Sorkhabi
+  */
   @Then("the order {string} shall contain {string} items")
   public void the_order_shall_contain_items(String orderNumberStr, String size) {
     // Write code here that turns the phrase above into concrete actions
@@ -479,6 +558,9 @@ public class OrderStepDefinitions {
     assertEquals(expectedItemQty, actualItemQty);
   }
 
+  /** 
+  * @author Shayan Yamnanidouzi Sorkhabi
+  */
   @Then("the order {string} shall not contain {string} with quantity {string}")
   public void the_order_shall_not_contain_with_quantity(String string, String string2,
       String string3) {
@@ -497,7 +579,9 @@ public class OrderStepDefinitions {
     }
   }
 
-
+  /** 
+  * @author Jack McDonald
+  */
   @Then("the order {string} shall contain {string} with quantity {string}")
   public void the_order_shall_contain_with_quantity(String orderNumberStr, String itemName, String expectedQtyStr) {
     // Write code here that turns the phrase above into concrete actions
@@ -515,7 +599,10 @@ public class OrderStepDefinitions {
     fail();
   }
 
-
+  /** 
+  * @author David Vo
+  * @author David Zhou
+  */
   @Then("the order {string} shall be marked as {string}")
   public void the_order_shall_be_marked_as(String orderNumberStr, String expectedStatus) {
     // Write code here that turns the phrase above into concrete actions
@@ -525,7 +612,10 @@ public class OrderStepDefinitions {
     assertEquals(expectedStatus, order.getStatusFullName(), "Order status does not match expected.");
   }
 
-
+  /** 
+  * @author David Vo
+  * @author David Zhou
+  */
   @Then("the number of orders in the system shall be {string}")
   public void the_number_of_orders_in_the_system_shall_be(String expectedCountStr) {
     // Write code here that turns the phrase above into concrete actions
@@ -539,6 +629,9 @@ public class OrderStepDefinitions {
     assertEquals(expectedCount, actualCount, "The number of orders in the system does not match the expected count.");
   }
 
+  /** 
+  * @author Shayan Yamnanidouzi Sorkhabi
+  */
   @Then("the order {string} shall contain level {string} and student {string}")
   public void the_order_shall_contain_level_and_student(String orderNumberString, String expectedLevel,
       String expectedStudentName) {
@@ -556,12 +649,19 @@ public class OrderStepDefinitions {
     assertEquals(expectedStudentName, actualStudentName); //verify the student
   }
 
+  /** 
+  * @author David Vo
+  */
   @Then("the error {string} shall be raised")
   public void the_error_shall_be_raised(String string) {
     // Write code here that turns the phrase above into concrete actions
     assertEquals(string, error);
   }
 
+  /** 
+  * @author David Wang
+  * @author David Zhou
+  */
   @Then("the following order entities shall be presented")
   public void the_following_order_entities_shall_be_presented(
       io.cucumber.datatable.DataTable dataTable) {
@@ -617,9 +717,12 @@ public class OrderStepDefinitions {
         assertTrue(found);
       }
     }
-
   }
 
+  /** 
+  * @author David Zhou
+  * @author David Wang
+  */
   @Then("the following order items shall be presented for the order with number {string}")
   public void the_following_order_items_shall_be_presented_for_the_order_with_number(String orderNumberStr,
       io.cucumber.datatable.DataTable dataTable) {
@@ -659,6 +762,7 @@ public class OrderStepDefinitions {
         }
       }
     }
+
     else { // In the case there are multiple items that have been added into the system and that must be retrieved.
       for (TOOrder order : CoolSuppliesFeatureSet8Controller.getOrders()) {
         if (order.getNumber() == Integer.parseInt(orderNumberStr)) {
@@ -694,6 +798,9 @@ public class OrderStepDefinitions {
     }
   }
 
+  /** 
+  * @author David Zhou
+  */
   @Then("no order entities shall be presented")
   public void no_order_entities_shall_be_presented() {
     // Write code here that turns the phrase above into concrete actions
@@ -703,6 +810,7 @@ public class OrderStepDefinitions {
   /**
    * helper method for error handling
    * @param result
+   * @author David Zhou
    */
   private void callController(String result) {
     error = "";
@@ -710,5 +818,4 @@ public class OrderStepDefinitions {
       error += result;
     }
   }
-
 }

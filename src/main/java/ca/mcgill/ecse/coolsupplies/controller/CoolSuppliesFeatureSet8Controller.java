@@ -16,8 +16,8 @@ import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
  * @author Jun Ho
  * @author Hamza Khalfi
  * @author Jack McDonald
- * @author David Wang
  * @author David Vo
+ * @author David Wang
  * @author Shayan Yamnanidouzi Sorkhabi
  * @author David Zhou
  * 
@@ -358,29 +358,33 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author David Vo
    */
   public String pickUpOrder(int orderNumber) {
-    Order order = Order.getWithNumber(orderNumber);
-    
-    // Check if order exists
-    if (order == null) {
-        return "Order " + orderNumber + " does not exist";
-    }
+    try {
+        Order order = Order.getWithNumber(orderNumber);
+        
+        // Check if order exists
+        if (order == null) {
+            return "Order " + orderNumber + " does not exist";
+        }
 
-    // Process order based on its status
-    switch (order.getStatusFullName()) {
-      case "Started":
-        return "Cannot pickup a started order";
-      case "Paid":
-        return "Cannot pickup a paid order";
-      case "Penalized":
-        return "Cannot pickup a penalized order";
-      case "PickedUp":
-        return "The order is already picked up";
-      case "Prepared":
-        order.pickUp();
-        CoolSuppliesPersistence.save();
-        return "Order picked up successfully";
-      default:
-        return "Could not pick up the order";
+        // Process order based on its status
+        switch (order.getStatusFullName()) {
+            case "Started":
+                return "Cannot pickup a started order";
+            case "Paid":
+                return "Cannot pickup a paid order";
+            case "Penalized":
+                return "Cannot pickup a penalized order";
+            case "PickedUp":
+                return "The order is already picked up";
+            case "Prepared":
+                order.pickUp();
+                CoolSuppliesPersistence.save();
+                return "Order picked up successfully";
+            default:
+                return "Could not pick up the order";
+        }
+    } catch (RuntimeException e) {
+        return e.getMessage();
     }
   }
 
@@ -392,30 +396,34 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author David Vo
    */
   public String cancelOrder(int orderNumber) {
-    Order order = Order.getWithNumber(orderNumber);
-    
-    // Check if order exists
-    if (order == null) {
-        return "Order " + orderNumber + " does not exist";
-    }
+    try {
+        Order order = Order.getWithNumber(orderNumber);
 
-    // Process order based on its status
-    switch (order.getStatusFullName()) {
-      case "Penalized":
-        return "Cannot cancel a penalized order";
-      case "Prepared":
-        return "Cannot cancel a prepared order";
-      case "PickedUp":
-        return "Cannot cancel a picked up order";
-      case "Final":
-        return "Cannot cancel a finalized order";
-      case "Started", "Paid": {
-          order.cancelOrder();
-          CoolSuppliesPersistence.save();
-          return "Order canceled successfully";
-      }
-      default:
-        return "Could not cancel the order";
+        // Check if order exists
+        if (order == null) {
+            return "Order " + orderNumber + " does not exist";
+        }
+
+        // Process order based on its status
+        switch (order.getStatusFullName()) {
+            case "Penalized":
+                return "Cannot cancel a penalized order";
+            case "Prepared":
+                return "Cannot cancel a prepared order";
+            case "PickedUp":
+                return "Cannot cancel a picked up order";
+            case "Final":
+                return "Cannot cancel a finalized order";
+            case "Started", "Paid": {
+                order.cancelOrder();
+                CoolSuppliesPersistence.save();
+                return "Order canceled successfully";
+            }
+            default:
+                return "Could not cancel the order";
+        }
+    } catch (RuntimeException e) {
+        return e.getMessage();
     }
   }
 
