@@ -1,5 +1,19 @@
 namespace ca.mcgill.ecse.coolsupplies.model;
 
+/**
+ * Manages the lifecycle of an order in the CoolSupplies application, with states such as 
+ * Started, Paid, Penalized, Prepared, and PickedUp. Transitions between states occur 
+ * through actions like adding items, updating, paying, canceling, and preparing for pickup. 
+ *
+ * @author Jun Ho
+ * @author Hamza Khalfi
+ * @author Jack McDonald
+ * @author David Vo
+ * @author David Wang
+ * @author Shayan Yamnanidouzi Sorkhabi
+ * @author David Zhou
+*/
+
 class Order {
   depend ca.mcgill.ecse.coolsupplies.model.BundleItem.PurchaseLevel;
   
