@@ -46,44 +46,7 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author Shayan Yamnanidouzi Sorkhabi
    */
   public static String updateOrder(int orderNumber, String newLevel, String StudentName) {
-    try {
-      Order order = Order.getWithNumber(orderNumber);
-      if (order == null) {
-          return "Order " + orderNumber + " does not exist";
-      }
 
-      if (Student.hasWithName(StudentName) == false) {
-          return "Student " + StudentName + " does not exist.";
-      }
-      Student aStudent = Student.getWithName(StudentName);
-
-      if (!newLevel.equalsIgnoreCase("mandatory") && !newLevel.equalsIgnoreCase("optional") && !newLevel.equalsIgnoreCase("recommended")) {
-          return "Purchase level " + newLevel + " does not exist.";
-      }
-      BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
-      
-      if (!order.getStatusFullName().equalsIgnoreCase("Started")) {
-        switch (order.getStatusFullName()) {
-          case "Paid":
-              return "Cannot update a paid order";
-          case "Penalized":
-              return "Cannot update a penalized order";
-          case "Prepared":
-              return "Cannot update a prepared order";
-          case "PickedUp":
-              return "Cannot update a picked up order";
-          case "Final":
-              return "Cannot update a finalized order";
-          default:
-              return "Could not update the order";
-        }
-      }
-      order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
-      CoolSuppliesPersistence.save();
-      return "Order updated successfully";
-      } catch (RuntimeException e) {
-          return e.getMessage();
-    }
   }
 
   /**
@@ -209,51 +172,6 @@ public class CoolSuppliesFeatureSet8Controller {
    *
    */
   public static String deleteOrderItem(String itemName, String orderNumber) {
-    int orderNumberInt;
-    try {
-        orderNumberInt = Integer.parseInt(orderNumber);
-    } catch (Exception e) {
-        return "Order " + orderNumber + " does not exist";
-    }
-
-    Order order = Order.getWithNumber(orderNumberInt);
-
-    if (order == null) {
-        return "Order " + orderNumber + " does not exist";
-    }
-
-    String status = order.getStatusFullName();
-    switch (status) {
-      case "Penalized":
-      case "Paid":
-      case "Prepared":
-          return "Cannot delete items from a " + status.toLowerCase() + " order";
-      case "PickedUp":
-          return "Cannot delete items from a picked up order";
-      default:
-          break;
-    }
-
-    InventoryItem item = InventoryItem.getWithName(itemName);
-
-    if (item == null) {
-        return "Item " + itemName + " does not exist.";
-    }
-
-    List<OrderItem> itemsInOrder = order.getOrderItems();
-    for (int i = 0; i < order.getOrderItems().size(); i++) {
-        if (itemsInOrder.get(i).getItem() == item) {
-            // == equality should work as it should be the same memory address
-            try {
-                itemsInOrder.get(i).delete();
-                CoolSuppliesPersistence.save();
-            } catch (Exception e) {
-                return e.getMessage();
-            }
-            return "Item " + itemName + " deleted successfully from order " + orderNumber;
-        }
-    }
-    return "Item " + itemName + " does not exist in the order " + orderNumber + ".";
 
   }
 
@@ -272,38 +190,7 @@ public class CoolSuppliesFeatureSet8Controller {
     //    we return "Cannot pay for a <state> order".
     // 4. If successfully paid, do nothing, but change the state.
 
-    if (!Order.hasWithNumber(orderNumber)) {
-      return "Order " + orderNumber + " does not exist";
-    }
-
-    Order order = Order.getWithNumber(orderNumber);
-
-
-    if(order.getOrderItems().isEmpty()) {
-        return "Order " + orderNumber + " has no items";
-    }
-
-    try {
-      boolean paymentProcessed = order.pay(authCode);
-      CoolSuppliesPersistence.save();
-
-      if (!paymentProcessed) {
-        switch (order.getStatusFullName()) {
-          case "Penalized":
-            return "Cannot pay for a penalized order";
-          case "Prepared":
-            return "Cannot pay for a prepared order";
-          case "PickedUp":
-            return "Cannot pay for a picked up order";
-          case "Paid":
-            return "The order is already paid";
-        }
-      }
-    } catch (Exception e) {
-      return e.getMessage();
-    }
-
-    return "Payment processed";
+    // HAMZA
   }
 
   /**
@@ -316,38 +203,7 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author David Zhou
    */
   public String payPenaltyForOrder(int orderNumber, String authorizationCode, String penaltyAuthorizationCode) {
-    // Retrieve the order using the order number
-    Order order = Order.getWithNumber(orderNumber);
 
-    // Check if order exists
-    if (order == null) {
-      return "Order " + orderNumber + " does not exist";
-    }
-
-    // Check if authorization codes are provided
-    if (penaltyAuthorizationCode == null || penaltyAuthorizationCode.isEmpty()) {
-      return "Penalty authorization code is invalid";
-    }
-
-    if (authorizationCode == null || authorizationCode.isEmpty()) {
-      return "Authorization code is invalid";
-    }
-
-    try {
-      boolean success = order.payPenalty(authorizationCode, penaltyAuthorizationCode);
-      if (success) {
-          CoolSuppliesPersistence.save();
-          return "Penalty payment successful. The order is now prepared.";
-      } else {
-        // Check specific statuses for message details
-        if (order.getStatus() == Order.Status.PickedUp) {
-          return "Cannot pay penalty for a picked up order";
-        }
-        return "Cannot pay penalty for a " + order.getStatus().toString().toLowerCase() + " order";
-      }
-      } catch (RuntimeException e) {
-        return e.getMessage();
-    }
   }
 
   /**
@@ -435,95 +291,7 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author David Zhou
    */
   public TOOrder viewIndividualOrder(int orderNumber) {
-    Order order = Order.getWithNumber(orderNumber);
-    if (order == null) {
-      throw new RuntimeException("Order not found.");
-    }
 
-    // Initialize total price and list for order items
-    double totalPrice = 0;
-    List<TOOrderItem> items = new ArrayList<>();
-
-    for (OrderItem orderItem : order.getOrderItems()) {
-      InventoryItem item = orderItem.getItem();
-
-      if (item instanceof Item) {
-        // Handle standalone items (like erasers)
-        int itemPrice = (int) ((Item) item).getPrice();
-        items.add(new TOOrderItem(
-            orderItem.getQuantity(),
-            item.getName(),
-            "",
-            itemPrice,
-            null  // No discount for standalone items
-        ));
-        totalPrice += itemPrice * orderItem.getQuantity();
-      } else if (item instanceof GradeBundle) {
-
-        GradeBundle bundle = (GradeBundle) item;
-        double discountRate = bundle.getDiscount() / 100.0;
-
-        // Collect items within the bundle and initialize bundle total
-        List<TOOrderItem> bundleItems = new ArrayList<>();
-        int distinctItemCount = 0;
-
-        for (BundleItem bundleItem : bundle.getBundleItems()) {
-          if (bundleItem.getLevel() == order.getLevel() || (order.getLevel() == BundleItem.PurchaseLevel.Recommended && bundleItem.getLevel() == BundleItem.PurchaseLevel.Mandatory) || order.getLevel() == BundleItem.PurchaseLevel.Optional) {
-            int itemPrice = bundleItem.getItem().getPrice();
-            int totalItemQuantity = bundleItem.getQuantity() * orderItem.getQuantity();
-
-            // Check if this item is distinct within the bundle for discount
-            if (bundleItems.stream().noneMatch(i -> i.getItemName().equals(bundleItem.getItem().getName()))) {
-              distinctItemCount++;
-            }
-
-            TOOrderItem toOrderItem = new TOOrderItem(
-                totalItemQuantity,
-                bundleItem.getItem().getName(),
-                bundle.getName(),
-                itemPrice,
-                null
-            );
-            bundleItems.add(toOrderItem);
-
-            // Add this item’s cost to the total price for now (discount will adjust it if applicable)
-            totalPrice += itemPrice * totalItemQuantity;
-          }
-        }
-
-        // Apply discount to bundle items if eligible
-        if (distinctItemCount >= 2) {
-          for (TOOrderItem bundleItem : bundleItems) {
-            double discountPerItem = bundleItem.getPrice() * discountRate;
-
-            String discountString;
-            if (discountPerItem == Math.floor(discountPerItem)) {
-              discountString = String.valueOf((int) -discountPerItem);
-            } else {
-              discountString = String.valueOf(-discountPerItem);
-            }
-
-            bundleItem.setDiscount(discountString);
-            totalPrice -= discountPerItem * bundleItem.getQuantity();
-          }
-        }
-
-        items.addAll(bundleItems);
-      }
-    }
-
-    return new TOOrder(
-        order.getParent().getEmail(),
-        order.getStudent().getName(),
-        order.getStatusFullName(),
-        order.getNumber(),
-        order.getDate(),
-        order.getLevel().toString(),
-        order.getAuthorizationCode(),
-        order.getPenaltyAuthorizationCode(),
-        totalPrice,
-        items
-    );
   }
 
   /**
@@ -615,15 +383,7 @@ public class CoolSuppliesFeatureSet8Controller {
    */
   public static String startSchoolYear(int orderNumber ) {
 
-    boolean orderExists = Order.hasWithNumber(orderNumber);
-    if(!orderExists) return "Order " + orderNumber + " does not exist";
-    Order order = Order.getWithNumber(orderNumber);
-
-    boolean yearStarted = order.startSchoolYear();
-
-    if(!yearStarted) return "The school year has already been started";
-
-    return "";
+      // HAMZA
 
   }
 
