@@ -432,9 +432,13 @@ public class OrderStepDefinitions {
     error = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, orderNum);
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Attempts to retrieve an individual order from the system by its number.
+   * Sets the lastRetrievedOrder if successful, or captures error message if failed.
+   *
+   * @param orderNumberStr String representation of the order number to retrieve
+   */
   @When("the parent attempts to get from the system the order with number {string}")
   public void the_parent_attempts_to_get_from_the_system_the_order_with_number(String orderNumberStr) {
     // Write code here that turns the phrase above into concrete actions
@@ -484,9 +488,15 @@ public class OrderStepDefinitions {
     callController(CoolSuppliesFeatureSet8Controller.startSchoolYear(orderNr));
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Attempts to process penalty payment for an order with both penalty authorization
+   * and regular authorization codes.
+   *
+   * @param orderNumberStr String representation of the order number
+   * @param penaltyAuthCode Penalty authorization code for the order
+   * @param authCode Regular authorization code for the order
+   */
   @When("the parent attempts to pay penalty for the order {string} with penalty authorization code {string} and authorization code {string}")
   public void the_parent_attempts_to_pay_penalty_for_the_order_with_penalty_authorization_code_and_authorization_code(
       String orderNumberStr, String penaltyAuthCode, String authCode) {
@@ -523,9 +533,13 @@ public class OrderStepDefinitions {
     lastRetrievedOrders = CoolSuppliesFeatureSet8Controller.getOrders();
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Verifies that an order contains the specified penalty authorization code.
+   *
+   * @param orderNumberStr String representation of the order number
+   * @param penaltyAuthCode Expected penalty authorization code
+   */
   @Then("the order {string} shall contain penalty authorization code {string}")
   public void the_order_shall_contain_penalty_authorization_code(String orderNumberStr, String penaltyAuthCode) {
     // Write code here that turns the phrase above into concrete actions
@@ -535,9 +549,13 @@ public class OrderStepDefinitions {
     assertEquals(penaltyAuthCode, order.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Verifies that an order does not contain the specified penalty authorization code.
+   *
+   * @param orderNumberStr String representation of the order number
+   * @param penaltyAuthCode Penalty authorization code that should not be present
+   */
   @Then("the order {string} shall not contain penalty authorization code {string}")
   public void the_order_shall_not_contain_penalty_authorization_code(String orderNumberStr,
       String penaltyAuthCode) {
@@ -612,9 +630,12 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Verifies that the system contains the expected number of order items.
+   *
+   * @param expectedCountStr String representation of the expected number of order items
+   */
   @Then("the number of order items in the system shall be {string}")
   public void the_number_of_order_items_in_the_system_shall_be(String expectedCountStr) {
     List<OrderItem> orderItems = coolSupplies.getOrderItems();
