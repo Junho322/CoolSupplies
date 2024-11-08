@@ -510,9 +510,15 @@ public class OrderStepDefinitions {
       error = controller.cancelOrder(orderNumber);
   }
 
-  /** 
-  * @author Hamza Khalfi
-  */
+  /**
+   * Attempts to pay for a specified order with a specified authorization code.
+   * 
+   * @param orderString the order number as a string, which will be parsed to an integer.
+   * @param authCodeString the authorization code to attempt to pay the order
+   * 
+   * @return None
+   * @author Hamza Khalfi
+   */
   @When("the parent attempts to pay for the order {string} with authorization code {string}")
   public void the_parent_attempts_to_pay_for_the_order_with_authorization_code(String orderString,
                                                                                String authCodeString) {
@@ -520,9 +526,14 @@ public class OrderStepDefinitions {
 
   }
 
-  /** 
-  * @author Hamza Khalfi
-  */
+  /**
+   * Attempts to start a school year for an order, by specifying its order number
+   * 
+   * @param orderString the order number for which we want to start a school year (as a string)
+   * @return None
+   * 
+   * @author Hamza Khalfi
+   */
   @When("the admin attempts to start a school year for the order {string}")
   public void the_admin_attempts_to_start_a_school_year_for_the_order(String orderString) {
     int orderNr = Integer.parseInt(orderString);
@@ -615,9 +626,15 @@ public class OrderStepDefinitions {
     assertNotEquals(penaltyAuthCode, order.getPenaltyAuthorizationCode());
   }
 
-  /** 
-  * @author Hamza Khalfi
-  */
+  /**
+   * Verifies that the specified order does not contain a certain authorization code (with a specified string)
+   * 
+   * @param orderNumberStr the order number that we want to check the authoration code
+   * @param authCode the authorization code that we do not want to contain in the specified order
+   * 
+   * @return None
+   * @author Hamza Khalfi
+   */
   @Then("the order {string} shall not contain authorization code {string}")
   public void the_order_shall_not_contain_authorization_code(String orderNumberStr, String authCode) {
     int orderNumber = Integer.parseInt(orderNumberStr);
