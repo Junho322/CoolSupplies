@@ -209,7 +209,51 @@ public class CoolSuppliesFeatureSet8Controller {
    *
    */
   public static String deleteOrderItem(String itemName, String orderNumber) {
+      int orderNumberInt;
+      try {
+          orderNumberInt = Integer.parseInt(orderNumber);
+      } catch (Exception e) {
+          return "Order " + orderNumber + " does not exist";
+      }
 
+      Order order = Order.getWithNumber(orderNumberInt);
+
+      if (order == null) {
+          return "Order " + orderNumber + " does not exist";
+      }
+
+      String status = order.getStatusFullName();
+      switch (status) {
+          case "Penalized":
+          case "Paid":
+          case "Prepared":
+              return "Cannot delete items from a " + status.toLowerCase() + " order";
+          case "PickedUp":
+              return "Cannot delete items from a picked up order";
+          default:
+              break;
+      }
+
+      InventoryItem item = InventoryItem.getWithName(itemName);
+
+      if (item == null) {
+          return "Item " + itemName + " does not exist.";
+      }
+
+      List<OrderItem> itemsInOrder = order.getOrderItems();
+      for (int i = 0; i < order.getOrderItems().size(); i++) {
+          if (itemsInOrder.get(i).getItem() == item) {
+              // == equality should work as it should be the same memory address
+              try {
+                  itemsInOrder.get(i).delete();
+                  CoolSuppliesPersistence.save();
+              } catch (Exception e) {
+                  return e.getMessage();
+              }
+              return "Item " + itemName + " deleted successfully from order " + orderNumber;
+          }
+      }
+      return "Item " + itemName + " does not exist in the order " + orderNumber + ".";
   }
 
   /** 
