@@ -385,9 +385,16 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author Shayan Yamnanidouzi Sorkhabi
-  */
+  /**
+   * Attempts to update an order with a specified order number to a specified purchase level and a specified student name.
+   * 
+   * @param orderNumber the order number for the order we wish to update
+   * @param purchaseLevel the purchase level we wish to update the order for
+   * @param studentName the student name we wish to update the order for
+   * 
+   * @return None
+   * @author Shayan Yamanidouzi Sorkhabi
+   */
   @When("the parent attempts to update an order with number {string} to purchase level {string} and student with name {string}")
   public void the_parent_attempts_to_update_an_order_with_number_to_purchase_level_and_student_with_name(
       String orderNumber, String purchaseLevel, String studentName) {
