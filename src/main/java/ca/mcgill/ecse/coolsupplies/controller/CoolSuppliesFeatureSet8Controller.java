@@ -46,7 +46,44 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author Shayan Yamnanidouzi Sorkhabi
    */
   public static String updateOrder(int orderNumber, String newLevel, String StudentName) {
+    try {
+      Order order = Order.getWithNumber(orderNumber);
+      if (order == null) {
+          return "Order " + orderNumber + " does not exist";
+      }
 
+      if (Student.hasWithName(StudentName) == false) {
+          return "Student " + StudentName + " does not exist.";
+      }
+      Student aStudent = Student.getWithName(StudentName);
+
+      if (!newLevel.equalsIgnoreCase("mandatory") && !newLevel.equalsIgnoreCase("optional") && !newLevel.equalsIgnoreCase("recommended")) {
+          return "Purchase level " + newLevel + " does not exist.";
+      }
+      BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
+      
+      if (!order.getStatusFullName().equalsIgnoreCase("Started")) {
+        switch (order.getStatusFullName()) {
+          case "Paid":
+              return "Cannot update a paid order";
+          case "Penalized":
+              return "Cannot update a penalized order";
+          case "Prepared":
+              return "Cannot update a prepared order";
+          case "PickedUp":
+              return "Cannot update a picked up order";
+          case "Final":
+              return "Cannot update a finalized order";
+          default:
+              return "Could not update the order";
+        }
+      }
+      order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
+      CoolSuppliesPersistence.save();
+      return "Order updated successfully";
+      } catch (RuntimeException e) {
+          return e.getMessage();
+    }
   }
 
   /**
