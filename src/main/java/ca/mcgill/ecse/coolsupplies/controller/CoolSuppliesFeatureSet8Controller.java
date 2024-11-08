@@ -256,23 +256,49 @@ public class CoolSuppliesFeatureSet8Controller {
       return "Item " + itemName + " does not exist in the order " + orderNumber + ".";
   }
 
-  /** 
-   * Processes the payment for an order.
-   *
-   * @param orderNumber The number of the order to be paid.
-   * @param authCode The authorization code for the payment.
-   * @return A message indicating the result of the payment process.
-   * @author Hamza Khalfi
-   */
-  public static String payForOrder(int orderNumber, String authCode) {
-    // 1. Check if auth code is valid, if not say "Authorization code is invalid".
-    // 2. Check if order exists, if not return "Order orderNumber does not exist".
-    // 3. Check if order is in correct state; if state == Paid, Penalized, Prepared OR PickedUp,
-    //    we return "Cannot pay for a <state> order".
-    // 4. If successfully paid, do nothing, but change the state.
+    /**
+     * Processes the payment for an order.
+     *
+     * @param orderNumber The number of the order to be paid.
+     * @param authCode The authorization code for the payment.
+     * @return A message indicating the result of the payment process.
+     * @author Hamza Khalfi
+     */
+    public static String payForOrder(int orderNumber, String authCode) {
 
-    // HAMZA
-  }
+        if (!Order.hasWithNumber(orderNumber)) {
+            return "Order " + orderNumber + " does not exist";
+        }
+
+        Order order = Order.getWithNumber(orderNumber);
+
+
+        if(order.getOrderItems().isEmpty()) {
+            return "Order " + orderNumber + " has no items";
+        }
+
+        try {
+            boolean paymentProcessed = order.pay(authCode);
+            CoolSuppliesPersistence.save();
+
+            if (!paymentProcessed) {
+                switch (order.getStatusFullName()) {
+                    case "Penalized":
+                        return "Cannot pay for a penalized order";
+                    case "Prepared":
+                        return "Cannot pay for a prepared order";
+                    case "PickedUp":
+                        return "Cannot pay for a picked up order";
+                    case "Paid":
+                        return "The order is already paid";
+                }
+            }
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
+        return "Payment processed";
+    }
 
   /**
    * Pays the penalty for a penalized order.
@@ -574,17 +600,25 @@ public class CoolSuppliesFeatureSet8Controller {
     return orders;
   }
 
-  /**
-   * Starts the school year for an order.
-   *
-   * @param orderNumber The number of the order for which the school year is to be started.
-   * @return A message indicating the result of the operation.
-   * @author Hamza Khalfi
-   */
-  public static String startSchoolYear(int orderNumber ) {
+    /**
+     * Starts the school year for an order.
+     *
+     * @param orderNumber The number of the order for which the school year is to be started.
+     * @return A message indicating the result of the operation.
+     * @author Hamza Khalfi
+     */
+    public static String startSchoolYear(int orderNumber ) {
 
-      // HAMZA
+        boolean orderExists = Order.hasWithNumber(orderNumber);
+        if(!orderExists) return "Order " + orderNumber + " does not exist";
+        Order order = Order.getWithNumber(orderNumber);
 
-  }
+        boolean yearStarted = order.startSchoolYear();
+
+        if(!yearStarted) return "The school year has already been started";
+
+        return "";
+
+    }
 
 }
