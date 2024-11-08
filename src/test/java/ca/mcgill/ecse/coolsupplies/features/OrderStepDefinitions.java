@@ -396,9 +396,19 @@ public class OrderStepDefinitions {
     callController(CoolSuppliesFeatureSet8Controller.updateOrder(aOrderNumber, purchaseLevel, studentName));
   }
 
-   /** 
-  * @author Jack McDonald
-  */
+  /**
+   * Attempts to add an item to an existing order with a specified quantity.
+   * This method parses the item name, quantity, and order number from the input strings,
+   * then calls the controller to add the item to the specified order.
+   * If the operation fails, an error message is stored in the {@code error} field.
+   *
+   * @author Jack McDonald
+   * @param string the name of the item to add to the order.
+   * @param string2 the quantity of the item to add, parsed as an integer.
+   * @param string3 the order number to which the item will be added, parsed as an integer.
+   * @throws NumberFormatException if {@code string2} or {@code string3} cannot be parsed as integers.
+   * @throws RuntimeException if the addition to the order fails.
+   */
   @When("the parent attempts to add an item {string} with quantity {string} to the order {string}")
   public void the_parent_attempts_to_add_an_item_with_quantity_to_the_order(String string,
       String string2, String string3) {
@@ -438,6 +448,9 @@ public class OrderStepDefinitions {
    * Sets the lastRetrievedOrder if successful, or captures error message if failed.
    *
    * @param orderNumberStr String representation of the order number to retrieve
+   * @throws NumberFormatException if {@code orderNumberStr} cannot be parsed as an integer.
+   * @throws RuntimeException if the order retrieval fails, storing the error message in {@code error}.
+   *
    */
   @When("the parent attempts to get from the system the order with number {string}")
   public void the_parent_attempts_to_get_from_the_system_the_order_with_number(String orderNumberStr) {
@@ -459,9 +472,18 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Vo
-  */
+  /**
+   * @author David Vo
+   * Attempts to cancel an order in the system based on the provided order number.
+   * This method parses the order number from a string, then calls the controller to
+   * cancel the order. If the cancellation fails, the resulting error message is stored
+   * in the {@code error} field.
+   *
+   *
+   * @param string the order number as a string, which will be parsed to an integer.
+   * @throws NumberFormatException if {@code string} cannot be parsed as an integer.
+   * @throws RuntimeException if the order cancellation fails, with the error message stored in {@code error}.
+   */
   @When("the parent attempts to cancel the order {string}")
   public void the_parent_attempts_to_cancel_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -514,9 +536,17 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Vo
-  */
+  /**
+   * @author David Vo
+   * Attempts to cancel an order in the system based on the provided order number.
+   * This method parses the order number from a string, then calls the controller to
+   * cancel the order. If the cancellation fails, the resulting error message is stored
+   * in the {@code error} field.
+   *
+   * @param string the order number as a string, which will be parsed to an integer.
+   * @throws NumberFormatException if {@code string} cannot be parsed as an integer.
+   * @throws RuntimeException if the order cancellation fails, with the error message stored in {@code error}.
+   */
   @When("the student attempts to pickup the order {string}")
   public void the_student_attempts_to_pickup_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -577,9 +607,17 @@ public class OrderStepDefinitions {
     assertNotEquals(authCode, order.getAuthorizationCode());
   }
 
-  /** 
-  * @author David Vo
-  */
+  /**
+   * @author David Vo
+   * Verifies that an order with the specified order number does not exist in the system.
+   * This method parses the order number from a string, retrieves the order from the system,
+   * and asserts that the order is null, indicating it does not exist (e.g., after cancellation).
+   *
+   * @param string the order number as a string, which will be parsed as an integer.
+   * @since 1.0
+   * @throws NumberFormatException if {@code string} cannot be parsed as an integer.
+   * @throws AssertionError if the order exists in the system when it should not.
+   */
   @Then("the order {string} shall not exist in the system")
   public void the_order_shall_not_exist_in_the_system(String string) {
     // Write code here that turns the phrase above into concrete actions
