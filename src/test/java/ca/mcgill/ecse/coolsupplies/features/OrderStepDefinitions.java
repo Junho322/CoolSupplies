@@ -24,9 +24,15 @@ public class OrderStepDefinitions {
   private TOOrder lastRetrievedOrder;
   private List<TOOrder> lastRetrievedOrders;
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up parent entities in the system from a provided data table.
+   * Each row in the data table represents a parent with email, password, name, and phone number.
+   * Creates new Parent objects and adds them to the CoolSupplies system.
+   *
+   * @param dataTable cucumber DataTable containing parent information with columns:
+   *                 [email, password, name, phoneNumber]
+   */
   @Given("the following parent entities exist in the system")
   public void the_following_parent_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -46,9 +52,14 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up grade entities in the system from a provided data table.
+   * Each row in the data table represents a grade with a level.
+   * Adds each grade to the CoolSupplies system.
+   *
+   * @param grades cucumber DataTable containing grade information with column: [level]
+   */
   @Given("the following grade entities exist in the system")
   public void the_following_grade_entities_exist_in_the_system(
 
@@ -61,9 +72,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up student entities in the system from a provided data table.
+   * Each row represents a student with name and grade level.
+   * Creates new Student objects and associates them with the corresponding Grade.
+   *
+   * @param dataTable cucumber DataTable containing student information with columns:
+   *                 [name, gradeLevel]
+   */
   @Given("the following student entities exist in the system")
   public void the_following_student_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -77,9 +94,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up student-parent relationships in the system from a provided data table.
+   * Each row represents a student and their associated parent email.
+   * Links existing Student objects with their corresponding Parent objects.
+   *
+   * @param dataTable cucumber DataTable containing student-parent relationship information
+   *                 with columns: [name, parentEmail]
+   */
   @Given("the following student entities exist for a parent in the system")
   public void the_following_student_entities_exist_for_a_parent_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -103,9 +126,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up item entities in the system from a provided data table.
+   * Each row represents an item with name and price.
+   * Creates new Item objects and adds them to the CoolSupplies system.
+   *
+   * @param dataTable cucumber DataTable containing item information with columns:
+   *                 [name, price]
+   */
   @Given("the following item entities exist in the system")
   public void the_following_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -121,9 +150,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up grade bundle entities in the system from a provided data table.
+   * Each row represents a grade bundle with name, grade level, and discount.
+   * Creates new GradeBundle objects and adds them to the CoolSupplies system.
+   *
+   * @param dataTable cucumber DataTable containing grade bundle information with columns:
+   *                 [name, gradeLevel, discount]
+   */
   @Given("the following grade bundle entities exist in the system")
   public void the_following_grade_bundle_entities_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> bundleList = dataTable.asMaps();
@@ -141,9 +176,16 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up bundle item entities in the system from a provided data table.
+   * Each row represents a bundle item with its associated grade bundle, purchase level,
+   * quantity, and item name. Creates new BundleItem objects and links them with
+   * their corresponding GradeBundle and Item objects.
+   *
+   * @param dataTable cucumber DataTable containing bundle item information with columns:
+   *                 [gradeBundleName, level, quantity, itemName]
+   */
   @Given("the following bundle item entities exist in the system")
   public void the_following_bundle_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -172,9 +214,17 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up order entities in the system from a provided data table.
+   * Each row represents an order with its details including number, date, level,
+   * parent email, student name, and optional authorization codes and status.
+   * Creates new Order objects and sets their properties accordingly.
+   *
+   * @param dataTable cucumber DataTable containing order information with columns:
+   *                 [number, date, level, parentEmail, studentName, authorizationCode,
+   *                  penaltyAuthorizationCode, status]
+   */
   @Given("the following order entities exist in the system")
   public void the_following_order_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -243,9 +293,20 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up order item entities in the system from a provided data table.
+   * Each row in the data table represents an order item with quantity, order number, and item name.
+   * Creates new OrderItem objects and links them with their corresponding Order and InventoryItem objects.
+   *
+   * @param dataTable cucumber DataTable containing order item information with columns:
+   *                 [quantity, orderNumber, itemName]
+   * @throws IllegalArgumentException if:
+   *         - quantity or orderNumber are not valid numbers
+   *         - referenced order number does not exist in the system
+   *         - referenced item name does not exist in the system
+   * @throws RuntimeException if any other error occurs while creating the order item
+   */
   @Given("the following order item entities exist in the system")
   public void the_following_order_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -278,12 +339,27 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  * @author David Wang
-  * @author David Vo
-  * @author Hamza Khalfi
-  */
+  /**
+   * @author David Zhou
+   * @author David Wang
+   * @author David Vo
+   * @author Hamza Khalfi
+   *
+   * Updates the status of a given order based on the provided status string.
+   * This method simulates different stages in an order's lifecycle including
+   * payment processing, school year initiation, and pickup completion.
+   *
+   * @param orderNumString The order number as a string, to be parsed as an integer
+   * @param statusString The desired status to set for the order. Valid values are:
+   *                    "Started" - Initial state, no action required
+   *                    "Paid" - Processes payment for the order
+   *                    "Prepared" - Processes payment and starts school year
+   *                    "Penalized" - Only starts school year
+   *                    "PickedUp" - Processes payment, starts school year, and marks as picked up
+   *
+   * @throws NumberFormatException if orderNumString cannot be parsed to an integer
+   * @throws IllegalArgumentException if statusString is not one of the valid status values
+   */
   @Given("the order {string} is marked as {string}")
   public void the_order_is_marked_as(String orderNumString, String statusString) {
 
