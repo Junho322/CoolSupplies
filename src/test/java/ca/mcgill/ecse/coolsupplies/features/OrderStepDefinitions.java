@@ -333,9 +333,16 @@ public class OrderStepDefinitions {
     error = CoolSuppliesFeatureSet8Controller.addItemToOrder(string, quantity, orderNumber);
   }
 
-  /** 
-  * @author Jun Ho
-  */
+  /**
+   * Attempts to update the quantity of an existing specified item from a specified order to a specified quantity.
+   * 
+   * @param itemName the name of the item we wish to change the quantity (in string)
+   * @param quantity the quantity we would like to update to (in string)
+   * @param orderNum the order number that contains the item we wish to change the quantity (in string)
+   * 
+   * @return None
+   * @author Jun Ho Oh
+   */
   @When("the parent attempts to update an item {string} with quantity {string} in the order {string}")
   public void the_parent_attempts_to_update_an_item_with_quantity_in_the_order(String itemName,
   String quantity, String orderNum) {
@@ -346,10 +353,15 @@ public class OrderStepDefinitions {
     callController(CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(orderNumber, itemName, aQuantity));
   }
 
-  /** 
-  * @author Shayan Yamnanidouzi Sorkhabi
-  * @author Jun Ho
-  */
+  /**
+   * attempts to delete a specified item from a specified order.
+   * 
+   * @param itemName the name of the item we wish to delete (in string)
+   * @param orderNum the order number that contains the item to delete (in string)
+   * 
+   * @return None
+   * @author Shayan Yamanidouzi Sorkhabi, Jun Ho Oh
+   */
   @When("the parent attempts to delete an item {string} from the order {string}")
   public void the_parent_attempts_to_delete_an_item_from_the_order(String itemName, String orderNum) {
     // Write code here that turns the phrase above into concrete actions
@@ -506,10 +518,15 @@ public class OrderStepDefinitions {
     assertEquals(order.getAuthorizationCode(),authString);
   }
 
-  /** 
-  * @author Hamza Khalfi
-  * @author Shayan Yamnanidouzi Sorkhabi
-  */
+  /**
+   * Verifies that the specified order contains the specified number of item. 
+   * 
+   * @param orderNumberStr the order number which we would want to verify the quantity of item
+   * @param qtyStr the quantity of item we wish to verify 
+   * 
+   * @return None
+   * @author Hamza Khalfi, Shayan Yamanidouzi Sorkhabi, Jun Ho Oh
+   */
   @Then("the order {string} shall contain {string} item")
   public void the_order_shall_contain_item(String orderNumberStr, String qtyStr) {
     Order order = Order.getWithNumber(Integer.parseInt(orderNumberStr));
@@ -519,8 +536,13 @@ public class OrderStepDefinitions {
   }
 
   /** 
-  * @author David Zhou
-  * @author Shayan Yamnanidouzi Sorkhabi
+   * Verifies that the specified order does not contain the specified item.
+   * 
+   * @param orderNumberStr the order number that we wish to check existence of item
+   * @param itemName the item name we wish to verify it's existence
+   * 
+   * @return None
+   * @author David Zhou, Shayan Yamanidouzi Sorkhabi, Jun Ho Oh
   */
   @Then("the order {string} shall not contain {string}")
   public void the_order_shall_not_contain(String orderNumberStr, String itemName) {
@@ -546,9 +568,14 @@ public class OrderStepDefinitions {
         "Number of order items in the system is incorrect");
   }
 
-  /** 
-  * @author Shayan Yamnanidouzi Sorkhabi
-  */
+  /**
+   * 
+   * @param orderNumberStr
+   * @param size
+   * 
+   * @return None
+   * @author Shayan Yamanidouzi Sorkhabi, Jun Ho Oh
+   */
   @Then("the order {string} shall contain {string} items")
   public void the_order_shall_contain_items(String orderNumberStr, String size) {
     // Write code here that turns the phrase above into concrete actions
@@ -558,9 +585,16 @@ public class OrderStepDefinitions {
     assertEquals(expectedItemQty, actualItemQty);
   }
 
-  /** 
-  * @author Shayan Yamnanidouzi Sorkhabi
-  */
+  /**
+   * Verifies if the specified order does not contain a specified item with a specified quantity
+   * 
+   * @param string the order number we wish to check the item with quantity
+   * @param string2 the item name we wish to check existence in order
+   * @param string3 the quantity we wish to check for the item in order
+   * 
+   * @return None
+   * @author Shayan Yamanidouzi Sorkhabi, Jun Ho Oh
+   */
   @Then("the order {string} shall not contain {string} with quantity {string}")
   public void the_order_shall_not_contain_with_quantity(String string, String string2,
       String string3) {
@@ -629,9 +663,16 @@ public class OrderStepDefinitions {
     assertEquals(expectedCount, actualCount, "The number of orders in the system does not match the expected count.");
   }
 
-  /** 
-  * @author Shayan Yamnanidouzi Sorkhabi
-  */
+  /**
+   * Verifies that the specified order contains the specified level and specified student
+   * 
+   * @param orderNumberString the number of the order we wish to check level and student
+   * @param expectedLevel the level to check if present in the specified order
+   * @param expectedStudentName the student to check if present in specified order
+   * 
+   * @return None
+   * @author Shayan Yamanidouzi Sorkhabi
+   */
   @Then("the order {string} shall contain level {string} and student {string}")
   public void the_order_shall_contain_level_and_student(String orderNumberString, String expectedLevel,
       String expectedStudentName) {
