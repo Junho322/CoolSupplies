@@ -24,9 +24,15 @@ public class OrderStepDefinitions {
   private TOOrder lastRetrievedOrder;
   private List<TOOrder> lastRetrievedOrders;
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up parent entities in the system from a provided data table.
+   * Each row in the data table represents a parent with email, password, name, and phone number.
+   * Creates new Parent objects and adds them to the CoolSupplies system.
+   *
+   * @param dataTable cucumber DataTable containing parent information with columns:
+   *                 [email, password, name, phoneNumber]
+   */
   @Given("the following parent entities exist in the system")
   public void the_following_parent_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -46,9 +52,14 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up grade entities in the system from a provided data table.
+   * Each row in the data table represents a grade with a level.
+   * Adds each grade to the CoolSupplies system.
+   *
+   * @param grades cucumber DataTable containing grade information with column: [level]
+   */
   @Given("the following grade entities exist in the system")
   public void the_following_grade_entities_exist_in_the_system(
 
@@ -61,9 +72,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up student entities in the system from a provided data table.
+   * Each row represents a student with name and grade level.
+   * Creates new Student objects and associates them with the corresponding Grade.
+   *
+   * @param dataTable cucumber DataTable containing student information with columns:
+   *                 [name, gradeLevel]
+   */
   @Given("the following student entities exist in the system")
   public void the_following_student_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -77,9 +94,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up student-parent relationships in the system from a provided data table.
+   * Each row represents a student and their associated parent email.
+   * Links existing Student objects with their corresponding Parent objects.
+   *
+   * @param dataTable cucumber DataTable containing student-parent relationship information
+   *                 with columns: [name, parentEmail]
+   */
   @Given("the following student entities exist for a parent in the system")
   public void the_following_student_entities_exist_for_a_parent_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -103,9 +126,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up item entities in the system from a provided data table.
+   * Each row represents an item with name and price.
+   * Creates new Item objects and adds them to the CoolSupplies system.
+   *
+   * @param dataTable cucumber DataTable containing item information with columns:
+   *                 [name, price]
+   */
   @Given("the following item entities exist in the system")
   public void the_following_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -121,9 +150,15 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up grade bundle entities in the system from a provided data table.
+   * Each row represents a grade bundle with name, grade level, and discount.
+   * Creates new GradeBundle objects and adds them to the CoolSupplies system.
+   *
+   * @param dataTable cucumber DataTable containing grade bundle information with columns:
+   *                 [name, gradeLevel, discount]
+   */
   @Given("the following grade bundle entities exist in the system")
   public void the_following_grade_bundle_entities_exist_in_the_system(io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> bundleList = dataTable.asMaps();
@@ -141,9 +176,16 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up bundle item entities in the system from a provided data table.
+   * Each row represents a bundle item with its associated grade bundle, purchase level,
+   * quantity, and item name. Creates new BundleItem objects and links them with
+   * their corresponding GradeBundle and Item objects.
+   *
+   * @param dataTable cucumber DataTable containing bundle item information with columns:
+   *                 [gradeBundleName, level, quantity, itemName]
+   */
   @Given("the following bundle item entities exist in the system")
   public void the_following_bundle_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -172,9 +214,17 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up order entities in the system from a provided data table.
+   * Each row represents an order with its details including number, date, level,
+   * parent email, student name, and optional authorization codes and status.
+   * Creates new Order objects and sets their properties accordingly.
+   *
+   * @param dataTable cucumber DataTable containing order information with columns:
+   *                 [number, date, level, parentEmail, studentName, authorizationCode,
+   *                  penaltyAuthorizationCode, status]
+   */
   @Given("the following order entities exist in the system")
   public void the_following_order_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -243,9 +293,20 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Sets up order item entities in the system from a provided data table.
+   * Each row in the data table represents an order item with quantity, order number, and item name.
+   * Creates new OrderItem objects and links them with their corresponding Order and InventoryItem objects.
+   *
+   * @param dataTable cucumber DataTable containing order item information with columns:
+   *                 [quantity, orderNumber, itemName]
+   * @throws IllegalArgumentException if:
+   *         - quantity or orderNumber are not valid numbers
+   *         - referenced order number does not exist in the system
+   *         - referenced item name does not exist in the system
+   * @throws RuntimeException if any other error occurs while creating the order item
+   */
   @Given("the following order item entities exist in the system")
   public void the_following_order_item_entities_exist_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
@@ -278,12 +339,27 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  * @author David Wang
-  * @author David Vo
-  * @author Hamza Khalfi
-  */
+  /**
+   * @author David Zhou
+   * @author David Wang
+   * @author David Vo
+   * @author Hamza Khalfi
+   *
+   * Updates the status of a given order based on the provided status string.
+   * This method simulates different stages in an order's lifecycle including
+   * payment processing, school year initiation, and pickup completion.
+   *
+   * @param orderNumString The order number as a string, to be parsed as an integer
+   * @param statusString The desired status to set for the order. Valid values are:
+   *                    "Started" - Initial state, no action required
+   *                    "Paid" - Processes payment for the order
+   *                    "Prepared" - Processes payment and starts school year
+   *                    "Penalized" - Only starts school year
+   *                    "PickedUp" - Processes payment, starts school year, and marks as picked up
+   *
+   * @throws NumberFormatException if orderNumString cannot be parsed to an integer
+   * @throws IllegalArgumentException if statusString is not one of the valid status values
+   */
   @Given("the order {string} is marked as {string}")
   public void the_order_is_marked_as(String orderNumString, String statusString) {
 
@@ -320,9 +396,19 @@ public class OrderStepDefinitions {
     callController(CoolSuppliesFeatureSet8Controller.updateOrder(aOrderNumber, purchaseLevel, studentName));
   }
 
-   /** 
-  * @author Jack McDonald
-  */
+  /**
+   * Attempts to add an item to an existing order with a specified quantity.
+   * This method parses the item name, quantity, and order number from the input strings,
+   * then calls the controller to add the item to the specified order.
+   * If the operation fails, an error message is stored in the {@code error} field.
+   *
+   * @author Jack McDonald
+   * @param string the name of the item to add to the order.
+   * @param string2 the quantity of the item to add, parsed as an integer.
+   * @param string3 the order number to which the item will be added, parsed as an integer.
+   * @throws NumberFormatException if {@code string2} or {@code string3} cannot be parsed as integers.
+   * @throws RuntimeException if the addition to the order fails.
+   */
   @When("the parent attempts to add an item {string} with quantity {string} to the order {string}")
   public void the_parent_attempts_to_add_an_item_with_quantity_to_the_order(String string,
       String string2, String string3) {
@@ -368,9 +454,16 @@ public class OrderStepDefinitions {
     error = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, orderNum);
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Attempts to retrieve an individual order from the system by its number.
+   * Sets the lastRetrievedOrder if successful, or captures error message if failed.
+   *
+   * @param orderNumberStr String representation of the order number to retrieve
+   * @throws NumberFormatException if {@code orderNumberStr} cannot be parsed as an integer.
+   * @throws RuntimeException if the order retrieval fails, storing the error message in {@code error}.
+   *
+   */
   @When("the parent attempts to get from the system the order with number {string}")
   public void the_parent_attempts_to_get_from_the_system_the_order_with_number(String orderNumberStr) {
     // Write code here that turns the phrase above into concrete actions
@@ -391,9 +484,18 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Vo
-  */
+  /**
+   * @author David Vo
+   * Attempts to cancel an order in the system based on the provided order number.
+   * This method parses the order number from a string, then calls the controller to
+   * cancel the order. If the cancellation fails, the resulting error message is stored
+   * in the {@code error} field.
+   *
+   *
+   * @param string the order number as a string, which will be parsed to an integer.
+   * @throws NumberFormatException if {@code string} cannot be parsed as an integer.
+   * @throws RuntimeException if the order cancellation fails, with the error message stored in {@code error}.
+   */
   @When("the parent attempts to cancel the order {string}")
   public void the_parent_attempts_to_cancel_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -420,9 +522,15 @@ public class OrderStepDefinitions {
     callController(CoolSuppliesFeatureSet8Controller.startSchoolYear(orderNr));
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Attempts to process penalty payment for an order with both penalty authorization
+   * and regular authorization codes.
+   *
+   * @param orderNumberStr String representation of the order number
+   * @param penaltyAuthCode Penalty authorization code for the order
+   * @param authCode Regular authorization code for the order
+   */
   @When("the parent attempts to pay penalty for the order {string} with penalty authorization code {string} and authorization code {string}")
   public void the_parent_attempts_to_pay_penalty_for_the_order_with_penalty_authorization_code_and_authorization_code(
       String orderNumberStr, String penaltyAuthCode, String authCode) {
@@ -440,9 +548,17 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Vo
-  */
+  /**
+   * @author David Vo
+   * Attempts to cancel an order in the system based on the provided order number.
+   * This method parses the order number from a string, then calls the controller to
+   * cancel the order. If the cancellation fails, the resulting error message is stored
+   * in the {@code error} field.
+   *
+   * @param string the order number as a string, which will be parsed to an integer.
+   * @throws NumberFormatException if {@code string} cannot be parsed as an integer.
+   * @throws RuntimeException if the order cancellation fails, with the error message stored in {@code error}.
+   */
   @When("the student attempts to pickup the order {string}")
   public void the_student_attempts_to_pickup_the_order(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -459,9 +575,13 @@ public class OrderStepDefinitions {
     lastRetrievedOrders = CoolSuppliesFeatureSet8Controller.getOrders();
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Verifies that an order contains the specified penalty authorization code.
+   *
+   * @param orderNumberStr String representation of the order number
+   * @param penaltyAuthCode Expected penalty authorization code
+   */
   @Then("the order {string} shall contain penalty authorization code {string}")
   public void the_order_shall_contain_penalty_authorization_code(String orderNumberStr, String penaltyAuthCode) {
     // Write code here that turns the phrase above into concrete actions
@@ -471,9 +591,13 @@ public class OrderStepDefinitions {
     assertEquals(penaltyAuthCode, order.getPenaltyAuthorizationCode(), "Penalty authorization code does not match");
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Verifies that an order does not contain the specified penalty authorization code.
+   *
+   * @param orderNumberStr String representation of the order number
+   * @param penaltyAuthCode Penalty authorization code that should not be present
+   */
   @Then("the order {string} shall not contain penalty authorization code {string}")
   public void the_order_shall_not_contain_penalty_authorization_code(String orderNumberStr,
       String penaltyAuthCode) {
@@ -495,9 +619,17 @@ public class OrderStepDefinitions {
     assertNotEquals(authCode, order.getAuthorizationCode());
   }
 
-  /** 
-  * @author David Vo
-  */
+  /**
+   * @author David Vo
+   * Verifies that an order with the specified order number does not exist in the system.
+   * This method parses the order number from a string, retrieves the order from the system,
+   * and asserts that the order is null, indicating it does not exist (e.g., after cancellation).
+   *
+   * @param string the order number as a string, which will be parsed as an integer.
+   * @since 1.0
+   * @throws NumberFormatException if {@code string} cannot be parsed as an integer.
+   * @throws AssertionError if the order exists in the system when it should not.
+   */
   @Then("the order {string} shall not exist in the system")
   public void the_order_shall_not_exist_in_the_system(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -558,9 +690,12 @@ public class OrderStepDefinitions {
     }
   }
 
-  /** 
-  * @author David Zhou
-  */
+  /**
+   * @author David Zhou
+   * Verifies that the system contains the expected number of order items.
+   *
+   * @param expectedCountStr String representation of the expected number of order items
+   */
   @Then("the number of order items in the system shall be {string}")
   public void the_number_of_order_items_in_the_system_shall_be(String expectedCountStr) {
     List<OrderItem> orderItems = coolSupplies.getOrderItems();
