@@ -203,7 +203,38 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author David Zhou
    */
   public String payPenaltyForOrder(int orderNumber, String authorizationCode, String penaltyAuthorizationCode) {
+    // Retrieve the order using the order number
+    Order order = Order.getWithNumber(orderNumber);
 
+    // Check if order exists
+    if (order == null) {
+      return "Order " + orderNumber + " does not exist";
+    }
+
+    // Check if authorization codes are provided
+    if (penaltyAuthorizationCode == null || penaltyAuthorizationCode.isEmpty()) {
+      return "Penalty authorization code is invalid";
+    }
+
+    if (authorizationCode == null || authorizationCode.isEmpty()) {
+      return "Authorization code is invalid";
+    }
+
+    try {
+      boolean success = order.payPenalty(authorizationCode, penaltyAuthorizationCode);
+      if (success) {
+        CoolSuppliesPersistence.save();
+        return "Penalty payment successful. The order is now prepared.";
+      } else {
+        // Check specific statuses for message details
+        if (order.getStatus() == Order.Status.PickedUp) {
+          return "Cannot pay penalty for a picked up order";
+        }
+        return "Cannot pay penalty for a " + order.getStatus().toString().toLowerCase() + " order";
+      }
+    } catch (RuntimeException e) {
+      return e.getMessage();
+    }
   }
 
   /**
@@ -291,7 +322,95 @@ public class CoolSuppliesFeatureSet8Controller {
    * @author David Zhou
    */
   public TOOrder viewIndividualOrder(int orderNumber) {
+    Order order = Order.getWithNumber(orderNumber);
+    if (order == null) {
+      throw new RuntimeException("Order not found.");
+    }
 
+    // Initialize total price and list for order items
+    double totalPrice = 0;
+    List<TOOrderItem> items = new ArrayList<>();
+
+    for (OrderItem orderItem : order.getOrderItems()) {
+      InventoryItem item = orderItem.getItem();
+
+      if (item instanceof Item) {
+        // Handle standalone items (like erasers)
+        int itemPrice = (int) ((Item) item).getPrice();
+        items.add(new TOOrderItem(
+            orderItem.getQuantity(),
+            item.getName(),
+            "",
+            itemPrice,
+            null  // No discount for standalone items
+        ));
+        totalPrice += itemPrice * orderItem.getQuantity();
+      } else if (item instanceof GradeBundle) {
+
+        GradeBundle bundle = (GradeBundle) item;
+        double discountRate = bundle.getDiscount() / 100.0;
+
+        // Collect items within the bundle and initialize bundle total
+        List<TOOrderItem> bundleItems = new ArrayList<>();
+        int distinctItemCount = 0;
+
+        for (BundleItem bundleItem : bundle.getBundleItems()) {
+          if (bundleItem.getLevel() == order.getLevel() || (order.getLevel() == BundleItem.PurchaseLevel.Recommended && bundleItem.getLevel() == BundleItem.PurchaseLevel.Mandatory) || order.getLevel() == BundleItem.PurchaseLevel.Optional) {
+            int itemPrice = bundleItem.getItem().getPrice();
+            int totalItemQuantity = bundleItem.getQuantity() * orderItem.getQuantity();
+
+            // Check if this item is distinct within the bundle for discount
+            if (bundleItems.stream().noneMatch(i -> i.getItemName().equals(bundleItem.getItem().getName()))) {
+              distinctItemCount++;
+            }
+
+            TOOrderItem toOrderItem = new TOOrderItem(
+                totalItemQuantity,
+                bundleItem.getItem().getName(),
+                bundle.getName(),
+                itemPrice,
+                null
+            );
+            bundleItems.add(toOrderItem);
+
+            // Add this item’s cost to the total price for now (discount will adjust it if applicable)
+            totalPrice += itemPrice * totalItemQuantity;
+          }
+        }
+
+        // Apply discount to bundle items if eligible
+        if (distinctItemCount >= 2) {
+          for (TOOrderItem bundleItem : bundleItems) {
+            double discountPerItem = bundleItem.getPrice() * discountRate;
+
+            String discountString;
+            if (discountPerItem == Math.floor(discountPerItem)) {
+              discountString = String.valueOf((int) -discountPerItem);
+            } else {
+              discountString = String.valueOf(-discountPerItem);
+            }
+
+            bundleItem.setDiscount(discountString);
+            totalPrice -= discountPerItem * bundleItem.getQuantity();
+          }
+        }
+
+        items.addAll(bundleItems);
+      }
+    }
+
+    return new TOOrder(
+        order.getParent().getEmail(),
+        order.getStudent().getName(),
+        order.getStatusFullName(),
+        order.getNumber(),
+        order.getDate(),
+        order.getLevel().toString(),
+        order.getAuthorizationCode(),
+        order.getPenaltyAuthorizationCode(),
+        totalPrice,
+        items
+    );
   }
 
   /**
