@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+          prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+        <!-- TabPane -->
+        <TabPane prefHeight="400.0" prefWidth="600.0">
+            <!-- Admin Tab -->
+            <Tab text="Admin" closable="false">
+                <content>
+                    <fx:include source="pages/AdminPage.fxml" />
+                </content>
+            </Tab>
+
+            <!-- Bundles Tab -->
+            <Tab text="Bundles" closable="false">
+                <content>
+                    <fx:include source="pages/BundlePage.fxml" />
+                </content>
+            </Tab>
+
+            <!-- Students Tab -->
+            <Tab text="Students" closable="false">
+                <content>
+                    <fx:include source="pages/StudentPage.fxml" />
+                </content>
+            </Tab>
+
+            <!-- Inventory Tab -->
+            <Tab text="Inventory" closable="false">
+                <content>
+                    <fx:include source="pages/InventoryPage.fxml" />
+                </content>
+            </Tab>
+
+            <!-- Orders Tab -->
+            <Tab text="Orders" closable="false">
+                <content>
+                    <fx:include source="pages/OrdersPage.fxml" />
+                </content>
+            </Tab>
+        </TabPane>
+    </VBox>
+
+    <TextFlow layoutX="14.0" layoutY="39.0" prefHeight="59.0" prefWidth="202.0">
+        <Label graphicTextGap="6.0" prefHeight="37.0" prefWidth="382.0" text="CoolSupplies 1.0">
+            <font>
+                <Font size="28.0"/>
+            </font>
+        </Label>
+        <Label text="Welcome, Admin."/>
+        <Separator prefHeight="10.0" prefWidth="200.0"/>
+        <Label text="To get started, select the tabs above to navigate CoolSupplies!"/>
+    </TextFlow>
+</Pane>
