@@ -9,7 +9,7 @@ public class CoolSuppliesApplication {
 
   private static CoolSupplies coolSupplies;
 
-  public static final boolean DARK_MODE = true;
+  public static final boolean DARK_MODE = false;
 
   public static void main(String[] args) {
     Application.launch(CoolSuppliesFxmlView.class, args);
