@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SceneController {
+public class HomePageController {
 
     private Stage stage;
     private Scene scene;
