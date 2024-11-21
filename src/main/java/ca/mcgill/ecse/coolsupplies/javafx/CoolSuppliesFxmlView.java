@@ -68,5 +68,4 @@ public class CoolSuppliesFxmlView extends Application {
     public static CoolSuppliesFxmlView getInstance() {
         return instance;
     }
-
 }
