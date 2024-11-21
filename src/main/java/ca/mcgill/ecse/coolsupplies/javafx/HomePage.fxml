@@ -1,45 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <!-- TabPane that resizes dynamically -->
-    <TabPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <!-- Admin Tab -->
-        <Tab closable="false" text="Admin">
-            <content>
-                <fx:include source="pages/AdminPage.fxml" />
-            </content>
-        </Tab>
-
-        <!-- Bundles Tab -->
-        <Tab closable="false" text="Bundles">
-            <content>
-                <fx:include source="pages/BundlePage.fxml" />
-            </content>
-        </Tab>
-
-        <!-- Students Tab -->
-        <Tab closable="false" text="Parents">
-            <content>
-                <fx:include source="pages/ParentPage.fxml" />
-            </content>
-        </Tab>
-
-        <!-- Inventory Tab -->
-        <Tab closable="false" text="Inventory">
-            <content>
-                <fx:include source="pages/InventoryPage.fxml" />
-            </content>
-        </Tab>
-
-        <!-- Orders Tab -->
-        <Tab closable="false" text="Orders">
-            <content>
-                <fx:include source="pages/OrdersPage.fxml" />
-            </content>
-        </Tab>
-    </TabPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.SceneController">
+   <children>
+      <Button layoutX="115.0" layoutY="110.0" mnemonicParsing="false" onAction="#switchToAdminPage" text="Admin" />
+      <Button layoutX="202.0" layoutY="110.0" mnemonicParsing="false" onAction="#switchToBundlePage" text="Bundle" />
+      <Button layoutX="300.0" layoutY="110.0" mnemonicParsing="false" onAction="#switchToInventoryPage" text="Inventory" />
+      <Button layoutX="394.0" layoutY="110.0" mnemonicParsing="false" onAction="#switchToOrdersPage" text="Orders" />
+      <Button layoutX="115.0" layoutY="163.0" mnemonicParsing="false" onAction="#switchToParentPage" text="Parent" />
+   </children>
 </AnchorPane>
