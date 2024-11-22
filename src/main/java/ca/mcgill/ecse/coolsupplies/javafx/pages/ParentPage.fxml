@@ -4,111 +4,95 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.Priority?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<?import javafx.scene.control.ComboBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.StudentPageController">
+            fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.ParentPageController">
 
-    <!-- Title -->
-    <Label text="Parent Details" style="-fx-font-size: 48px; -fx-font-weight: bold;"
-           AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+    <!-- Top Section -->
+    <top>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <HBox spacing="20" alignment="CENTER">
+                <!-- Title Label -->
+                <Label text="Parent Details" style="-fx-font-size: 36px; -fx-font-weight: bold;" />
 
-    <!-- Parent Container -->
-    <HBox spacing="20.0" style="-fx-border-color: #ddd; -fx-border-width: 1px; -fx-padding: 10; -fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-border-radius: 10;"
-          AnchorPane.topAnchor="90.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" prefHeight="250.0" prefWidth="1200.0">
+                <!-- Add Parent Button -->
+                <Button text="Add Parent" style="-fx-background-color: #0078D7; -fx-text-fill: white; -fx-font-size: 14px;"
+                        onAction="#handleAddParent" />
 
-    <!-- Image Section -->
-        <ImageView fitHeight="250.0" fitWidth="250.0">
-            <image>
-                <Image url="@../resources/user1.jpg" />
-            </image>
-        </ImageView>
-
-        <!-- Details Section -->
-        <VBox spacing="10.0" alignment="CENTER_LEFT" prefWidth="1300.0">
-            <!-- Name -->
-            <Label text="Name: David Zhou" style="-fx-font-size: 30px;" />
-            <!-- Email -->
-            <Label text="Email: david.zhou3@mail.mcgill.ca" style="-fx-font-size: 30px;" />
-            <!-- Phone -->
-            <Label text="Phone: (123) 456 7899" style="-fx-font-size: 30px;" />
+                <!-- Add Student Button -->
+                <Button text="Add Student" style="-fx-background-color: #0078D7; -fx-text-fill: white; -fx-font-size: 14px;"
+                        onAction="#handleAddStudent" />
+            </HBox>
         </VBox>
-
-        <!-- Buttons Section -->
-        <VBox spacing="50.0" alignment="CENTER">
-            <Button text="Change Parent" style="-fx-background-color: #0078D7; -fx-text-fill: white; -fx-font-size: 16px;" prefWidth="210.0" prefHeight="70.0" />
-            <Button text="Delete Account" style="-fx-background-color: #E81123; -fx-text-fill: white; -fx-font-size: 16px;" prefWidth="210.0" prefHeight="70.0" />
-        </VBox>
-
-    </HBox>
-
-    <!-- Separator -->
-    <Separator AnchorPane.topAnchor="400.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-
-    <!-- Search Box -->
-    <TextField promptText="Search student to add" style="-fx-font-size: 16px; -fx-background-radius: 10;"
-               AnchorPane.topAnchor="430.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" prefHeight="40.0" />
+    </top>
 
 
-    <!-- Student Cards -->
-    <HBox spacing="10.0" AnchorPane.topAnchor="500.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+    <!-- Center Section - Now in ScrollPane -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 0;">
+            <VBox spacing="20" style="-fx-padding: 20;">
+                <!-- Parent Container -->
+                <HBox spacing="20.0" style="-fx-border-color: #ddd; -fx-border-width: 1px; -fx-padding: 10; -fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-border-radius: 10;"
+                      minHeight="300.0">
+                    <!-- Image Section -->
+                    <ImageView fitHeight="250.0" fitWidth="250.0" preserveRatio="true">
+                        <image>
+                            <Image url="@../resources/user1.jpg" />
+                        </image>
+                    </ImageView>
 
-        <!-- Card 1 -->
-        <VBox spacing="8.0" prefWidth="100.0" prefHeight="100.0" style="-fx-background-color: #FF4081; -fx-background-radius: 10; -fx-padding: 8;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
-            <Label text="Shayan" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 8;" />
-            <Separator style="-fx-background-color: white;" />
-            <Label text="Grade: 3" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Label text="Student ID: 12" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Region prefHeight="20.0" maxHeight="20.0" />
-            <VBox alignment="BOTTOM_CENTER">
-                <Button text="Start Order" style="-fx-background-color: white; -fx-text-fill: #FF4081; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 30px;" />
+                    <!-- Details Section -->
+                    <VBox spacing="15.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" style="-fx-padding: 0 20 0 0;">
+                        <Label fx:id="nameLabel" text="Name: " style="-fx-font-size: 24px;" />
+                        <Label fx:id="emailLabel" text="Email: " style="-fx-font-size: 24px;" />
+                        <Label fx:id="phoneLabel" text="Phone: " style="-fx-font-size: 24px;" />
+                    </VBox>
+
+                    <!-- Buttons Section -->
+                    <VBox spacing="30.0" alignment="CENTER_RIGHT">
+                        <Button text="Change Parent" style="-fx-background-color: #0078D7; -fx-text-fill: white; -fx-font-size: 14px;"
+                                prefWidth="180.0" prefHeight="50.0"
+                                onAction="#handleChangeParent" />
+                        <Button text="Delete Account" style="-fx-background-color: #E81123; -fx-text-fill: white; -fx-font-size: 14px;"
+                                prefWidth="180.0" prefHeight="50.0"
+                                onAction="#handleDeleteParent"/>
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="50"> <!-- Increased spacing between components -->
+                    <!-- Separator -->
+                    <Separator />
+
+                    <!-- Search Box with Confirm Button -->
+                    <HBox spacing="10" alignment="CENTER">
+                        <ComboBox fx:id="searchComboBox" editable="true" promptText="Search student to add"
+                                  style="-fx-font-size: 14px;"
+                                  prefHeight="40.0" HBox.hgrow="ALWAYS" />
+                        <Button text="Add Student"
+                                style="-fx-background-color: #0078D7; -fx-text-fill: white; -fx-font-size: 14px;"
+                                prefHeight="40.0" prefWidth="100.0"
+                                onAction="#handleSearchStudent" />
+                    </HBox>
+                </VBox>
             </VBox>
-        </VBox>
+        </ScrollPane>
+    </center>
 
-        <!-- Card 2 -->
-        <VBox spacing="8.0" prefWidth="100.0" prefHeight="100.0" style="-fx-background-color: #8E24AA; -fx-background-radius: 10; -fx-padding: 8;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
-            <Label text="Jun Ho" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 8;" />
-            <Separator style="-fx-background-color: white;" />
-            <Label text="Grade: 5" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Label text="Student ID: 35" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Region prefHeight="20.0" maxHeight="20.0" />
-            <VBox alignment="BOTTOM_CENTER">
-                <Button text="View Order" style="-fx-background-color: white; -fx-text-fill: #8E24AA; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 30px;" />
-            </VBox>
-        </VBox>
+    <!-- Bottom Section - Now with fixed minimum height and scroll -->
+    <bottom>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 0;" minHeight="300.0" maxHeight="400.0">
+            <HBox fx:id="studentCardContainer" spacing="10.0" style="-fx-padding: 20;" alignment="CENTER" />
+        </ScrollPane>
+    </bottom>
 
-        <!-- Card 3 -->
-        <VBox spacing="8.0" prefWidth="100.0" prefHeight="100.0" style="-fx-background-color: #1E88E5; -fx-background-radius: 10; -fx-padding: 8;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
-            <Label text="Jack" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 8;" />
-            <Separator style="-fx-background-color: white;" />
-            <Label text="Grade: 1" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Label text="Student ID: 64" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Region prefHeight="20.0" maxHeight="20.0" />
-            <VBox alignment="BOTTOM_CENTER">
-                <Button text="View Order" style="-fx-background-color: white; -fx-text-fill: #1E88E5; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 30px;" />
-            </VBox>
-        </VBox>
-
-        <!-- Card 4 -->
-        <VBox spacing="8.0" prefWidth="100.0" prefHeight="100.0" style="-fx-background-color: #03A9F4; -fx-background-radius: 10; -fx-padding: 8;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
-            <Label text="Hamza" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 8;" />
-            <Separator style="-fx-background-color: white;" />
-            <Label text="Grade: 2" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Label text="Student ID: 95" style="-fx-text-fill: white; -fx-font-size: 30px; -fx-padding: 15;" />
-            <Region prefHeight="20.0" maxHeight="20.0" />
-            <VBox alignment="BOTTOM_CENTER">
-                <Button text="Start Order" style="-fx-background-color: white; -fx-text-fill: #03A9F4; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 30px;" />
-            </VBox>
-        </VBox>
-
-
-
-    </HBox>
-
-</AnchorPane>
+</BorderPane>
