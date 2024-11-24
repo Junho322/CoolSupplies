@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="240.0" prefWidth="388.0" style="-fx-background-color: F4F2F2;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.GradeController">
+<AnchorPane prefHeight="240.0" prefWidth="388.0" style="-fx-background-color: F4F2F2;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.UpdateGradeController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="127.0" text="Grade Level:" textAlignment="CENTER">
+            <Label alignment="CENTER" prefHeight="20.0" prefWidth="181.0" text="Change Grade Level:" textAlignment="CENTER">
                <font>
                   <Font name="SansSerif Bold" size="16.0" />
                </font>
@@ -31,7 +31,7 @@
                   <InnerShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" width="5.0" />
                </effect>
             </TextField>
-            <Button fx:id="addGradeButton" mnemonicParsing="false" onAction="#handleAddGrade" prefHeight="36.0" prefWidth="157.0" style="-fx-background-color: #006EA6;" text="Add Grade" textFill="WHITE">
+            <Button fx:id="updateGradeButton" mnemonicParsing="false" onAction="#handleAddGrade" prefHeight="36.0" prefWidth="157.0" style="-fx-background-color: #006EA6;" text="Update Grade" textFill="WHITE">
                <font>
                   <Font name="SansSerif Bold" size="16.0" />
                </font>
@@ -41,5 +41,18 @@
             </Button>
          </children>
       </VBox>
+      <Button fx:id="deleteGradeButton" layoutX="143.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleAddGrade" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: #E81123;" text="Delete Grade" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="13.0" />
+         </font>
+         <effect>
+            <DropShadow height="15.0" offsetX="1.5" offsetY="1.5" radius="7.0" width="15.0" />
+         </effect>
+      </Button>
+      <Label fx:id="currentGradeLabel" alignment="CENTER" layoutX="54.0" layoutY="3.0" prefHeight="56.0" prefWidth="276.0" text="Current Grade Level" textAlignment="CENTER">
+         <font>
+            <Font name="SansSerif Bold" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

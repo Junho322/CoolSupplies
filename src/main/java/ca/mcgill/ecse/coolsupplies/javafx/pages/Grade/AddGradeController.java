@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages;
+package ca.mcgill.ecse.coolsupplies.javafx.pages.Grade;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
 import javafx.event.ActionEvent;
@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 
-public class GradeController {
+public class AddGradeController {
 
     @FXML
     private TextField gradeInputField; // TextField for user input of grade
