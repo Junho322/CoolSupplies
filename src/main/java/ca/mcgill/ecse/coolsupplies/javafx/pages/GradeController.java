@@ -1,23 +1,12 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class GradeController {
 
@@ -58,10 +47,5 @@ public class GradeController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    public void setGradePageController(GradePageController gradePageController) {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'setGradePageController'");
     }
 }

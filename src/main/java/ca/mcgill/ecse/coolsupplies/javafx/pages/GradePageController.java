@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,13 +16,21 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 
-public class GradePageController {
+import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+public class GradePageController implements Initializable {
 
     @FXML
     private ListView<String> gradeListView;
@@ -35,8 +44,9 @@ public class GradePageController {
      * Initializes the GradePageController and loads the grade list.
      */
     @FXML
-    public void initialize() {
-        loadGrades();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //loadGrades();
     }
 
     /**
@@ -63,27 +73,23 @@ public class GradePageController {
      * @param event the ActionEvent triggered by the Add Grade button
      */
     @FXML
-    private void handleAddGrade(ActionEvent event) {
+    void addGrade(ActionEvent event) throws IOException {
         try {
-            // Load the Grade.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("./Grade.fxml"));
-            Parent root = loader.load();
-
-            // Get the GradeController instance
-            GradeController gradeController = loader.getController();
-
-            // Pass the current GradePageController instance to GradeController
-            gradeController.setGradePageController(this);
-
-            // Open the Grade.fxml scene in a new modal window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Grade.fxml"));
+            Parent root1 = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Grade Details");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.showAndWait(); // Wait for the modal window to close
+
+            stage.setTitle("Add Grade");
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
+            stage.showAndWait(); // Use showAndWait to block the admin page until the register parent window is closed
+
+       
+
+            initialize(null, null);
+
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Error", "Could not open the Add Grade page.");
         }
     }
 
