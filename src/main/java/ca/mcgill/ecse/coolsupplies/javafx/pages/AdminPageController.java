@@ -5,15 +5,22 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet6Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
 import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -34,6 +41,18 @@ public class AdminPageController implements Initializable {
 
     @FXML
     private Label parentNameLabel;
+
+    @FXML
+    private Button registerParent;
+
+    @FXML
+    private Button registerStudent;
+
+    @FXML
+    private Button updatePassword;
+
+    @FXML
+    private Button startSchoolYear;
 
     private ArrayList<TOParent> parents = new ArrayList<>();
     private EventListener listener;
@@ -58,6 +77,7 @@ public class AdminPageController implements Initializable {
         initializeStudentList(parent.getEmail());
     }
 
+    @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         parents = getData();
@@ -153,5 +173,26 @@ public class AdminPageController implements Initializable {
         grid1.setPrefWidth(scroll.getWidth() - 4.5);
         GridPane.setVgrow(label, Priority.NEVER);
         grid1.add(label, 0, i);
+    }
+
+    @FXML
+    void registerParent(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisterParent.fxml"));
+            Parent root1 = loader.load();
+            Stage stage = new Stage();
+
+            stage.setTitle("Register Parent");
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
+            stage.showAndWait(); // Use showAndWait to block the admin page until the register parent window is closed
+
+            // Refresh parent list
+            parents = getData();
+            initialize(null, null);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
