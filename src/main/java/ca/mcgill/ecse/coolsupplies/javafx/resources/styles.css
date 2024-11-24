@@ -1,7 +1,7 @@
 .highlight {
-    -fx-background-color: lightblue;
+    -fx-background-color: #9BCCF4;
 }
 
 .non-highlight {
-    -fx-background-color: lightgray;
+    -fx-background-color: #CEEFFF;
 }
