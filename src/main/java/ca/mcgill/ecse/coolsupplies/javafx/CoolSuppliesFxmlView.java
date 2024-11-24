@@ -24,7 +24,7 @@ public class CoolSuppliesFxmlView extends Application {
     public void start(Stage primaryStage) {
         instance = this;
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("./pages/GradePage.fxml"));
             root.setStyle(CoolSuppliesApplication.DARK_MODE ? "-fx-base: rgba(20, 20, 20, 255);" : "");
 
             var scene = new Scene(root, Color.BLACK);
