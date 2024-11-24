@@ -30,9 +30,10 @@ public class CoolSuppliesFxmlView extends Application {
             var scene = new Scene(root, Color.BLACK);
             primaryStage.setScene(scene);
 
-            primaryStage.setMinWidth(800);
-            primaryStage.setMinHeight(600);
-            primaryStage.setMaximized(true);
+            primaryStage.setMinWidth(1200);
+            primaryStage.setMinHeight(800);
+            primaryStage.setX(0);
+            primaryStage.setY(0);
             primaryStage.setTitle("CoolSupplies");
             primaryStage.show();
 //            refresh();
