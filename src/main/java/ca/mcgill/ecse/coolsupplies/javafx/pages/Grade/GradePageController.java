@@ -30,7 +30,6 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet6Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
-import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListener;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.ParentController;
 
 
@@ -102,49 +101,50 @@ public class GradePageController implements Initializable {
         }
 
         //set grid height
+        grid.getChildren().clear();
         grid1.setMinHeight(Region.USE_COMPUTED_SIZE);
         grid1.setPrefHeight(700);
         grid1.setMaxHeight(Region.USE_COMPUTED_SIZE);
 
-        // int students = 0;
-        // int i = 0;
-        // for (TOGrade grade : grades) {
-        //     try {
-        //         FXMLLoader fxmlLoader = new FXMLLoader();
-        //         fxmlLoader.setLocation(getClass().getResource("Grade.fxml"));
-        //         AnchorPane anchorPane = fxmlLoader.load();
+        int students = 0;
+        int i = 0;
+        for (TOGrade grade : grades) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Grade.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
 
-        //         if (lastSelectedCard == null) {
-        //             setChosenGrade(grade, anchorPane);
-        //             lastSelectedCard = anchorPane;
-        //         }
+                if (lastSelectedCard == null) {
+                    setChosenGrade(grade, anchorPane);
+                    lastSelectedCard = anchorPane;
+                }
 
-        //         students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parent.getEmail()).size();
-        //         ParentController parentController = fxmlLoader.getController();
-        //         parentController.setParent(parent, students, listener);
+                //students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parent.getEmail()).size();
+                GradeController gradeController = fxmlLoader.getController();
+                gradeController.setGrade(grade, listener);
 
-        //         anchorPane.setOnMouseClicked(event -> {
-        //             setChosenParent(parent, anchorPane);
-        //         });
+                anchorPane.setOnMouseClicked(event -> {
+                    setChosenGrade(grade, anchorPane);
+                });
 
-        //         grid.add(anchorPane, 0, i);
-        //         i++;
+                grid.add(anchorPane, 0, i);
+                i++;
 
-        //         //set grid width
-        //         grid.setMinWidth(Region.USE_PREF_SIZE);
-        //         grid.setPrefWidth(485);
-        //         grid.setMaxWidth(Region.USE_PREF_SIZE);
+                //set grid width
+                grid.setMinWidth(Region.USE_PREF_SIZE);
+                grid.setPrefWidth(485);
+                grid.setMaxWidth(Region.USE_PREF_SIZE);
 
-        //         //set grid height
-        //         grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-        //         grid.setPrefHeight(700);
-        //         grid.setMaxHeight(Region.USE_COMPUTED_SIZE);
+                //set grid height
+                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefHeight(700);
+                grid.setMaxHeight(Region.USE_COMPUTED_SIZE);
 
-        //         GridPane.setMargin(anchorPane, new Insets(3));
-        //     } catch (Exception e) {
-        //         e.printStackTrace();
-        //     }
-        // }
+                GridPane.setMargin(anchorPane, new Insets(3));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -155,7 +155,7 @@ public class GradePageController implements Initializable {
     @FXML
     void switchToAddGrade(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("./Grade/AddGrade.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("./AddGrade.fxml"));
             Parent root1 = loader.load();
             Stage stage = new Stage();
 
@@ -164,6 +164,7 @@ public class GradePageController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
             stage.showAndWait(); // Use showAndWait to block the admin page until the register parent window is closed
 
+            grades = getData();
             initialize(null, null);
 
         } catch (IOException e) {
@@ -183,7 +184,7 @@ public class GradePageController implements Initializable {
     }
 
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("./Grade/UpdateGrade.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("./UpdateGrade.fxml"));
         Parent root = loader.load();
 
         // Get UpdateGradeController instance and pass the selected grade
@@ -196,6 +197,7 @@ public class GradePageController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
+        grades = getData();
         // Refresh the grades after the update
         initialize(null, null);
 

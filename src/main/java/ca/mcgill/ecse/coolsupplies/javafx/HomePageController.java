@@ -35,14 +35,14 @@ public class HomePageController {
     }
 
     public void switchToGradePage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("pages/GradePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("pages/Grade/GradePage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
     }
-    
+
     public void switchToInventoryPage(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("pages/InventoryPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

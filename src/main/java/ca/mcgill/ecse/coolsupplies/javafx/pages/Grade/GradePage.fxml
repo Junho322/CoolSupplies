@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.GradePageController">
    <top>
       <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
          <columnConstraints>
@@ -155,7 +155,7 @@
                                  <effect>
                                     <DropShadow height="10.0" offsetX="1.0" offsetY="1.0" radius="4.5" width="10.0" />
                                  </effect></Button>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="Start School Year" textFill="WHITE" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                              <Button fx:id="addGradeButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToAddGrade" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="Add Grade" textFill="WHITE" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -184,7 +184,7 @@
                                     <Font name="SansSerif Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="phoneNumber" text="Phone: +1 (123) 123-1234">
+                              <Label text="Phone: +1 (123) 123-1234">
                                  <font>
                                     <Font name="SansSerif Bold" size="15.0" />
                                  </font></Label>
@@ -228,7 +228,7 @@
                                     <Insets />
                                  </GridPane.margin>
                               </Line>
-                              <Label text="&gt; Parents" GridPane.valignment="BOTTOM">
+                              <Label text="&gt; Grades" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets left="8.0" />
                                  </GridPane.margin>
@@ -247,7 +247,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Button fx:id="registerParent" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registerParent" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Register" textAlignment="CENTER" textFill="WHITE">
+                                    <Button contentDisplay="CENTER" mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="N/A" textAlignment="CENTER" textFill="WHITE">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -319,7 +319,7 @@
                                     <Insets left="8.0" />
                                  </GridPane.margin>
                               </Line>
-                              <Label fx:id="parentNameLabel" text="&gt; ParentName" GridPane.valignment="BOTTOM">
+                              <Label fx:id="gradeNameLabel" text="&gt; GradeName" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets left="8.0" />
                                  </GridPane.margin>
@@ -384,7 +384,7 @@
                                           <Font name="SansSerif Bold" size="15.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Register Student" textFill="WHITE" GridPane.columnIndex="3">
+                                    <Button fx:id="updateGradeButton" mnemonicParsing="false" onAction="#switchToUpdateGrade" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Update Grade" textFill="WHITE" GridPane.columnIndex="3">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>

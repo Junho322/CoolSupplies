@@ -31,7 +31,7 @@
                   <InnerShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" width="5.0" />
                </effect>
             </TextField>
-            <Button fx:id="updateGradeButton" mnemonicParsing="false" onAction="#handleAddGrade" prefHeight="36.0" prefWidth="157.0" style="-fx-background-color: #006EA6;" text="Update Grade" textFill="WHITE">
+            <Button fx:id="updateGradeButton" mnemonicParsing="false" onAction="#handleUpdateGrade" prefHeight="36.0" prefWidth="157.0" style="-fx-background-color: #006EA6;" text="Update Grade" textFill="WHITE">
                <font>
                   <Font name="SansSerif Bold" size="16.0" />
                </font>
@@ -41,7 +41,7 @@
             </Button>
          </children>
       </VBox>
-      <Button fx:id="deleteGradeButton" layoutX="143.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleAddGrade" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: #E81123;" text="Delete Grade" textFill="WHITE">
+      <Button fx:id="deleteGradeButton" layoutX="143.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleDeleteGrade" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: #E81123;" text="Delete Grade" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="13.0" />
          </font>
