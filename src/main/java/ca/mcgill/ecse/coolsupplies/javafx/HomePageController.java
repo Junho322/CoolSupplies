@@ -19,6 +19,7 @@ public class HomePageController {
         Parent root = FXMLLoader.load(getClass().getResource("pages/AdminPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("resources/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

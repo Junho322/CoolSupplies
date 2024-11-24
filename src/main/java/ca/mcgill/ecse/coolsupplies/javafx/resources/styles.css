@@ -1,0 +1,7 @@
+.highlight {
+    -fx-background-color: lightblue;
+}
+
+.non-highlight {
+    -fx-background-color: lightgray;
+}
