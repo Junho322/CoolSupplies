@@ -35,6 +35,13 @@ public class CoolSuppliesFeatureSet6Controller {
       return "The parent does not exist.";
     }
 
+    List<TOStudent> studentsOfParent = getStudentsOfParent(parentEmail);
+    for (TOStudent existingStudent : studentsOfParent) {
+      if (existingStudent.getName().equals(studentName)) {
+        return "The student is already assigned to parent.";
+      }
+    }
+
       try {
           parent.addStudent(student);
           CoolSuppliesPersistence.save();

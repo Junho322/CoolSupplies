@@ -308,11 +308,6 @@ public class ParentPageController {
     // Show a success or error message based on the result
     Alert alert;
     if (result.equals("Student added to parent.")) {
-      alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("Success");
-      alert.setHeaderText(null);
-      alert.setContentText(result);
-
       // Refresh the student cards
       List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parentEmail);
       populateStudentCards(students);
@@ -321,9 +316,8 @@ public class ParentPageController {
       alert.setTitle("Error");
       alert.setHeaderText(null);
       alert.setContentText(result);
+      alert.showAndWait();
     }
-
-    alert.showAndWait();
   }
 
 
@@ -353,8 +347,6 @@ public class ParentPageController {
       // Header with Remove Button
       HBox header = new HBox();
       header.setAlignment(Pos.TOP_RIGHT);
-
-      /*
       Button removeButton = new Button("X");
       removeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px;");
 
@@ -366,8 +358,6 @@ public class ParentPageController {
       });
 
       header.getChildren().add(removeButton);
-
-       */
 
       // Student Details
       Label nameLabel = new Label(student.getName());
