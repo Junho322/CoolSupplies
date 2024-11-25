@@ -56,6 +56,12 @@ public class RegisterParentController {
         //close window
         Stage stage = (Stage) registerButton.getScene().getWindow();
         stage.close();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText("Parent registered successfully");
+        alert.showAndWait();
     }
 
     public void initialize() {
