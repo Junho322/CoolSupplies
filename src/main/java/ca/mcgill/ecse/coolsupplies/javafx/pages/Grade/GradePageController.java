@@ -32,7 +32,6 @@ import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
 import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.ParentController;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.StudentController;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.*;
 
 
@@ -164,7 +163,6 @@ public class GradePageController implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 StudentOfGradeController studentOfGradeController = fxmlLoader.getController();
-                
                 studentOfGradeController.setStudent(student, listener);
 
                 anchorPane.setMinWidth(scroll.getWidth() - 17);
