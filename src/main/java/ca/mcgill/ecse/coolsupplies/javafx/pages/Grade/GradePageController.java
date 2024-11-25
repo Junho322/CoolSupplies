@@ -30,7 +30,10 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet6Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
+import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.ParentController;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.StudentController;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.*;
 
 
 public class GradePageController implements Initializable {
@@ -83,7 +86,7 @@ public class GradePageController implements Initializable {
         card.getStyleClass().add("highlight");
         lastSelectedCard = card;
 
-        //TODO: initializeStudentList(parent.getEmail());
+        initializeStudentList(grade.getLevel());
     }
 
     @FXML
@@ -119,9 +122,9 @@ public class GradePageController implements Initializable {
                     lastSelectedCard = anchorPane;
                 }
 
-                //students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parent.getEmail()).size();
+                students = CoolSuppliesFeatureSet7Controller.getStudentsOfGrade(grade.getLevel()).size();
                 GradeController gradeController = fxmlLoader.getController();
-                gradeController.setGrade(grade, listener);
+                gradeController.setGrade(grade, students, listener);
 
                 anchorPane.setOnMouseClicked(event -> {
                     setChosenGrade(grade, anchorPane);
@@ -146,6 +149,47 @@ public class GradePageController implements Initializable {
             }
         }
     }
+
+    private void initializeStudentList(String gradeLevel) {
+        int i = 0;
+
+        ArrayList<TOStudent> students = new ArrayList<>(CoolSuppliesFeatureSet7Controller.getStudentsOfGrade(gradeLevel));
+
+        grid1.getChildren().clear();
+
+        for (TOStudent student: students) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("StudentOfGrade.fxml")); //??
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                StudentOfGradeController studentOfGradeController = fxmlLoader.getController();
+                
+                studentOfGradeController.setStudent(student, listener);
+
+                anchorPane.setMinWidth(scroll.getWidth() - 17);
+                anchorPane.setMaxWidth(scroll.getWidth() - 17);
+                studentOfGradeController.setSize(scroll.getWidth() - 222);
+
+                anchorPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                GridPane.setVgrow(anchorPane, Priority.NEVER);
+                grid1.add(anchorPane, 0, i);
+                i++;
+
+                GridPane.setMargin(anchorPane, new Insets(3));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Label label = new Label();
+        label.setText("");
+        label.setMinWidth(scroll.getWidth() - 4.5);
+        grid1.setPrefWidth(scroll.getWidth() - 4.5);
+        GridPane.setVgrow(label, Priority.NEVER);
+        grid1.add(label, 0, i);
+    }
+
+
 
     /**
      * Handles the Add Grade button click by opening the Grade.fxml scene.

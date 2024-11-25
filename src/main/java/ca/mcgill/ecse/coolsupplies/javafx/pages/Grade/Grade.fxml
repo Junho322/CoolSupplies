@@ -21,6 +21,17 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
+                  <Label fx:id="studentLabel" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="334.0" text="N STUDENTS" textAlignment="RIGHT">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="12.0" top="2.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
             <Label text="Click to view grade">
