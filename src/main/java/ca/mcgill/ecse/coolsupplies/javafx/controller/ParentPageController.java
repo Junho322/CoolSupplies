@@ -264,9 +264,7 @@ public class ParentPageController {
   private String formatPhoneNumber(int phoneNumber) {
     String phoneStr = String.valueOf(phoneNumber);
     // Assuming 7-digit phone number
-    return "(" + phoneStr.substring(0, 3) + ") " +
-        phoneStr.substring(3, 6) + " " +
-        phoneStr.substring(6);
+    return "(123) " + phoneStr.substring(0, 3) + "-" + phoneStr.substring(3);
   }
   private static final String[] COLORS = {"#FF4081", "#8E24AA", "#1E88E5", "#03A9F4"};
   public void populateStudentCards(List<TOStudent> students) {

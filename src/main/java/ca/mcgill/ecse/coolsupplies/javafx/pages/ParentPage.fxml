@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.ParentPageController"
-            style="-fx-background-color: #F9FAFB;">
+<BorderPane style="-fx-background-color: #F9FAFB;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.ParentPageController">
 
     <!-- Top Navigation Bar -->
     <top>
-        <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
+        <GridPane alignment="CENTER" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="30.0" prefWidth="500.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="556.7999938964844" />
@@ -98,31 +103,26 @@
         <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 20;">
             <VBox spacing="20">
                 <!-- Parent Info Card -->
-                <VBox style="-fx-background-color: #B1B1B1; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 1); -fx-min-height: 200; -fx-max-width: 2000;"
-                      alignment="CENTER">
-                <HBox spacing="40" style="-fx-padding: 20;" alignment="CENTER_LEFT">
+                <VBox alignment="CENTER" style="-fx-background-color: #B1B1B1; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 1); -fx-min-height: 200; -fx-max-width: 2000;">
+                <HBox alignment="CENTER_LEFT" spacing="40" style="-fx-padding: 20;">
                         <!-- Profile Image -->
                         <StackPane style="-fx-background-color: #F3F4F6; -fx-background-radius: 8; -fx-min-width: 150; -fx-min-height: 150; -fx-max-width: 200; -fx-max-height: 200;">
                             <ImageView fitHeight="140" fitWidth="140" preserveRatio="true">
-                                <Image url="@../resources/user1.jpg"/>
+                                <Image url="@../resources/user1.jpg" />
                             </ImageView>
                         </StackPane>
 
                         <!-- Parent Details -->
-                        <VBox spacing="16" alignment="CENTER_LEFT" style="-fx-max-width: 600;">
-                            <Label fx:id="nameLabel" text="Name: " style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-                            <Label fx:id="emailLabel" text="Email: " style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-                            <Label fx:id="phoneLabel" text="Phone: " style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                        <VBox alignment="CENTER_LEFT" spacing="16" style="-fx-max-width: 600;">
+                            <Label fx:id="nameLabel" style="-fx-font-size: 20; -fx-font-weight: bold;" text="Name: " />
+                            <Label fx:id="emailLabel" style="-fx-font-size: 20; -fx-font-weight: bold;" text="Email: " />
+                            <Label fx:id="phoneLabel" style="-fx-font-size: 20; -fx-font-weight: bold;" text="Phone: " />
                         </VBox>
 
                         <!-- Action Buttons -->
-                        <VBox spacing="20" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                            <Button text="Change Parent"
-                                    style="-fx-background-color: #2563EB; -fx-text-fill: white; -fx-background-radius: 6; -fx-min-width: 200; -fx-min-height: 50; -fx-font-size: 16;"
-                                    onAction="#handleChangeParent"/>
-                            <Button text="Delete Account"
-                                    style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-background-radius: 6; -fx-min-width: 200; -fx-min-height: 50; -fx-font-size: 16;"
-                                    onAction="#handleDeleteParent"/>
+                        <VBox alignment="CENTER_RIGHT" spacing="20" HBox.hgrow="ALWAYS">
+                            <Button onAction="#handleChangeParent" style="-fx-background-color: #2563EB; -fx-text-fill: white; -fx-background-radius: 6; -fx-min-width: 200; -fx-min-height: 50; -fx-font-size: 16;" text="Change Parent" />
+                            <Button onAction="#handleDeleteParent" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-background-radius: 6; -fx-min-width: 200; -fx-min-height: 50; -fx-font-size: 16;" text="Delete Account" />
                         </VBox>
                     </HBox>
                 </VBox>
@@ -131,11 +131,7 @@
 
                 <!-- Search Bar -->
                 <HBox alignment="CENTER" style="-fx-padding: 10 0;">
-                    <ComboBox fx:id="searchComboBox"
-                              editable="true"
-                              promptText="Search student to add"
-                              onAction="#handleSearchStudent"
-                              style="-fx-min-width: 1000; -fx-min-height: 70; -fx-background-radius: 20; -fx-background-color: #B1B1B1; -fx-border-color: #E5E7EB; -fx-border-radius: 20; -fx-padding: 12; -fx-font-size: 18;"/>
+                    <ComboBox fx:id="searchComboBox" editable="true" onAction="#handleSearchStudent" promptText="Search student to add" style="-fx-min-width: 1000; -fx-min-height: 70; -fx-background-radius: 20; -fx-background-color: #B1B1B1; -fx-border-color: #E5E7EB; -fx-border-radius: 20; -fx-padding: 12; -fx-font-size: 18;" />
                 </HBox>
 
 
