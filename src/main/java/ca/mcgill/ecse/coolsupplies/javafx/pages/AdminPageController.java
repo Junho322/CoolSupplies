@@ -366,8 +366,12 @@ public class AdminPageController implements Initializable {
 
       // Set the new scene
       stage.setScene(new Scene(parentPageRoot));
+      stage.setTitle("CoolSupplies - Parent Page");
+      stage.setResizable(true);
       stage.setMaximized(true);
-
+      stage.setWidth(stage.getMaxWidth());
+      stage.setHeight(stage.getMaxHeight());
+      stage.show();
     } catch (IOException e) {
       e.printStackTrace();
     }
