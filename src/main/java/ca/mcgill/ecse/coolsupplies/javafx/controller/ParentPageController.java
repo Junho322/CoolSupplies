@@ -1,7 +1,8 @@
 package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
-    import javafx.collections.FXCollections;
+import ca.mcgill.ecse.coolsupplies.model.Student;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
+
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,81 +95,6 @@ public class ParentPageController {
 
     // Bind the filtered list to the ComboBox items
     searchComboBox.setItems(filteredStudentNames);
-  }
-
-  // THIS IS ONLY A HELPER FUNCTION SO I CAN ADD PARENTS TO SYSTEM
-  @FXML
-  private void handleAddParent(ActionEvent event) {
-    String email = "david.zhou3@mail.mcgill.ca";
-    String password = "Secure123!";
-    String name = "David Zhou";
-    int phoneNumber = 1234567;
-
-    String result = CoolSuppliesFeatureSet1Controller.addParent(email, password, name, phoneNumber);
-
-    String email2 = "diddy.wang@mail.mcgill.ca";
-    String password2 = "Secure123!";
-    String name2 = "Diddy Wang";
-    int phoneNumber2 = 1234567;
-
-    String result2 = CoolSuppliesFeatureSet1Controller.addParent(email2, password2, name2, phoneNumber2);
-
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("Add Parent");
-    alert.setHeaderText(null);
-    alert.setContentText(result);
-    alert.showAndWait();
-  }
-
-  // THIS IS ONLY A HELPER FUNCTION SO I CAN ADD STUDENTS TO SYSTEM
-  @FXML
-  private void handleAddStudent(ActionEvent event) {
-    CoolSuppliesFeatureSet7Controller.addGrade("1");
-    CoolSuppliesFeatureSet7Controller.addGrade("2");
-    CoolSuppliesFeatureSet7Controller.addGrade("3");
-    CoolSuppliesFeatureSet7Controller.addGrade("4");
-    CoolSuppliesFeatureSet7Controller.addGrade("5");
-    CoolSuppliesFeatureSet7Controller.addGrade("6");
-    CoolSuppliesFeatureSet7Controller.addGrade("7");
-    CoolSuppliesFeatureSet7Controller.addGrade("8");
-
-    String name = "Diddy 1";
-    String gradeLevel = "1";
-    String result = CoolSuppliesFeatureSet2Controller.addStudent(name, gradeLevel);
-
-    String name2 = "Diddy 2";
-    String gradeLevel2 = "2";
-    String result2 = CoolSuppliesFeatureSet2Controller.addStudent(name2, gradeLevel2);
-
-    String name3 = "Diddy 3";
-    String gradeLevel3 = "3";
-    String result3 = CoolSuppliesFeatureSet2Controller.addStudent(name3, gradeLevel3);
-
-    String name4 = "Diddy 4";
-    String gradeLevel4 = "4";
-    String result4 = CoolSuppliesFeatureSet2Controller.addStudent(name4, gradeLevel4);
-
-    String name5 = "Jun Ho";
-    String gradeLevel5 = "5";
-    String result5 = CoolSuppliesFeatureSet2Controller.addStudent(name5, gradeLevel5);
-
-    String name6 = "Hamza";
-    String gradeLevel6 = "6";
-    String result6 = CoolSuppliesFeatureSet2Controller.addStudent(name6, gradeLevel6);
-
-    String name7 = "Shayan";
-    String gradeLevel7 = "7";
-    String result7 = CoolSuppliesFeatureSet2Controller.addStudent(name7, gradeLevel7);
-
-    String name8 = "Jack";
-    String gradeLevel8 = "8";
-    String result8 = CoolSuppliesFeatureSet2Controller.addStudent(name8, gradeLevel8);
-
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("Add Student");
-    alert.setHeaderText(null);
-    alert.setContentText(result);
-    alert.showAndWait();
   }
 
   @FXML
@@ -311,11 +239,6 @@ public class ParentPageController {
 
     // Validate the student name
     if (studentName == null || studentName.trim().isEmpty()) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Add Student");
-      alert.setHeaderText(null);
-      alert.setContentText("No student is selected.");
-      alert.showAndWait();
       return;
     }
 
@@ -344,50 +267,66 @@ public class ParentPageController {
   }
   private static final String[] COLORS = {"#FF4081", "#8E24AA", "#1E88E5", "#03A9F4"};
   private void populateStudentCards(List<TOStudent> students) {
-    studentCardContainer.getChildren().clear(); // Assuming `studentCardContainer` is the HBox containing the cards.
+    studentCardContainer.getChildren().clear(); // Clear existing cards
+
+    // Set a fixed spacing for the cards
+    studentCardContainer.setSpacing(20);
 
     int colorIndex = 0;
 
     for (TOStudent student : students) {
-      VBox card = new VBox(5);
-      card.setPrefWidth(270.0);
-      card.setMinHeight(300.0);
-      card.setStyle("-fx-background-color: " + COLORS[colorIndex] + "; -fx-background-radius: 10; -fx-padding: 8;");
+      // Create a card with fixed dimensions
+      VBox card = new VBox(20); // Increased spacing between elements in the card
+      card.setPrefWidth(350.0); // Increased width for the card
+      card.setPrefHeight(350.0); // Increased height for the card
+      card.setStyle("-fx-background-color: " + COLORS[colorIndex] + "; -fx-background-radius: 10; -fx-padding: 16;");
       colorIndex = (colorIndex + 1) % COLORS.length;
 
+      // Header with Remove Button
       HBox header = new HBox();
       header.setAlignment(Pos.TOP_RIGHT);
 
-      // Add X button
       Button removeButton = new Button("X");
-      removeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 18px;");
-      removeButton.setOnAction(e -> handleRemoveStudent(student.getName()));
+      removeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px;");
+      removeButton.setOnAction(e -> {
+        handleRemoveStudent(student.getName());
+        populateStudentCards(CoolSuppliesFeatureSet6Controller.getStudentsOfParent(
+                emailLabel.getText().replace("Email: ", "").trim()
+        )); // Refresh cards
+      });
 
       header.getChildren().add(removeButton);
 
       // Student Details
       Label nameLabel = new Label(student.getName());
-      nameLabel.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;");
+      nameLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5;");
       Separator separator = new Separator();
       separator.setStyle("-fx-background-color: white;");
       Label gradeLabel = new Label("Grade: " + student.getGradeLevel());
-      gradeLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+      gradeLabel.setStyle("-fx-font-size: 28px; -fx-text-fill: white; -fx-padding: 10;");
+
+      VBox detailsContainer = new VBox(10, nameLabel, separator, gradeLabel);
+      detailsContainer.setAlignment(Pos.CENTER);
+
+      // Buttons Container
+      VBox buttonsContainer = new VBox(15); // Increased spacing between buttons
+      buttonsContainer.setAlignment(Pos.CENTER);
+
+      Button startOrderButton = new Button("Start Order");
+      startOrderButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 28px;");
+      startOrderButton.setOnAction(e -> handleStartOrder(student));
+
+      buttonsContainer.getChildren().addAll(startOrderButton);
 
       // Add elements to card
-      card.getChildren().addAll(header, nameLabel, separator, gradeLabel);
+      card.getChildren().addAll(header, detailsContainer, buttonsContainer);
 
-      // Add button at the bottom
-      Button startOrderButton = new Button("Start Order");
-      startOrderButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 24px;");
-      Button viewOrderButton = new Button("View Order");
-      viewOrderButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 24px;");
-      card.getChildren().add(startOrderButton);
-      card.getChildren().add(viewOrderButton);
-
-      HBox.setHgrow(card, Priority.ALWAYS); // Allow dynamic resizing
-      studentCardContainer.getChildren().add(card); // Add card to container
+      // Add the card to the container
+      studentCardContainer.getChildren().add(card);
     }
   }
+
+
 
   private void handleRemoveStudent(String studentName) {
     String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
@@ -411,5 +350,61 @@ public class ParentPageController {
     }
   }
 
+  private void handleStartOrder(TOStudent student) {
+    String studentName = student.getName();
+    String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
+    java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis()); // Get current date as java.sql.Date
+
+    // Determine the lowest available order number
+    List<TOOrder> orders = CoolSuppliesFeatureSet8Controller.getOrders();
+    final int[] lowestAvailableNumber = {1}; // Use an array to make it effectively final
+    orders.forEach(order -> {
+      if (order.getNumber() == lowestAvailableNumber[0]) {
+        lowestAvailableNumber[0]++;
+      }
+    });
+
+    // Show a pop-up to select the order type
+    ChoiceDialog<String> dialog = new ChoiceDialog<>("mandatory", "mandatory", "recommended", "optional");
+    dialog.setTitle("Select Order Type");
+    dialog.setHeaderText("Choose the type of order:");
+    dialog.setContentText("Order Type:");
+
+    // Show the dialog and capture the user's choice
+    dialog.showAndWait().ifPresent(level -> {
+      // Call the startOrder method with the selected order type
+      String result = CoolSuppliesFeatureSet6Controller.startOrder(
+          lowestAvailableNumber[0],
+          currentDate,
+          level,
+          parentEmail,
+          studentName
+      );
+
+      // Display success or error message
+      if (result.equals("Order created successfully.")) {
+        showSuccessMessage("Order created successfully for " + studentName + ".");
+      } else {
+        showErrorMessage("Failed to create order: " + result);
+      }
+    });
+  }
+
+
+  private void showSuccessMessage(String message) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Success");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+  private void showErrorMessage(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
 
 }
