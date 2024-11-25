@@ -65,6 +65,12 @@ public class AdminPageController implements Initializable {
     @FXML
     private ImageView phone;
 
+    @FXML
+    private Button settingsButton;
+
+    @FXML
+    private Button logoutButton;
+
     private ArrayList<TOParent> parents = new ArrayList<>();
     private EventListener listener;
     private AnchorPane lastSelectedCard;
@@ -167,6 +173,7 @@ public class AdminPageController implements Initializable {
                 e.printStackTrace();
             }
         }
+        initializeButtonGraphics();
     }
 
     private void initializeStudentList(String parentEmail) {
@@ -212,6 +219,7 @@ public class AdminPageController implements Initializable {
             Stage stage = new Stage();
 
             stage.setTitle("Register Parent");
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
             stage.showAndWait(); // Use showAndWait to block the admin page until the register parent window is closed
@@ -287,6 +295,7 @@ public class AdminPageController implements Initializable {
             Stage stage = new Stage();
 
             stage.setTitle("Update Password");
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
             stage.showAndWait(); // Use showAndWait to block the admin page until the update password window is closed
@@ -300,10 +309,93 @@ public class AdminPageController implements Initializable {
     void deleteParentAccount(ActionEvent event) {
         try {
             String email = chosenParent.getEmail();
+
+            //confirmation window
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Parent");
+            alert.setHeaderText("Are you sure you want to delete this parent?");
+            alert.setContentText("This action cannot be undone.");
+            alert.getButtonTypes().setAll(alert.getButtonTypes().get(0), alert.getButtonTypes().get(1));
+            Boolean confirmed = alert.showAndWait().get() == alert.getButtonTypes().get(0);
+
+            if (!confirmed) {
+                return;
+            }
+
             CoolSuppliesFeatureSet1Controller.deleteParent(email);
             parents = null;
             initialize(null, null);
+
+            Alert alertConfirmation = new Alert(Alert.AlertType.INFORMATION);
+            alertConfirmation.setTitle("Success");
+            alertConfirmation.setHeaderText(null);
+            alertConfirmation.setContentText("Parent deleted successfully");
+            alertConfirmation.showAndWait();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initializeButtonGraphics() {
+        ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
+        settingsImage.setFitHeight(30);
+        settingsImage.setFitWidth(30);
+        settingsImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
+        logoutImage.setFitHeight(30);
+        logoutImage.setFitWidth(30);
+        logoutImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        settingsButton.setGraphic(settingsImage);
+        settingsButton.setText("");
+        settingsButton.setStyle("-fx-background-color: transparent;");
+        settingsButton.setPadding(new Insets(0, 8, 0, 0));
+        settingsButton.setPrefSize(30, 30);
+
+        logoutButton.setGraphic(logoutImage);
+        logoutButton.setText("");
+        logoutButton.setStyle("-fx-background-color: transparent;");
+        logoutButton.setPadding(new Insets(0, 8, 0, 0));
+        logoutButton.setPrefSize(30, 30);
+    }
+
+    @FXML
+    void doLogout(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/LoginPage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setMaximized(false);
+        stage.setResizable(false);
+        stage.setTitle("CoolSupplies");
+        stage.setX(100);
+        stage.setY(100);
+        stage.show();
+    }
+
+    @FXML
+    void doUpdateParent(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateParent.fxml"));
+            UpdateParentController controller = loader.getController();
+            controller.setExistingEmail(chosenParent);
+
+            Parent root1 = loader.load();
+            Stage stage = new Stage();
+
+            stage.setTitle("Update Parent");
+            stage.setResizable(false);
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
+            stage.showAndWait(); // Use showAndWait to block the admin page until the update parent window is closed
+
+            // Refresh parent list
+            parents = getData();
+            initialize(null, null);
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

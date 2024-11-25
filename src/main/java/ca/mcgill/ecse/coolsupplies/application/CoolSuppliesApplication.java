@@ -3,6 +3,7 @@ package ca.mcgill.ecse.coolsupplies.application;
 import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.javafx.CoolSuppliesFxmlView;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
+import ca.mcgill.ecse.coolsupplies.model.SchoolAdmin;
 import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 import javafx.application.Application;
 
@@ -33,9 +34,14 @@ public class CoolSuppliesApplication {
     CoolSuppliesFeatureSet6Controller.addStudentToParent("s2", "abcd@abc.ca");
     CoolSuppliesFeatureSet6Controller.addStudentToParent("s3", "abc@abc.ca");
 
+      try {
+        getCoolSupplies().setAdmin(new SchoolAdmin("admin@cool.ca", "admin", getCoolSupplies()));
+        CoolSuppliesPersistence.save();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
 
-
-    Application.launch(CoolSuppliesFxmlView.class, args);
+      Application.launch(CoolSuppliesFxmlView.class, args);
   }
 
   public static CoolSupplies getCoolSupplies() {

@@ -22,7 +22,7 @@
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController">
    <top>
-      <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" stylesheets="@../resources/styles.css" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="30.0" prefWidth="500.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="556.7999938964844" />
@@ -33,48 +33,26 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
                <children>
-                  <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/settings.png" />
-                     </image>
+                  <Button mnemonicParsing="false" text="Bundles">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Button mnemonicParsing="false" text="Items">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Settings">
                      <HBox.margin>
-                        <Insets left="8.0" right="8.0" />
+                        <Insets left="50.0" />
                      </HBox.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
-                     <effect>
-                        <ColorAdjust brightness="0.34" />
-                     </effect>
-                  </ImageView>
-                  <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="587.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/bell.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="8.0" />
-                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#doLogout" text="Logout">
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <effect>
-                        <ColorAdjust brightness="0.34" />
-                     </effect>
-                  </ImageView>
-                  <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="595.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/menu.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="8.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <effect>
-                        <ColorAdjust brightness="0.34" />
-                     </effect>
-                  </ImageView>
+                     </cursor></Button>
                </children>
                <GridPane.margin>
                   <Insets right="5.0" />
@@ -271,7 +249,7 @@
                               </GridPane>
                               <ScrollPane hbarPolicy="NEVER" prefHeight="106.0" prefWidth="262.0" style="-fx-background-color: #B1B1B1;" vbarPolicy="NEVER" GridPane.rowIndex="2">
                                  <content>
-                                    <GridPane fx:id="grid" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="240.0" style="-fx-background-color: #B1B1B1;">
+                                    <GridPane fx:id="grid" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="492.0" style="-fx-background-color: #B1B1B1;">
                                        <columnConstraints>
                                           <ColumnConstraints maxWidth="-Infinity" minWidth="-Infinity" prefWidth="260.0" />
                                        </columnConstraints>
@@ -353,7 +331,7 @@
                                           <Insets left="8.0" />
                                        </GridPane.margin>
                                        <effect>
-                                          <ColorAdjust brightness="0.32" />
+                                          <ColorAdjust brightness="0.34" />
                                        </effect>
                                     </ImageView>
                                     <ImageView fx:id="phone" fitHeight="28.0" fitWidth="24.0" onMouseClicked="#copyPhone" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT">
@@ -367,10 +345,10 @@
                                           <Insets right="20.0" />
                                        </GridPane.margin>
                                        <effect>
-                                          <ColorAdjust brightness="0.32" />
+                                          <ColorAdjust brightness="0.34" />
                                        </effect>
                                     </ImageView>
-                                    <Button mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="▼     Filter" textFill="WHITE" GridPane.columnIndex="4">
+                                    <Button fx:id="registerStudent" mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Register Student" textFill="WHITE" GridPane.columnIndex="4">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
@@ -384,10 +362,7 @@
                                           <Font name="SansSerif Bold" size="15.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="registerStudent" mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Register Student" textFill="WHITE" GridPane.columnIndex="3">
-                                       <GridPane.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </GridPane.margin>
+                                    <Button layoutX="419.0" layoutY="18.0" mnemonicParsing="false" onAction="#doUpdateParent" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Update Information" textFill="WHITE" GridPane.columnIndex="3">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
