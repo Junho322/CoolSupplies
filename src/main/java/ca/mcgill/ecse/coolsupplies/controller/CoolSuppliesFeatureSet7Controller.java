@@ -198,7 +198,7 @@ public class CoolSuppliesFeatureSet7Controller {
    * @return A TOGradeBundle object representing the bundle, or null if not found.
    * @author David Vo
    */
-    public static TOGradeBundle getBundleOfGrade(String bundleName, String gradeLevel) {
+    public static TOGradeBundle getBundleOfGrade(String gradeLevel) {
     Grade grade = Grade.getWithLevel(gradeLevel);
     if (grade == null) {
       return null;

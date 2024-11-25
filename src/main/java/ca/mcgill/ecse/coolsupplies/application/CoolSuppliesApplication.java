@@ -50,6 +50,7 @@ public class CoolSuppliesApplication {
     CoolSuppliesFeatureSet6Controller.addStudentToParent("s2", "abcd@abc.ca");
     CoolSuppliesFeatureSet6Controller.addStudentToParent("s3", "abc@abc.ca");
 
+    CoolSuppliesFeatureSet4Controller.addBundle("BIG BUNDLE", 1, "3");
 
     Application.launch(CoolSuppliesFxmlView.class, args);
   }

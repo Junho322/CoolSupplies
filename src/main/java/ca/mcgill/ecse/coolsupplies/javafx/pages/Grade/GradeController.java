@@ -14,6 +14,9 @@ public class GradeController {
     private Label studentLabel;
 
     @FXML
+    private Label bundleLabel;
+
+    @FXML
     private void click(MouseEvent event) {
         listener.onClickListener(grade);
     }
@@ -21,7 +24,7 @@ public class GradeController {
     private TOGrade grade;
     private EventListener listener;
 
-    public void setGrade(TOGrade grade, int students, EventListener listener) {
+    public void setGrade(TOGrade grade, int students, String bundleName, EventListener listener) {
         this.grade = grade;
         this.listener = listener;
         gradeLabel.setText(grade.getLevel());
@@ -30,6 +33,12 @@ public class GradeController {
         }
         else {
             studentLabel.setText(students + " student");
+        }
+        if (bundleName != null) {
+            bundleLabel.setText("Bundle: " + bundleName);
+        }
+        else {
+            bundleLabel.setText("");
         }
     }
 }
