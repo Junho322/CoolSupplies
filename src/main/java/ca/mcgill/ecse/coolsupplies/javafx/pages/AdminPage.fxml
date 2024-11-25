@@ -249,7 +249,7 @@
                               </GridPane>
                               <ScrollPane hbarPolicy="NEVER" prefHeight="106.0" prefWidth="262.0" style="-fx-background-color: #B1B1B1;" vbarPolicy="NEVER" GridPane.rowIndex="2">
                                  <content>
-                                    <GridPane fx:id="grid" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="492.0" style="-fx-background-color: #B1B1B1;">
+                                    <GridPane fx:id="grid" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="492.0" style="-fx-background-color: #B1B1B1;">
                                        <columnConstraints>
                                           <ColumnConstraints maxWidth="-Infinity" minWidth="-Infinity" prefWidth="260.0" />
                                        </columnConstraints>
