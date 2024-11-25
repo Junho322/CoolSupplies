@@ -22,7 +22,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.ParentPageController;
+
 
 public class AdminPageController implements Initializable {
 
@@ -335,6 +338,41 @@ public class AdminPageController implements Initializable {
             e.printStackTrace();
         }
     }
+
+  @FXML
+  private void viewFullPage(ActionEvent event) {
+    try {
+      // Load ParentPage.fxml
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ParentPage.fxml"));
+      Parent parentPageRoot = loader.load();
+
+      // Get the ParentPageController instance
+      ParentPageController parentPageController = loader.getController();
+
+      String selectedEmail = chosenParent.getEmail(); // Assuming chosenParent is set when a parent is selected
+      TOParent parent = CoolSuppliesFeatureSet1Controller.getParent(selectedEmail);
+      if (parent == null) {
+        return;
+      }
+      parentPageController.setParentInfo(parent);
+
+      List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(chosenParent.getEmail());
+      parentPageController.populateStudentCards(students);
+
+
+
+      // Get the current stage
+      Stage stage = (Stage) parentNameLabel.getScene().getWindow();
+
+      // Set the new scene
+      stage.setScene(new Scene(parentPageRoot));
+      stage.setMaximized(true);
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 
     public void initializeButtonGraphics() {
         ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");

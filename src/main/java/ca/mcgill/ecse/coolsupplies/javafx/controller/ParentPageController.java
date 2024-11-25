@@ -55,6 +55,11 @@ public class ParentPageController {
     setupAutoComplete();
   }
 
+  public void setParentInfo(TOParent parent) {
+    nameLabel.setText("Name: " + parent.getName());
+    emailLabel.setText("Email: " + parent.getEmail());
+    phoneLabel.setText("Phone: " + formatPhoneNumber(parent.getPhoneNumber()));
+  }
 
   private void setupAutoComplete() {
     // Get all students and extract their names
@@ -200,9 +205,7 @@ public class ParentPageController {
       TOParent selectedParent = CoolSuppliesFeatureSet1Controller.getParent(selectedEmail);
       if (selectedParent != null) {
         // Update the labels with parent information
-        nameLabel.setText("Name: " + selectedParent.getName());
-        emailLabel.setText("Email: " + selectedParent.getEmail());
-        phoneLabel.setText("Phone: " + formatPhoneNumber(selectedParent.getPhoneNumber()));
+        setParentInfo(selectedParent);
       }
     });
 
@@ -266,7 +269,7 @@ public class ParentPageController {
         phoneStr.substring(6);
   }
   private static final String[] COLORS = {"#FF4081", "#8E24AA", "#1E88E5", "#03A9F4"};
-  private void populateStudentCards(List<TOStudent> students) {
+  public void populateStudentCards(List<TOStudent> students) {
     studentCardContainer.getChildren().clear(); // Clear existing cards
 
     // Set a fixed spacing for the cards
@@ -277,8 +280,8 @@ public class ParentPageController {
     for (TOStudent student : students) {
       // Create a card with fixed dimensions
       VBox card = new VBox(20); // Increased spacing between elements in the card
-      card.setPrefWidth(350.0); // Increased width for the card
-      card.setPrefHeight(350.0); // Increased height for the card
+      card.setPrefWidth(300.0);
+      card.setPrefHeight(300.0);
       card.setStyle("-fx-background-color: " + COLORS[colorIndex] + "; -fx-background-radius: 10; -fx-padding: 16;");
       colorIndex = (colorIndex + 1) % COLORS.length;
 

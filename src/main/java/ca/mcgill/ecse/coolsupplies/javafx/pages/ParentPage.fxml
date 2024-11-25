@@ -98,12 +98,12 @@
         <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 20;">
             <VBox spacing="20">
                 <!-- Parent Info Card -->
-                <VBox style="-fx-background-color: #B1B1B1; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 1); -fx-min-height: 270; -fx-max-width: 2000;"
+                <VBox style="-fx-background-color: #B1B1B1; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 1); -fx-min-height: 200; -fx-max-width: 2000;"
                       alignment="CENTER">
                 <HBox spacing="40" style="-fx-padding: 20;" alignment="CENTER_LEFT">
                         <!-- Profile Image -->
-                        <StackPane style="-fx-background-color: #F3F4F6; -fx-background-radius: 8; -fx-min-width: 200; -fx-min-height: 200; -fx-max-width: 200; -fx-max-height: 200;">
-                            <ImageView fitHeight="160" fitWidth="160" preserveRatio="true">
+                        <StackPane style="-fx-background-color: #F3F4F6; -fx-background-radius: 8; -fx-min-width: 150; -fx-min-height: 150; -fx-max-width: 200; -fx-max-height: 200;">
+                            <ImageView fitHeight="140" fitWidth="140" preserveRatio="true">
                                 <Image url="@../resources/user1.jpg"/>
                             </ImageView>
                         </StackPane>
@@ -141,9 +141,6 @@
 
                 <!-- Student Cards Container -->
                 <HBox fx:id="studentCardContainer" spacing="20" style="-fx-padding: 20;">
-                    <VBox.margin>
-                        <Insets top="100.0" />
-                    </VBox.margin>
                     <!-- Cards will be populated dynamically by the controller -->
                 </HBox>
             </VBox>
