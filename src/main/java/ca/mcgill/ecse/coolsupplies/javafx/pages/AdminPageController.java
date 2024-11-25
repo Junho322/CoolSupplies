@@ -1,9 +1,6 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet1Controller;
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet6Controller;
-import ca.mcgill.ecse.coolsupplies.controller.TOParent;
-import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
+import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,9 +9,11 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,6 +25,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AdminPageController implements Initializable {
+
+    @FXML
+    GridPane rightSideGridPane;
 
     @FXML
     private VBox chosenParentCard;
@@ -54,9 +56,27 @@ public class AdminPageController implements Initializable {
     @FXML
     private Button startSchoolYear;
 
+    @FXML
+    private Button parentSort;
+
+    @FXML
+    private ImageView email;
+
+    @FXML
+    private ImageView phone;
+
     private ArrayList<TOParent> parents = new ArrayList<>();
     private EventListener listener;
     private AnchorPane lastSelectedCard;
+    private TOParent chosenParent;
+
+    //sort enum
+    private enum Sort {
+        SYSTEM_DEFAULT,
+        NAME_ASCENDING,
+        NAME_DESCENDING
+    }
+    Sort sort = Sort.SYSTEM_DEFAULT;
 
     private ArrayList<TOParent> getData() {
         return new ArrayList<TOParent>(CoolSuppliesFeatureSet1Controller.getParents());
@@ -75,12 +95,24 @@ public class AdminPageController implements Initializable {
         lastSelectedCard = card;
 
         initializeStudentList(parent.getEmail());
+        chosenParent = parent;
     }
 
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         parents = getData();
+        grid.getChildren().clear();
+        switch (sort) {
+            case SYSTEM_DEFAULT:
+                break;
+            case NAME_ASCENDING:
+                parents.sort((TOParent p1, TOParent p2) -> p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase()));
+                break;
+            case NAME_DESCENDING:
+                parents.sort((TOParent p1, TOParent p2) -> p2.getName().toLowerCase().compareTo(p1.getName().toLowerCase()));
+                break;
+        }
 
         if (!parents.isEmpty()) {
             listener = new EventListener() {
@@ -127,7 +159,7 @@ public class AdminPageController implements Initializable {
 
                 //set grid height
                 grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefHeight(700);
+                grid.setPrefHeight(2000);
                 grid.setMaxHeight(Region.USE_COMPUTED_SIZE);
 
                 GridPane.setMargin(anchorPane, new Insets(3));
@@ -167,12 +199,9 @@ public class AdminPageController implements Initializable {
                 e.printStackTrace();
             }
         }
-        Label label = new Label();
-        label.setText("");
-        label.setMinWidth(scroll.getWidth() - 4.5);
-        grid1.setPrefWidth(scroll.getWidth() - 4.5);
-        GridPane.setVgrow(label, Priority.NEVER);
-        grid1.add(label, 0, i);
+        grid1.setPrefWidth(5000);
+        scroll.fitToWidthProperty().set(true);
+        scroll.fitToHeightProperty().set(true);
     }
 
     @FXML
@@ -192,6 +221,89 @@ public class AdminPageController implements Initializable {
             initialize(null, null);
 
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void toggleParentSort(ActionEvent event) {
+        switch (sort) {
+            case SYSTEM_DEFAULT:
+                sort = Sort.NAME_ASCENDING;
+                parentSort.setText("▼     Name");
+                break;
+            case NAME_ASCENDING:
+                sort = Sort.NAME_DESCENDING;
+                parentSort.setText("▲     Name");
+                break;
+            case NAME_DESCENDING:
+                sort = Sort.SYSTEM_DEFAULT;
+                parentSort.setText("▼     Filter");
+                break;
+        }
+        initialize(null, null);
+    }
+
+    @FXML
+    void copyEmail(ActionEvent event) {
+        String email = parentNameLabel.getText().substring(2);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new java.awt.datatransfer.StringSelection(email), null);
+    }
+
+    @FXML
+    void copyPhone(ActionEvent event) {
+        String phone = CoolSuppliesFeatureSet1Controller.getParent(parentNameLabel.getText().substring(2)).getPhoneNumber() + "";
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new java.awt.datatransfer.StringSelection(phone), null);
+    }
+
+    @FXML
+    void startSchoolYear(ActionEvent event) {
+        try {
+            ArrayList<TOOrder> orders = new ArrayList<>(CoolSuppliesFeatureSet8Controller.getOrders());
+
+            for (TOOrder order : orders) {
+                CoolSuppliesFeatureSet8Controller.startSchoolYear(order.getNumber());
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("School year started successfully!");
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to start school year");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    void updatePassword(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdatePassword.fxml"));
+            Parent root1 = loader.load();
+            Stage stage = new Stage();
+
+            stage.setTitle("Update Password");
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
+            stage.showAndWait(); // Use showAndWait to block the admin page until the update password window is closed
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void deleteParentAccount(ActionEvent event) {
+        try {
+            String email = chosenParent.getEmail();
+            CoolSuppliesFeatureSet1Controller.deleteParent(email);
+            parents = null;
+            initialize(null, null);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

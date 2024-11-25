@@ -47,6 +47,18 @@ public class CoolSuppliesFeatureSet1Controller {
     }
 
     /**
+     * Checks if the provided password matches the current admin password.
+     *
+     * @param password The password to check.
+     * @return True if the provided password matches the current admin password, false otherwise.
+     */
+    public static Boolean matchesCurrentPassword(String password) {
+        CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+        SchoolAdmin admin = coolSupplies.getAdmin();
+        return admin.getPassword().equals(password);
+    }
+
+    /**
      * Adds a parent to the system with the provided information.
      *
      * @param email       The email of the parent.
