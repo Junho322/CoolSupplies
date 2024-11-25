@@ -281,11 +281,11 @@ public class GradePageController implements Initializable {
         switch (sort) {
             case SYSTEM_DEFAULT:
                 sort = Sort.NAME_ASCENDING;
-                gradeSort.setText("▼     Name");
+                gradeSort.setText("▼     Level");
                 break;
             case NAME_ASCENDING:
                 sort = Sort.NAME_DESCENDING;
-                gradeSort.setText("▲     Name");
+                gradeSort.setText("▲     Level");
                 break;
             case NAME_DESCENDING:
                 sort = Sort.HAS_BUNDLE;
