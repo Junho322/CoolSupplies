@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet1Controller;
+import ca.mcgill.ecse.coolsupplies.controller.TOParent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class RegisterParentController {
+public class UpdateParentController {
 
     @FXML
     private TextField email;
@@ -28,9 +29,21 @@ public class RegisterParentController {
     @FXML
     private Button registerButton;
 
+    private static TOParent parent;
+
+    public static void setExistingEmail(TOParent p) {
+        parent = p;
+    }
+
     @FXML
-    void registerParent(ActionEvent event) {
-        String e = email.getText();
+    void initialize() {
+        email.setText(parent.getEmail());
+        name.setText(parent.getName());
+        phone.setText(String.valueOf(parent.getPhoneNumber()));
+    }
+
+    @FXML
+    void updateParent(ActionEvent event) {
         String n = name.getText();
         String p = password.getText();
 
@@ -46,9 +59,9 @@ public class RegisterParentController {
             return;
         }
 
-        String status = CoolSuppliesFeatureSet1Controller.addParent(e, p, n, ph);
+        String status = CoolSuppliesFeatureSet1Controller.updateParent(parent.getEmail(), p, n, ph);
 
-        if (!Objects.equals(status, "Parent added successfully")) {
+        if (!Objects.equals(status, "Parent updated successfully")) {
             throwErrorWindow(status);
             return;
         }
@@ -58,20 +71,14 @@ public class RegisterParentController {
         stage.close();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setHeaderText(null);
-        alert.setContentText("Parent registered successfully");
-        alert.showAndWait();
-    }
-
-    public void initialize() {
     }
 
     private void throwErrorWindow(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText(null);
+        alert.setHeaderText("Error");
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }
