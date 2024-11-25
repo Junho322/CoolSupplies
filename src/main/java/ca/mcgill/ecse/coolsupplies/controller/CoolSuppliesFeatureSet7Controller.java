@@ -2,6 +2,8 @@ package ca.mcgill.ecse.coolsupplies.controller;
 
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import ca.mcgill.ecse.coolsupplies.model.Grade;
+import ca.mcgill.ecse.coolsupplies.model.GradeBundle;
+import ca.mcgill.ecse.coolsupplies.model.Student;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
@@ -144,4 +146,70 @@ public class CoolSuppliesFeatureSet7Controller {
         }
         return gradeList;
     }
+
+   /**
+   * Retrieves a specific student of a grade by student name.
+   *
+   * @param studentName The name of the student to retrieve.
+   * @param gradeLevel The level of the grade
+   * @return A TOStudent object representing the student, or null if not found.
+   * @author David Vo
+   */
+    public static TOStudent getStudentOfGrade(String studentName, String gradeLevel) {
+    Grade grade = Grade.getWithLevel(gradeLevel);
+    if (grade == null) {
+      return null;
+    }
+
+    for (Student s : grade.getStudents()) {
+      if (s.getName().equals(studentName)) {
+        return new TOStudent(s.getName(), s.getGrade().getLevel());
+      }
+    }
+
+    return null;
+  }
+
+    /**
+   * Retrieves all students associated with a grade by the grade level.
+   *
+   * @param gradeLevel The level of the grade
+   * @return A list of TOStudent objects representing the grade's students, or an empty list if none found.
+   * @author David Vo
+   */
+    public static List<TOStudent> getStudentsOfGrade(String gradeLevel) {
+    Grade grade = Grade.getWithLevel(gradeLevel);
+    List<TOStudent> students = new ArrayList<>();
+
+    if (grade != null) {
+      for (Student s : grade.getStudents()) {
+        students.add(new TOStudent(s.getName(), s.getGrade().getLevel()));
+      }
+    }
+
+    return students;
+  }
+
+   /**
+   * Retrieves the bundle of a grade by student name.
+   *
+   * @param bundleName The name of the bundle to retrieve.
+   * @param gradeLevel The level of the grade
+   * @return A TOGradeBundle object representing the bundle, or null if not found.
+   * @author David Vo
+   */
+    public static TOGradeBundle getBundleOfGrade(String gradeLevel) {
+    Grade grade = Grade.getWithLevel(gradeLevel);
+    if (grade == null) {
+      return null;
+    }
+
+    if (grade.hasBundle()) {
+        GradeBundle bundle = grade.getBundle();
+        return new TOGradeBundle(bundle.getName(), bundle.getDiscount(), bundle.getGrade().getLevel());
+    }
+    else {
+        return null;
+    }
+  }
 }

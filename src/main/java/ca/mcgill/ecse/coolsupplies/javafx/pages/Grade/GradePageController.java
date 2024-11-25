@@ -1,0 +1,354 @@
+package ca.mcgill.ecse.coolsupplies.javafx.pages.Grade;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
+import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
+import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
+import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.*;
+
+
+public class GradePageController implements Initializable {
+
+    @FXML
+    GridPane rightSideGridPane;
+
+    @FXML
+    private VBox chosenGradeCard;
+
+    @FXML
+    private ScrollPane scroll;
+
+    @FXML
+    private Button addGradeButton;
+
+    @FXML
+    private Button updateGradeButton;
+
+    @FXML
+    private Button updatePassword;
+
+    @FXML
+    private Button startSchoolYear;
+
+    @FXML
+    private Label gradeNameLabel;
+
+    @FXML
+    private GridPane grid;
+
+    @FXML
+    private GridPane grid1;
+
+    @FXML
+    private Button gradeSort;
+
+    @FXML
+    private ImageView email;
+
+    @FXML
+    private ImageView phone;
+
+    @FXML
+    private TOGrade selectedGrade; 
+
+    private ArrayList<TOGrade> grades = new ArrayList<>();
+    private EventListener listener;
+    private AnchorPane lastSelectedCard;
+
+     private enum Sort {
+        SYSTEM_DEFAULT,
+        NAME_ASCENDING,
+        NAME_DESCENDING,
+        HAS_BUNDLE
+    }
+    Sort sort = Sort.SYSTEM_DEFAULT;
+
+    private ArrayList<TOGrade> getData() {
+        return new ArrayList<TOGrade>(CoolSuppliesFeatureSet7Controller.getGrades());
+    }
+
+    private void setChosenGrade(TOGrade grade, AnchorPane card) {
+        selectedGrade = grade; 
+        gradeNameLabel.setText("> Students in Grade: " + grade.getLevel());
+
+        if (lastSelectedCard != null) {
+            lastSelectedCard.getStyleClass().remove("highlight");
+            lastSelectedCard.getStyleClass().add("non-highlight");
+        }
+
+        card.getStyleClass().remove("non-highlight");
+        card.getStyleClass().add("highlight");
+        lastSelectedCard = card;
+
+        initializeStudentList(grade.getLevel());
+        selectedGrade = grade;
+    }
+
+    @FXML
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        grades = getData();
+
+        grid.getChildren().clear();
+        switch (sort) {
+            case SYSTEM_DEFAULT:
+                break;
+            case NAME_ASCENDING:
+                grades.sort((TOGrade g1, TOGrade g2) -> g1.getLevel().toLowerCase().compareTo(g2.getLevel().toLowerCase()));
+                break;
+            case NAME_DESCENDING:
+                grades.sort((TOGrade g1, TOGrade g2) -> g2.getLevel().toLowerCase().compareTo(g1.getLevel().toLowerCase()));
+                break;
+            case HAS_BUNDLE:
+                grades.sort((TOGrade g1, TOGrade g2) -> {
+                    boolean g1HasBundle = CoolSuppliesFeatureSet7Controller.getBundleOfGrade(g1.getLevel()) != null;
+                    boolean g2HasBundle = CoolSuppliesFeatureSet7Controller.getBundleOfGrade(g2.getLevel()) != null;
+    
+                    if (g1HasBundle && !g2HasBundle) return -1; 
+                    if (!g1HasBundle && g2HasBundle) return 1;  
+                    return 0; 
+                });
+                break;
+        }
+
+        if (!grades.isEmpty()) {
+            listener = new EventListener() {
+                @Override
+                public void onClickListener(TOGrade grade) {
+                    setChosenGrade(grade, lastSelectedCard);
+                }
+            };
+        }
+
+        grid1.setMinHeight(Region.USE_COMPUTED_SIZE);
+        grid1.setPrefHeight(700);
+        grid1.setMaxHeight(Region.USE_COMPUTED_SIZE);
+
+        int students = 0;
+        String bundleName = null;
+        int i = 0;
+        for (TOGrade grade : grades) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Grade.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                if (lastSelectedCard == null) {
+                    setChosenGrade(grade, anchorPane);
+                    lastSelectedCard = anchorPane;
+                }
+
+                students = CoolSuppliesFeatureSet7Controller.getStudentsOfGrade(grade.getLevel()).size();
+                if (CoolSuppliesFeatureSet7Controller.getBundleOfGrade(grade.getLevel()) != null) {
+                    bundleName = CoolSuppliesFeatureSet7Controller.getBundleOfGrade(grade.getLevel()).getName();
+                }
+                else {
+                    bundleName = null;
+                }
+                
+                GradeController gradeController = fxmlLoader.getController();
+                gradeController.setGrade(grade, students, bundleName, listener);
+
+                anchorPane.setOnMouseClicked(event -> {
+                    setChosenGrade(grade, anchorPane);
+                });
+
+                grid.add(anchorPane, 0, i);
+                i++;
+
+                grid.setMinWidth(Region.USE_PREF_SIZE);
+                grid.setPrefWidth(485);
+                grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefHeight(2000);
+                grid.setMaxHeight(Region.USE_COMPUTED_SIZE);
+
+                GridPane.setMargin(anchorPane, new Insets(3));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initializeStudentList(String gradeLevel) {
+        int i = 0;
+
+        ArrayList<TOStudent> students = new ArrayList<>(CoolSuppliesFeatureSet7Controller.getStudentsOfGrade(gradeLevel));
+
+        grid1.getChildren().clear();
+
+        for (TOStudent student: students) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("StudentOfGrade.fxml")); //??
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                StudentOfGradeController studentOfGradeController = fxmlLoader.getController();
+                studentOfGradeController.setStudent(student, listener);
+
+                anchorPane.setMinWidth(scroll.getWidth() - 17);
+                anchorPane.setMaxWidth(scroll.getWidth() - 17);
+                studentOfGradeController.setSize(scroll.getWidth() - 222);
+
+                anchorPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                GridPane.setVgrow(anchorPane, Priority.NEVER);
+                grid1.add(anchorPane, 0, i);
+                i++;
+
+                GridPane.setMargin(anchorPane, new Insets(3));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        grid1.setPrefWidth(5000);
+        scroll.fitToWidthProperty().set(true);
+        scroll.fitToHeightProperty().set(true);
+    }
+
+    @FXML
+    void switchToAddGrade(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("./AddGrade.fxml"));
+            Parent root1 = loader.load();
+            Stage stage = new Stage();
+
+            stage.setTitle("Add Grade");
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL); 
+            stage.showAndWait(); 
+
+            grades = getData();
+            initialize(null, null);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void switchToUpdateGrade(ActionEvent event) throws IOException {
+    if (selectedGrade == null) {
+        showAlert(Alert.AlertType.WARNING, "No Grade Selected", "Please select a grade to update.");
+        return;
+    }
+
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("./UpdateGrade.fxml"));
+        Parent root = loader.load();
+
+        UpdateGradeController updateGradeController = loader.getController();
+        updateGradeController.setSelectedGrade(selectedGrade);
+
+        Stage stage = new Stage();
+        stage.setTitle("Update Grade");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+
+        grades = getData();
+        initialize(null, null);
+
+    } catch (IOException e) {
+        e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void toggleGradeSort(ActionEvent event) {
+        switch (sort) {
+            case SYSTEM_DEFAULT:
+                sort = Sort.NAME_ASCENDING;
+                gradeSort.setText("▼     Level");
+                break;
+            case NAME_ASCENDING:
+                sort = Sort.NAME_DESCENDING;
+                gradeSort.setText("▲     Level");
+                break;
+            case NAME_DESCENDING:
+                sort = Sort.HAS_BUNDLE;
+                gradeSort.setText("▼     Bundle");
+                break;
+            case HAS_BUNDLE:
+                sort = Sort.SYSTEM_DEFAULT;
+                gradeSort.setText("▼     Filter");
+                break;
+        }
+        initialize(null, null);
+    }
+
+    @FXML
+    void startSchoolYear(ActionEvent event) {
+        try {
+            ArrayList<TOOrder> orders = new ArrayList<>(CoolSuppliesFeatureSet8Controller.getOrders());
+
+            for (TOOrder order : orders) {
+                CoolSuppliesFeatureSet8Controller.startSchoolYear(order.getNumber());
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("School year started successfully!");
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to start school year");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    void updatePassword(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../UpdatePassword.fxml"));
+            Parent root1 = loader.load();
+            Stage stage = new Stage();
+
+            stage.setTitle("Update Password");
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait(); 
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public interface EventListener {
+        void onClickListener(TOGrade grade);
+    }
+
+    private void showAlert(AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+}

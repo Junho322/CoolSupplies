@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="240.0" prefWidth="388.0" style="-fx-background-color: F4F2F2;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.UpdateGradeController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="20.0" prefWidth="181.0" text="Change Grade Level:" textAlignment="CENTER">
+               <font>
+                  <Font name="SansSerif Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="gradeInputField" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="198.0">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+               <effect>
+                  <InnerShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" width="5.0" />
+               </effect>
+            </TextField>
+            <Button fx:id="updateGradeButton" mnemonicParsing="false" onAction="#handleUpdateGrade" prefHeight="36.0" prefWidth="157.0" style="-fx-background-color: #006EA6;" text="Update Grade" textFill="WHITE">
+               <font>
+                  <Font name="SansSerif Bold" size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow height="15.0" offsetX="1.5" offsetY="1.5" radius="7.0" width="15.0" />
+               </effect>
+            </Button>
+         </children>
+      </VBox>
+      <Button fx:id="deleteGradeButton" layoutX="143.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleDeleteGrade" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: #E81123;" text="Delete Grade" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="13.0" />
+         </font>
+         <effect>
+            <DropShadow height="15.0" offsetX="1.5" offsetY="1.5" radius="7.0" width="15.0" />
+         </effect>
+      </Button>
+      <Label fx:id="currentGradeLabel" alignment="CENTER" layoutX="54.0" layoutY="3.0" prefHeight="56.0" prefWidth="276.0" text="Current Grade Level" textAlignment="CENTER">
+         <font>
+            <Font name="SansSerif Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

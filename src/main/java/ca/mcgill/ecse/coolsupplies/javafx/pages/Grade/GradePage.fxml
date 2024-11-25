@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.GradePageController">
    <top>
       <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
          <columnConstraints>
@@ -35,7 +35,7 @@
                <children>
                   <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../resources/settings.png" />
+                        <Image url="@../../resources/settings.png" />
                      </image>
                      <HBox.margin>
                         <Insets left="8.0" right="8.0" />
@@ -49,7 +49,7 @@
                   </ImageView>
                   <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="587.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../resources/bell.png" />
+                        <Image url="@../../resources/bell.png" />
                      </image>
                      <HBox.margin>
                         <Insets right="8.0" />
@@ -63,7 +63,7 @@
                   </ImageView>
                   <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="595.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../resources/menu.png" />
+                        <Image url="@../../resources/menu.png" />
                      </image>
                      <HBox.margin>
                         <Insets right="8.0" />
@@ -124,7 +124,7 @@
                      <children>
                         <ImageView fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../resources/user2.png" />
+                              <Image url="@../../resources/user2.png" />
                            </image>
                            <GridPane.margin>
                               <Insets left="15.0" right="15.0" />
@@ -142,7 +142,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updatePassword" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #006EA6;" text="Update Password" textFill="WHITE" GridPane.valignment="BOTTOM">
+                              <Button fx:id="updatePassword" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updatePassword" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #006EA6;" text="Update Password" textFill="WHITE" GridPane.valignment="BOTTOM">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -155,7 +155,7 @@
                                  <effect>
                                     <DropShadow height="10.0" offsetX="1.0" offsetY="1.0" radius="4.5" width="10.0" />
                                  </effect></Button>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startSchoolYear" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="Start School Year" textFill="WHITE" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                              <Button fx:id="startSchoolYear" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startSchoolYear" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="Start School Year" textFill="WHITE" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -184,7 +184,7 @@
                                     <Font name="SansSerif Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="phoneNumber" text="Phone: +1 (123) 123-1234">
+                              <Label text="Phone: +1 (123) 123-1234">
                                  <font>
                                     <Font name="SansSerif Bold" size="15.0" />
                                  </font></Label>
@@ -228,7 +228,7 @@
                                     <Insets />
                                  </GridPane.margin>
                               </Line>
-                              <Label text="&gt; Parents" GridPane.valignment="BOTTOM">
+                              <Label text="&gt; Grades" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets left="8.0" />
                                  </GridPane.margin>
@@ -247,7 +247,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Button fx:id="registerParent" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registerParent" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Register" textAlignment="CENTER" textFill="WHITE">
+                                    <Button fx:id="addGradeButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToAddGrade" prefWidth="210.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 20;" text="Add Grade" textAlignment="CENTER" textFill="WHITE">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -257,7 +257,7 @@
                                        <font>
                                           <Font name="SansSerif Bold" size="15.0" />
                                        </font></Button>
-                                    <Button fx:id="parentSort" mnemonicParsing="false" onAction="#toggleParentSort" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="▼     Filter" textFill="WHITE" GridPane.columnIndex="1">
+                                    <Button fx:id="gradeSort" mnemonicParsing="false" onAction="#toggleGradeSort" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="▼     Filter" textFill="WHITE" GridPane.columnIndex="1">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -319,7 +319,7 @@
                                     <Insets left="8.0" />
                                  </GridPane.margin>
                               </Line>
-                              <Label fx:id="parentNameLabel" text="&gt; ParentName" GridPane.valignment="BOTTOM">
+                              <Label fx:id="gradeNameLabel" text="&gt; GradeName" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets left="8.0" />
                                  </GridPane.margin>
@@ -342,9 +342,9 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <ImageView fx:id="email" fitHeight="27.0" fitWidth="28.0" onMouseClicked="#copyEmail" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT">
+                                    <ImageView fx:id="email" fitHeight="27.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT">
                                        <image>
-                                          <Image url="@../resources/mail.png" />
+                                          <Image url="@../../resources/mail.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -356,9 +356,9 @@
                                           <ColorAdjust brightness="0.32" />
                                        </effect>
                                     </ImageView>
-                                    <ImageView fx:id="phone" fitHeight="28.0" fitWidth="24.0" onMouseClicked="#copyPhone" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT">
+                                    <ImageView fx:id="phone" fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT">
                                        <image>
-                                          <Image url="@../resources/phone.png" />
+                                          <Image url="@../../resources/phone.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -384,7 +384,7 @@
                                           <Font name="SansSerif Bold" size="15.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="registerStudent" mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Register Student" textFill="WHITE" GridPane.columnIndex="3">
+                                    <Button fx:id="updateGradeButton" mnemonicParsing="false" onAction="#switchToUpdateGrade" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Update Grade" textFill="WHITE" GridPane.columnIndex="3">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
@@ -402,7 +402,7 @@
                               </GridPane>
                               <ScrollPane fx:id="scroll" hbarPolicy="NEVER" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="100.0" style="-fx-background-color: #B1B1B1; -fx-region-background: #B1B1B1;" vbarPolicy="NEVER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                                  <content>
-                                    <GridPane fx:id="grid1" maxWidth="1.7976931348623157E308" prefHeight="2000.0" prefWidth="2000.0" style="-fx-background-color: #B1B1B1;">
+                                    <GridPane fx:id="grid1" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="580.0" style="-fx-background-color: #B1B1B1;">
                                        <columnConstraints>
                                           <ColumnConstraints />
                                        </columnConstraints>
@@ -418,7 +418,7 @@
                                     <Insets right="5.0" top="5.0" />
                                  </padding>
                               </ScrollPane>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteParentAccount" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #FF4C4C;" text="Delete Account" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #FF4C4C;" text="Delete Account" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -430,20 +430,6 @@
                                  </effect>
                                  <GridPane.margin>
                                     <Insets bottom="8.0" right="8.0" top="8.0" />
-                                 </GridPane.margin>
-                              </Button>
-                              <Button layoutX="340.0" layoutY="376.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-background-color: #006EA6;" text="View Full Page" textFill="WHITE" GridPane.rowIndex="3">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <font>
-                                    <Font name="SansSerif Italic" size="15.0" />
-                                 </font>
-                                 <effect>
-                                    <DropShadow height="10.0" offsetX="1.0" offsetY="1.0" radius="4.5" width="10.0" />
-                                 </effect>
-                                 <GridPane.margin>
-                                    <Insets bottom="8.0" left="8.0" top="8.0" />
                                  </GridPane.margin>
                               </Button>
                            </children>

@@ -24,7 +24,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
                <children>
-                  <Button mnemonicParsing="false" text="Button">
+                  <Button mnemonicParsing="false" onAction="#switchToGradePage" text="Grades">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
