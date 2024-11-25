@@ -1,13 +1,16 @@
 package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
+import ca.mcgill.ecse.coolsupplies.model.Parent;
 import ca.mcgill.ecse.coolsupplies.model.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
     import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
@@ -15,7 +18,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -145,6 +150,7 @@ public class ParentPageController {
 
   @FXML
   private void handleChangeParent(ActionEvent event) {
+    /*
     // Create a custom dialog
     Dialog<String> dialog = new Dialog<>();
     dialog.setTitle("Select Parent");
@@ -220,6 +226,24 @@ public class ParentPageController {
 
     // Populate the student cards dynamically
     populateStudentCards(students);
+    */
+
+    try {
+      // Load AdminPage.fxml
+      javafx.scene.Parent adminPageRoot = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml")).load();
+
+      // Get the current stage
+      Stage stage = (Stage) nameLabel.getScene().getWindow();
+
+      // Set the new scene
+      stage.setScene(new Scene(adminPageRoot));
+
+      // Optionally, maximize the stage
+      stage.setMaximized(true);
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
@@ -246,20 +270,62 @@ public class ParentPageController {
     }
 
     // Call the controller method to add the student to the parent
+    // String result = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
+
+  }
+
+  @FXML
+  private void handleConfirmSearch(ActionEvent event) {
+    // Extract the displayed parent's email
+    String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
+
+    // Validate the parent email
+    if (parentEmail.isEmpty()) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Add Student");
+      alert.setHeaderText(null);
+      alert.setContentText("No parent is selected.");
+      alert.showAndWait();
+      return;
+    }
+
+    // Get the selected student name
+    String studentName = searchComboBox.getValue();
+
+    // Validate the student name
+    if (studentName == null || studentName.trim().isEmpty()) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Add Student");
+      alert.setHeaderText(null);
+      alert.setContentText("Please select a student.");
+      alert.showAndWait();
+      return;
+    }
+
+    // Call the controller method to add the student to the parent
     String result = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
 
     // Show a success or error message based on the result
     Alert alert;
     if (result.equals("Student added to parent.")) {
-      System.out.println("Success: " + result);
+      alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle("Success");
+      alert.setHeaderText(null);
+      alert.setContentText(result);
 
       // Refresh the student cards
       List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parentEmail);
       populateStudentCards(students);
     } else {
-      System.out.println("Error: " + result);
+      alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Error");
+      alert.setHeaderText(null);
+      alert.setContentText(result);
     }
+
+    alert.showAndWait();
   }
+
 
   private String formatPhoneNumber(int phoneNumber) {
     String phoneStr = String.valueOf(phoneNumber);
@@ -283,12 +349,15 @@ public class ParentPageController {
       card.setStyle("-fx-background-color: " + COLORS[colorIndex] + "; -fx-background-radius: 10; -fx-padding: 16;");
       colorIndex = (colorIndex + 1) % COLORS.length;
 
+
       // Header with Remove Button
       HBox header = new HBox();
       header.setAlignment(Pos.TOP_RIGHT);
 
+      /*
       Button removeButton = new Button("X");
       removeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px;");
+
       removeButton.setOnAction(e -> {
         handleRemoveStudent(student.getName());
         populateStudentCards(CoolSuppliesFeatureSet6Controller.getStudentsOfParent(
@@ -297,6 +366,8 @@ public class ParentPageController {
       });
 
       header.getChildren().add(removeButton);
+
+       */
 
       // Student Details
       Label nameLabel = new Label(student.getName());
