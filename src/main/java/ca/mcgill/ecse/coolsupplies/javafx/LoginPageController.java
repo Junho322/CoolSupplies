@@ -83,6 +83,15 @@ public class LoginPageController {
         stage.show();
     }
 
+    private void switchToGradePage(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("pages/Grade/GradePage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+    }
+
     private void switchToInventoryPage(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("pages/InventoryPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -92,8 +101,8 @@ public class LoginPageController {
         stage.show();
     }
 
-    private void switchToOrdersPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("pages/OrdersPage.fxml"));
+    private void switchToOrderPage(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("pages/Order/OrderPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
