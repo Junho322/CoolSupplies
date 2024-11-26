@@ -69,9 +69,18 @@ public class OrderPageController implements Initializable {
     @FXML
     private Button pickUpButton;
 
+    @FXML
+    private Button startOrderButton;
+
+    @FXML
+    private Button viewIndividualOrderButton;
+
+
     private ArrayList<TOOrder> orders = new ArrayList<>();
     private EventListener listener;
     private AnchorPane lastSelectedCard;
+
+
 
     private enum Sort {
         SYSTEM_DEFAULT,
@@ -182,6 +191,7 @@ public class OrderPageController implements Initializable {
 
                 anchorPane.setOnMouseClicked(event -> {
                     setChosenOrder(order, anchorPane);
+                    System.out.println(order);
                 });
 
                 grid.add(anchorPane, 0, i);
@@ -338,6 +348,90 @@ public class OrderPageController implements Initializable {
             showAlert(AlertType.WARNING, "Order Cannot Be Cancelled", "This order cannot be cancelled.");
         }
     }
+
+    @FXML
+    void viewIndividualOrder(ActionEvent event) throws IOException{
+        if (selectedOrder == null) {
+            showAlert(Alert.AlertType.WARNING, "No Order Selected", "Please select an order to view.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewIndividualOrder.fxml"));
+            Parent root = loader.load();
+
+            // if (lastSelectedCard == null) {
+            //     setChosenOrder(selectedOrder, anchorPane);
+            //     lastSelectedCard = anchorPane;
+            // }
+
+            ViewIndividualOrderController viewIndividualOrderController = loader.getController();
+            viewIndividualOrderController.setSelectedOrder(selectedOrder, listener);
+
+            Stage stage = new Stage();
+            stage.setTitle("View Order");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            orders = getData();
+            initialize(null, null);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    
+    }
+
+    @FXML
+    void updateOrder(ActionEvent event) throws IOException{
+        if (selectedOrder == null) {
+            showAlert(Alert.AlertType.WARNING, "No Order Selected", "Please select an order to update.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateOrder.fxml"));
+            Parent root = loader.load();
+
+            UpdateOrderController updateOrderController = loader.getController();
+            updateOrderController.setExistingOrder(selectedOrder);
+
+            Stage stage = new Stage();
+            stage.setTitle("Update Order");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            orders = getData();
+            initialize(null, null);
+
+        } catch (IOException e) {
+            e.printStackTrace(); 
+        }
+    }
+
+    @FXML
+    void startOrder(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StartOrder.fxml"));
+            Parent root1 = loader.load();
+            Stage stage = new Stage();
+
+            stage.setTitle("Start Order");
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait(); 
+
+            orders = getData();
+            initialize(null, null);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     void startSchoolYear(ActionEvent event) {

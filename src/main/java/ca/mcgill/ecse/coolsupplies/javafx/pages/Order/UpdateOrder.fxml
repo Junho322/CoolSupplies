@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
@@ -12,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Order.UpdateOrderController">
    <children>
@@ -23,14 +21,14 @@
                   <Font name="SansSerif Bold" size="16.0" />
                </font>
             </Label>
-            <PasswordField fx:id="newLevel" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="500.0">
+            <TextField fx:id="newLevel" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="495.0">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
                <effect>
                   <InnerShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" width="5.0" />
                </effect>
-            </PasswordField>
+            </TextField>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
