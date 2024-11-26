@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
 
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet3Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController.EventListener;
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
@@ -7,6 +8,7 @@ import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrderItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,8 +16,20 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewIndividualOrderController {
+
+    @FXML
+    private TextField DeleteItemName;
+
+
+    @FXML
+    private TextField ItemName;
+
+    @FXML
+    private TextField QuantityNumber;
 
     @FXML
     private VBox paymentForm;
@@ -91,7 +105,7 @@ public class ViewIndividualOrderController {
       this.listener = listener;
       initialize();
     }
-    
+    ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
     @FXML
     public void initialize() {
         try {
@@ -257,4 +271,75 @@ public class ViewIndividualOrderController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    @FXML
+    void AddOrderItem(ActionEvent event) {
+        String itemName = ItemName.getText();
+        int quantity;
+        
+        try {
+            quantity = Integer.parseInt(QuantityNumber.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Invalid Input", "Quantity must be a number.");
+            return;
+        }
+
+        String result = CoolSuppliesFeatureSet8Controller.addItemToOrder(itemName, quantity, currentOrder.getNumber());
+        showAlert("Add Item", result);
+        populateListView();
+    }
+
+    @FXML
+    void updateOrderItem(ActionEvent event) {
+        String itemName = ItemName.getText();
+        int quantity;
+        
+        try {
+            quantity = Integer.parseInt(QuantityNumber.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Invalid Input", "Quantity must be a number.");
+            return;
+        }
+        String result = CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(currentOrder.getNumber(),itemName, quantity);
+        showAlert("Add Item", result);
+
+        
+
+        // boolean itemFound = false;
+        //     for (int i = 0; i < listview.getItems().size(); i++) {
+        //         String item = listview.getItems().get(i);
+        //         if (updatedName.equals(item) ){
+        //             showAlert(Alert.AlertType.ERROR, "Input Error", "The new name must not already exist");
+        //             return;
+        //         }
+        //         // Check if the item's name matches the one to be updated
+        //         if (item.equalsIgnoreCase(currentItemName)) {
+        //             // Update the item
+        //             String updatedItem = updatedName; //+ " - $" + String.format("%.2f", price);
+        //             listview.getItems().set(i, updatedItem);
+        //             CoolSuppliesFeatureSet3Controller.updateItem(currentItemName, updatedName, price);
+        //             itemFound = true;
+        //             break;
+        //         }
+        //     }
+    }
+
+    @FXML
+    void DeleteOrderItem(ActionEvent event) {
+        String itemName = DeleteItemName.getText();
+        
+        String result = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, String.valueOf(currentOrder.getNumber()));
+        showAlert("Add Item", result);
+
+        List<TOOrderItem> ordersList = currentOrder.getItems();
+        
+        for (TOOrderItem orderItem: ordersList){
+            if (orderItem.getItemName().equalsIgnoreCase(itemName)){
+                itemsTable.getItems().remove(orderItem);
+            }
+        }
+        
+    }
+
+    private void populateListView() {itemsTable.setItems(items);}
 }

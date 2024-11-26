@@ -6,11 +6,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Order.ViewIndividualOrderController">
 
@@ -23,19 +25,22 @@
             </columnConstraints>
 
             <children>
-                <Label text="> View Individual Order" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;">
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="&gt; View Individual Order">
                     <GridPane.margin>
                         <Insets left="10.0" />
                     </GridPane.margin>
                 </Label>
             </children>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
 
         </GridPane>
     </top>
 
     <!-- Main Content -->
     <center>
-        <GridPane hgap="20" vgap="10" style="-fx-padding: 20;">
+        <GridPane hgap="20" style="-fx-padding: 20;" vgap="10">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" prefWidth="350.0" />
                 <ColumnConstraints hgrow="SOMETIMES" prefWidth="500.0" />
@@ -48,47 +53,70 @@
                 <VBox fx:id="leftPanel" prefWidth="350.0" spacing="15" style="-fx-background-color: #e6f3ff; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;">
                     <children>
                         <!-- Cost Information -->
-                        <Label fx:id="totalCostLabel" text="Order Cost: $0.00" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
-                        <Label fx:id="penaltyCostLabel" text="Penalty Cost: $0.00" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: red;" visible="false" managed="false" />
+                        <Label fx:id="totalCostLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Order Cost: $0.00" />
+                        <Label fx:id="penaltyCostLabel" managed="false" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: red;" text="Penalty Cost: $0.00" visible="false" />
 
                         <!-- Payment Form -->
-                        <VBox fx:id="paymentForm" spacing="15" visible="false" managed="false">
-                            <Label text="Payment Form" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+                        <VBox fx:id="paymentForm" managed="false" spacing="15" visible="false">
+                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Payment Form" />
 
-                            <Label text="Authorization Code:" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                            <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Authorization Code:" />
                             <TextField fx:id="authCodeField" promptText="Enter authorization code" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
 
-                            <Button fx:id="payButton" text="Pay Now" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
+                            <Button fx:id="payButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Pay Now" />
                         </VBox>
 
                         <!-- Button to toggle payment -->
-                        <Button fx:id="togglePaymentButton" text="Pay Now" style="-fx-background-color: #006EA6; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
+                        <Button fx:id="togglePaymentButton" style="-fx-background-color: #006EA6; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Pay Now" />
+                  <AnchorPane prefHeight="370.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;">
+                     <children>
+                        <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; add or update Item:" wrappingWidth="126.630859375" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="6.0" />
+                        <VBox layoutX="24.0" layoutY="26.0" prefHeight="90.0" prefWidth="257.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="26.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                              <TextField fx:id="ItemName" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity:" />
+                              <TextField fx:id="QuantityNumber" />
+                           </children>
+                        </VBox>
+                        <Text layoutX="14.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Delete an Item in Order:" />
+                        <VBox layoutX="24.0" layoutY="258.0" prefHeight="54.0" prefWidth="120.0" AnchorPane.bottomAnchor="58.666666666666686" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="23.333333333333314" AnchorPane.topAnchor="258.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                              <TextField fx:id="DeleteItemName" prefHeight="25.0" prefWidth="248.0" />
+                           </children>
+                        </VBox>
+                        <Button layoutX="40.0" layoutY="311.0" mnemonicParsing="false" onAction="#DeleteOrderItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: e32636;" text="Delete Item" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="38.666666666666686" AnchorPane.topAnchor="311.0" />
+                        <Button layoutX="153.0" layoutY="116.0" mnemonicParsing="false" onAction="#updateOrderItem" prefHeight="26.0" prefWidth="125.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" />
+                        <Button layoutX="24.0" layoutY="116.0" mnemonicParsing="false" onAction="#AddOrderItem" prefHeight="25.0" prefWidth="129.0" style="-fx-background-color: #0066b2; -fx-background-radius: 10;" text="Add Item" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
                     </children>
                 </VBox>
 
                 <!-- Order Details Section -->
                 <VBox prefWidth="500.0" spacing="10" style="-fx-padding: 20; -fx-background-color: #f9f9f9; -fx-border-radius: 10; -fx-background-radius: 10;" GridPane.columnIndex="1">
                     <children>
-                        <Label text="Order Details" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Order Details" />
 
-                        <Label fx:id="orderNumberLabel" text="Order Number: N/A" style="-fx-font-size: 14px;" />
-                        <Label fx:id="parentEmailLabel" text="Parent Email: N/A" style="-fx-font-size: 14px;" />
-                        <Label fx:id="studentNameLabel" text="Student Name: N/A" style="-fx-font-size: 14px;" />
-                        <Label fx:id="statusLabel" text="Status: N/A" style="-fx-font-size: 14px;" />
-                        <Label fx:id="dateLabel" text="Date: N/A" style="-fx-font-size: 14px;" />
-                        <Label fx:id="levelLabel" text="Level: N/A" style="-fx-font-size: 14px;" />
-                        <Label fx:id="authCodeLabel" text="Authorization Code: N/A" style="-fx-font-size: 14px;" />
-                        <Label fx:id="penaltyAuthCodeLabel" text="Penalty Authorization Code: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="orderNumberLabel" style="-fx-font-size: 14px;" text="Order Number: N/A" />
+                        <Label fx:id="parentEmailLabel" style="-fx-font-size: 14px;" text="Parent Email: N/A" />
+                        <Label fx:id="studentNameLabel" style="-fx-font-size: 14px;" text="Student Name: N/A" />
+                        <Label fx:id="statusLabel" style="-fx-font-size: 14px;" text="Status: N/A" />
+                        <Label fx:id="dateLabel" style="-fx-font-size: 14px;" text="Date: N/A" />
+                        <Label fx:id="levelLabel" style="-fx-font-size: 14px;" text="Level: N/A" />
+                        <Label fx:id="authCodeLabel" style="-fx-font-size: 14px;" text="Authorization Code: N/A" />
+                        <Label fx:id="penaltyAuthCodeLabel" style="-fx-font-size: 14px;" text="Penalty Authorization Code: N/A" />
 
-                        <Label text="Items" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Items" />
 
                         <TableView fx:id="itemsTable" prefHeight="200" prefWidth="480">
                             <columns>
-                                <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="60" />
-                                <TableColumn fx:id="itemNameColumn" text="Item Name" prefWidth="150" />
-                                <TableColumn fx:id="bundleNameColumn" text="Bundle Name" prefWidth="100" />
-                                <TableColumn fx:id="priceColumn" text="Price" prefWidth="60" />
-                                <TableColumn fx:id="discountColumn" text="Discount" prefWidth="60" />
+                                <TableColumn fx:id="quantityColumn" prefWidth="60" text="Quantity" />
+                                <TableColumn fx:id="itemNameColumn" prefWidth="150" text="Item Name" />
+                                <TableColumn fx:id="bundleNameColumn" prefWidth="100" text="Bundle Name" />
+                                <TableColumn fx:id="priceColumn" prefWidth="60" text="Price" />
+                                <TableColumn fx:id="discountColumn" prefWidth="60" text="Discount" />
                             </columns>
                         </TableView>
                     </children>
