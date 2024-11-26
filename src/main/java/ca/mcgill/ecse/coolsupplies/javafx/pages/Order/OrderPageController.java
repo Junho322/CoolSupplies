@@ -423,6 +423,10 @@ public class OrderPageController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait(); 
 
+            orders = getData();
+            initialize(null, null);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
