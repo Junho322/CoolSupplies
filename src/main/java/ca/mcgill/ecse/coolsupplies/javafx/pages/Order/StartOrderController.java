@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
-import java.sql.Date;
 
 public class StartOrderController {
 
@@ -23,7 +20,7 @@ public class StartOrderController {
     private TextField OrderNumber;
 
     @FXML
-    private PasswordField ParentEmail;
+    private TextField ParentEmail;
 
     @FXML
     private TextField StudentName;

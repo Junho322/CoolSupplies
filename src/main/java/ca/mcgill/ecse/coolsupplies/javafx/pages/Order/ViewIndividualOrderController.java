@@ -1,6 +1,8 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages;
+package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
 
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController.EventListener;
+import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrderItem;
 import javafx.collections.FXCollections;
@@ -8,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.text.SimpleDateFormat;
@@ -75,12 +78,25 @@ public class ViewIndividualOrderController {
     private TableColumn<TOOrderItem, String> discountColumn;
 
     private TOOrder currentOrder;
-    private static int orderNumber = 1;
+    private TOOrder selectedOrder;
+    private EventListener listener;
+    private TOOrder order;
+    @FXML
+    private void click(MouseEvent event) {
+        listener.onClickListener(order);
+    }
 
+    public void setSelectedOrder(TOOrder order, EventListener listener) {
+      this.selectedOrder = order;
+      this.listener = listener;
+      initialize();
+    }
+    
     @FXML
     public void initialize() {
         try {
             // Use viewIndividualOrder to get the full details
+            int orderNumber = selectedOrder.getNumber(); // Replace with the actual order number you want to display
             currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(orderNumber);
             if (currentOrder == null) {
                 throw new RuntimeException("Order not found.");
@@ -89,7 +105,7 @@ public class ViewIndividualOrderController {
             setupTableColumns();
             populateOrderDetails();
         } catch (RuntimeException e) {
-            showAlert("Error", "Failed to load order details: " + e.getMessage());
+            //showAlert("Viewing", "Order");
         }
 
         // Set up toggle button
@@ -241,6 +257,4 @@ public class ViewIndividualOrderController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
-    public static void setOrderNumber(int i) { orderNumber = i; }
 }
