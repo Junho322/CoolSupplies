@@ -56,6 +56,9 @@ public class StudentPageController implements Initializable {
     private Label studentNameLabel;
 
     @FXML
+    private Label studentParentName;
+
+    @FXML
     private Button studentSort;
 
     private EventListenerStudent listener;
@@ -255,6 +258,7 @@ public class StudentPageController implements Initializable {
 
     private void setChosenStudent(TOStudent student, AnchorPane card) {
         studentNameLabel.setText("> " + student.getName());
+        studentParentName.setText("Parent: " + CoolSuppliesFeatureSet1Controller.getParentFromStudentName(student.getName()).getName());
 
         if (lastSelectedCard != null) {
             lastSelectedCard.getStyleClass().remove("highlight");

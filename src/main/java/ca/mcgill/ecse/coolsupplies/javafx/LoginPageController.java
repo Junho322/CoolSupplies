@@ -3,6 +3,7 @@ package ca.mcgill.ecse.coolsupplies.javafx;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet1Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.ParentHomePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,7 +54,7 @@ public class LoginPageController {
             TOParent targetParent = CoolSuppliesFeatureSet1Controller.getParent(email);
             if (targetParent != null && targetParent.getPassword().equals(password)) {
                 try {
-                    //TODO choose specific page based on parent
+                    ParentHomePageController.setParentEmail(email);
                     switchToParentPage(event);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -117,11 +118,12 @@ public class LoginPageController {
     }
 
     private void switchToParentPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("pages/ParentPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("pages/ParentHomePage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.setMaximized(true);
+        stage.setMaximized(false);
+        stage.setResizable(false);
         stage.show();
     }
 
