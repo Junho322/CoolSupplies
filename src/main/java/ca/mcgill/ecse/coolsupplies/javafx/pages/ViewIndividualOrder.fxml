@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.ViewIndividualOrderController">
+
+    <!-- Top Header -->
+    <top>
+        <GridPane alignment="CENTER" prefHeight="50.0" prefWidth="900.0" style="-fx-background-color: #B1B1B1;">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="600.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="300.0" />
+            </columnConstraints>
+
+            <children>
+                <Label text="> View Individual Order" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;">
+                    <GridPane.margin>
+                        <Insets left="10.0" />
+                    </GridPane.margin>
+                </Label>
+            </children>
+
+        </GridPane>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <GridPane hgap="20" vgap="10" style="-fx-padding: 20;">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="350.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="500.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" />
+            </rowConstraints>
+            <children>
+                <!-- Payment/Cost Section -->
+                <VBox fx:id="leftPanel" prefWidth="350.0" spacing="15" style="-fx-background-color: #e6f3ff; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;">
+                    <children>
+                        <!-- Cost Information -->
+                        <Label fx:id="totalCostLabel" text="Order Cost: $0.00" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                        <Label fx:id="penaltyCostLabel" text="Penalty Cost: $0.00" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: red;" visible="false" managed="false" />
+
+                        <!-- Payment Form -->
+                        <VBox fx:id="paymentForm" spacing="15" visible="false" managed="false">
+                            <Label text="Payment Form" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+                            <Label text="Authorization Code:" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                            <TextField fx:id="authCodeField" promptText="Enter authorization code" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+
+                            <Button fx:id="payButton" text="Pay Now" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
+                        </VBox>
+
+                        <!-- Button to toggle payment -->
+                        <Button fx:id="togglePaymentButton" text="Pay Now" style="-fx-background-color: #006EA6; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
+                    </children>
+                </VBox>
+
+                <!-- Order Details Section -->
+                <VBox prefWidth="500.0" spacing="10" style="-fx-padding: 20; -fx-background-color: #f9f9f9; -fx-border-radius: 10; -fx-background-radius: 10;" GridPane.columnIndex="1">
+                    <children>
+                        <Label text="Order Details" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+                        <Label fx:id="orderNumberLabel" text="Order Number: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="parentEmailLabel" text="Parent Email: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="studentNameLabel" text="Student Name: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="statusLabel" text="Status: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="dateLabel" text="Date: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="levelLabel" text="Level: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="authCodeLabel" text="Authorization Code: N/A" style="-fx-font-size: 14px;" />
+                        <Label fx:id="penaltyAuthCodeLabel" text="Penalty Authorization Code: N/A" style="-fx-font-size: 14px;" />
+
+                        <Label text="Items" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+                        <TableView fx:id="itemsTable" prefHeight="200" prefWidth="480">
+                            <columns>
+                                <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="60" />
+                                <TableColumn fx:id="itemNameColumn" text="Item Name" prefWidth="150" />
+                                <TableColumn fx:id="bundleNameColumn" text="Bundle Name" prefWidth="100" />
+                                <TableColumn fx:id="priceColumn" text="Price" prefWidth="60" />
+                                <TableColumn fx:id="discountColumn" text="Discount" prefWidth="60" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </GridPane>
+    </center>
+</BorderPane>

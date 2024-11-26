@@ -54,6 +54,7 @@ public class CoolSuppliesFeatureSet5Controller {
         Item aItem = (Item) Item.getWithName(itemName);
         GradeBundle aBundle = (GradeBundle) GradeBundle.getWithName(bundleName);
         List<BundleItem> bundleItems = aBundle.getBundleItems();
+      System.out.println(bundleItems);
         for (BundleItem bundleItem : bundleItems) {
           if (bundleItem.getItem().equals(aItem)) {
             return "The item already exists for the bundle.";
@@ -135,7 +136,7 @@ public class CoolSuppliesFeatureSet5Controller {
     for (BundleItem bundleItem : bundleItems) {
       if (bundleItem.getItem().equals(aTargetItem)) {
           try {
-              aTargetItem.delete();
+              bundleItem.delete();
               CoolSuppliesPersistence.save();
           } catch (Exception e) {
               return e.getMessage();
