@@ -21,6 +21,7 @@
                 <ColumnConstraints hgrow="SOMETIMES" prefWidth="600.0" />
                 <ColumnConstraints hgrow="SOMETIMES" prefWidth="300.0" />
             </columnConstraints>
+
             <children>
                 <Label text="> View Individual Order" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;">
                     <GridPane.margin>
@@ -28,6 +29,7 @@
                     </GridPane.margin>
                 </Label>
             </children>
+
         </GridPane>
     </top>
 

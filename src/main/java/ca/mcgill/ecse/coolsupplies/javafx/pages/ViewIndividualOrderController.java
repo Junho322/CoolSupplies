@@ -85,6 +85,7 @@ public class ViewIndividualOrderController {
             if (currentOrder == null) {
                 throw new RuntimeException("Order not found.");
             }
+
             setupTableColumns();
             populateOrderDetails();
         } catch (RuntimeException e) {
@@ -146,25 +147,91 @@ public class ViewIndividualOrderController {
         }
 
         try {
-            // Attempt to pay for the order using the controller
-            String result = CoolSuppliesFeatureSet8Controller.payForOrder(currentOrder.getNumber(), authCode);
-
-            // Check the response from the controller
-            if (result.equals("Payment processed")) {
-                showAlert("Payment Successful", "Your order has been paid successfully!");
-                currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
-                populateOrderDetails();
+            if (currentOrder.getStatus().equals("Penalized")) {
+                // Order is penalized, collect penalty auth code and call payPenaltyForOrder
+                showPenaltyPaymentDialog(authCode);
             } else {
-                showAlert("Payment Failed", result);
+                // Proceed with normal payment
+                String result = CoolSuppliesFeatureSet8Controller.payForOrder(currentOrder.getNumber(), authCode);
+
+                // Check the response from the controller
+                if (result.equals("Payment processed")) {
+                    showAlert("Payment Successful", "Your order has been paid successfully!");
+                    currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
+                    populateOrderDetails();
+
+                    // Reset payment form visibility
+                    paymentForm.setVisible(false);
+                    paymentForm.setManaged(false);
+                    togglePaymentButton.setText("Pay Now");
+                } else {
+                    showAlert("Payment Failed", result);
+                }
             }
         } catch (RuntimeException e) {
             showAlert("Error", "An error occurred while processing the payment: " + e.getMessage());
         }
+    }
 
-        // Reset payment form visibility
-        paymentForm.setVisible(false);
-        paymentForm.setManaged(false);
-        togglePaymentButton.setText("Pay Now");
+    private void showPenaltyPaymentDialog(String authorizationCode) {
+        // Create a custom dialog for penalty payment
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Pay Penalty");
+        dialog.setHeaderText("Your order is penalized. Please enter the penalty authorization code to pay.");
+
+        // Set the button types
+        ButtonType payButtonType = new ButtonType("Pay Penalty", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(payButtonType, ButtonType.CANCEL);
+
+        // Create the penalty auth code input field
+        TextField penaltyAuthCodeField = new TextField();
+        penaltyAuthCodeField.setPromptText("Enter penalty authorization code");
+
+        VBox content = new VBox();
+        content.setSpacing(10);
+        content.getChildren().addAll(new Label("Penalty Authorization Code:"), penaltyAuthCodeField);
+
+        dialog.getDialogPane().setContent(content);
+
+        // Convert the result to the auth code when the pay button is clicked
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == payButtonType) {
+                return penaltyAuthCodeField.getText();
+            }
+            return null;
+        });
+
+        // Show the dialog and wait for the user input
+        dialog.showAndWait().ifPresent(penaltyAuthCode -> {
+            if (penaltyAuthCode != null && !penaltyAuthCode.trim().isEmpty()) {
+                processPenaltyPayment(authorizationCode, penaltyAuthCode);
+            } else {
+                showAlert("Invalid Authorization Code", "Payment Failed: Please enter a valid penalty authorization code.");
+            }
+        });
+    }
+
+    private void processPenaltyPayment(String authorizationCode, String penaltyAuthorizationCode) {
+        try {
+            // Attempt to pay the penalty and the order using the controller
+            String result = CoolSuppliesFeatureSet8Controller.payPenaltyForOrder(currentOrder.getNumber(), authorizationCode, penaltyAuthorizationCode);
+
+            // Check the response from the controller
+            if (result.equals("Penalty payment successful. The order is now prepared.")) {
+                showAlert("Payment Successful", "Your order and penalty have been paid successfully!");
+                currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
+                populateOrderDetails();
+
+                // Reset payment form visibility
+                paymentForm.setVisible(false);
+                paymentForm.setManaged(false);
+                togglePaymentButton.setText("Pay Now");
+            } else {
+                showAlert("Payment Failed", result);
+            }
+        } catch (RuntimeException e) {
+            showAlert("Error", "An error occurred while processing the penalty payment: " + e.getMessage());
+        }
     }
 
     private void showAlert(String title, String content) {
