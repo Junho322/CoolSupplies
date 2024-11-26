@@ -134,15 +134,24 @@ public class BundlePageController {
     }
 
     @FXML
-    private void handleEditItems() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("pages/AdminPage.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("resources/styles.css").toExternalForm());
+    private void handleEditItems(ActionEvent event) throws IOException {
+        // Correctly initialize the FXMLLoader with the resource location
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/BundleItemPage.fxml"));
+        Parent root = fxmlLoader.load();
+
+        // Get the controller and pass data to it
+        BundleItemPageController passer = fxmlLoader.getController();
+        passer.getBundleName(selectedBundleName); // Updated method name to reflect action
+
+        // Set up the scene and stage
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("../resources/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
     }
+
 
     @FXML
     private void handleSaveButton() {
