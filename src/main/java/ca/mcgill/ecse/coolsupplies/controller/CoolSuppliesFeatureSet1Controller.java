@@ -1,10 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.controller;
 
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
-import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
-import ca.mcgill.ecse.coolsupplies.model.InventoryItem;
-import ca.mcgill.ecse.coolsupplies.model.Parent;
-import ca.mcgill.ecse.coolsupplies.model.SchoolAdmin;
+import ca.mcgill.ecse.coolsupplies.model.*;
 import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 
 import java.util.ArrayList;
@@ -207,4 +204,15 @@ public class CoolSuppliesFeatureSet1Controller {
         return parents;
     }
 
+    public static TOParent getParentFromStudentName(String name) {
+        CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+        for (Parent parent : coolSupplies.getParents()) {
+            for (Student student : parent.getStudents()) {
+                if (student.getName().equals(name)) {
+                    return new TOParent(parent.getEmail(), parent.getPassword(), parent.getName(), parent.getPhoneNumber());
+                }
+            }
+        }
+        return null;
+    }
 }

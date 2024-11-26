@@ -56,6 +56,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" text="Grades" />
                   <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Settings">
                      <HBox.margin>
                         <Insets left="50.0" />

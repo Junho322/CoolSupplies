@@ -41,6 +41,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" text="Grades" />
                   <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Settings">
                      <HBox.margin>
                         <Insets left="50.0" />
@@ -212,6 +213,17 @@
                                     <Insets left="8.0" />
                                  </GridPane.margin>
                               </Line>
+                              <Label fx:id="studentParentName" layoutX="23.0" layoutY="24.0" text="&gt; Parent: ParentName" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+                                 <font>
+                                    <Font name="SansSerif Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="4.0" />
+                                 </padding>
+                                 <GridPane.margin>
+                                    <Insets right="15.0" />
+                                 </GridPane.margin>
+                              </Label>
                               <Label fx:id="studentNameLabel" text="&gt; StudentName" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets left="8.0" />

@@ -75,12 +75,12 @@ public class ViewIndividualOrderController {
     private TableColumn<TOOrderItem, String> discountColumn;
 
     private TOOrder currentOrder;
+    private static int orderNumber = 1;
 
     @FXML
     public void initialize() {
         try {
             // Use viewIndividualOrder to get the full details
-            int orderNumber = 1; // Replace with the actual order number you want to display
             currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(orderNumber);
             if (currentOrder == null) {
                 throw new RuntimeException("Order not found.");
@@ -241,4 +241,6 @@ public class ViewIndividualOrderController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    public static void setOrderNumber(int i) { orderNumber = i; }
 }
