@@ -143,7 +143,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="32.0" prefWidth="211.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="Start Order" textFill="WHITE" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+                              <Button fx:id="startOrderButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startOrder" prefHeight="32.0" prefWidth="211.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="Start Order" textFill="WHITE" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -156,7 +156,7 @@
                                  <effect>
                                     <DropShadow height="10.0" offsetX="1.0" offsetY="1.0" radius="4.5" width="10.0" />
                                  </effect></Button>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="28.0" prefWidth="212.0" style="-fx-background-radius: 10; -fx-background-color: #006EA6;" text="Update Order" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                              <Button fx:id="updateOrderButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateOrder" prefHeight="28.0" prefWidth="212.0" style="-fx-background-radius: 10; -fx-background-color: #006EA6;" text="Update Order" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -169,7 +169,7 @@
                                  <effect>
                                     <DropShadow height="10.0" offsetX="1.0" offsetY="1.0" radius="4.5" width="10.0" />
                                  </effect></Button>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="28.0" prefWidth="212.0" style="-fx-background-radius: 10; -fx-background-color: #006EA6;" text="View Order Details" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <Button fx:id="viewIndividualOrderButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewIndividualOrder" prefHeight="28.0" prefWidth="212.0" style="-fx-background-radius: 10; -fx-background-color: #006EA6;" text="View Order Details" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
