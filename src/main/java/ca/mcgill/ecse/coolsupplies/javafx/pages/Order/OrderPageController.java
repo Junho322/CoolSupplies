@@ -63,7 +63,8 @@ public class OrderPageController implements Initializable {
     @FXML
     private TOOrder selectedOrder; 
 
-   
+    @FXML
+    private Button cancelOrderButton;
 
     @FXML
     private Button pickUpButton;
@@ -94,6 +95,14 @@ public class OrderPageController implements Initializable {
         } else {
             pickUpButton.setText("Not Ready for Pickup");
             pickUpButton.setStyle("-fx-background-color: grey; -fx-text-fill: white;");
+        }
+
+        if (order.getStatus().equals("Started")||order.getStatus().equals("Paid")) {
+            cancelOrderButton.setText("Cancel Order");
+            cancelOrderButton.setStyle("-fx-background-color: #FF4C4C; -fx-text-fill: white;");
+        } else {
+            cancelOrderButton.setText("Cannot Cancel");
+            cancelOrderButton.setStyle("-fx-background-color: grey; -fx-text-fill: white;");
         }
 
         if (lastSelectedCard != null) {
@@ -296,6 +305,37 @@ public class OrderPageController implements Initializable {
             }
         } else {
             showAlert(AlertType.WARNING, "Order Not Ready", "This order is not ready for pickup.");
+        }
+    }
+
+    @FXML
+    void cancelOrder(ActionEvent event) {
+        if (selectedOrder == null) {
+            showAlert(AlertType.WARNING, "No Order Selected", "Please select an order to cancel.");
+            return;
+        }
+
+        if (selectedOrder.getStatus().equals("Started") || selectedOrder.getStatus().equals("Paid")) {
+            try {
+                CoolSuppliesFeatureSet8Controller controller8 = new CoolSuppliesFeatureSet8Controller();
+                String result = controller8.cancelOrder(selectedOrder.getNumber());
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Order cancelled successfully!");
+                alert.showAndWait();
+                orders = getData();
+                initialize(null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to cancel order");
+                alert.showAndWait();
+            }
+        } else {
+            showAlert(AlertType.WARNING, "Order Cannot Be Cancelled", "This order cannot be cancelled.");
         }
     }
 

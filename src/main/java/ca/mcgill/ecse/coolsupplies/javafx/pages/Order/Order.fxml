@@ -38,7 +38,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="parentEmaiLabel" prefHeight="18.0" prefWidth="135.0" text="ORDER_PARENT">
+            <Label fx:id="parentEmaiLabel" prefHeight="23.0" prefWidth="172.0" text="ORDER_PARENT">
                <padding>
                   <Insets left="12.0" top="2.0" />
                </padding>
@@ -46,7 +46,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="studentNameLabel" prefHeight="18.0" prefWidth="135.0" text="ORDER_STUDENT">
+            <Label fx:id="studentNameLabel" prefHeight="23.0" prefWidth="119.0" text="ORDER_STUDENT">
                <padding>
                   <Insets left="12.0" top="2.0" />
                </padding>
