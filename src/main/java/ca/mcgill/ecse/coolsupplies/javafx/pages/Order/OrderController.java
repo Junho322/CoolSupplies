@@ -75,8 +75,13 @@ public class OrderController {
         this.level = order.getLevel();
         this.totalPrice = order.getTotalPrice();
         this.items = order.getItems();
-        int numItems = items.size();
-
+        //int numItems = items.size();
+        // System.out.println("items" + items);
+        // System.out.println("numItems" + numItems);
+        int numItems = 0;
+        for (TOOrderItem item : items) {
+            numItems += item.getQuantity();
+        }
         this.listener = listener;
 
         orderNumberLabel.setText("#" + number);
