@@ -24,19 +24,15 @@ public class CoolSuppliesFxmlView extends Application {
     public void start(Stage primaryStage) {
         instance = this;
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("LoginPage.fxml"));
             root.setStyle(CoolSuppliesApplication.DARK_MODE ? "-fx-base: rgba(20, 20, 20, 255);" : "");
 
             var scene = new Scene(root, Color.BLACK);
             primaryStage.setScene(scene);
 
-            primaryStage.setMinWidth(1200);
-            primaryStage.setMinHeight(800);
-            primaryStage.setX(0);
-            primaryStage.setY(0);
             primaryStage.setTitle("CoolSupplies");
+            primaryStage.setResizable(false);
             primaryStage.show();
-//            refresh();
         } catch (Exception e) {
             e.printStackTrace();
         }

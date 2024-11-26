@@ -243,12 +243,16 @@ public class ShowStudentsController {
 
                 String result = CoolSuppliesFeatureSet2Controller.updateStudent(student.getName(), newName, newGrade);
 
-                if (result == null) {
-
+                if (result.equals("Student successfully updated.")) {
+                    showSuccessPopup(result);
                     filterStudentsByGrade();
+                    editPanel.setVisible(false);
+                    instructionsPanel.setVisible(true);
+
                 } else {
 
                     showErrorPopup(result);
+
                 }
             }
 
@@ -302,32 +306,32 @@ public class ShowStudentsController {
         // Attempt to add the student using the controller
         String result = CoolSuppliesFeatureSet2Controller.addStudent(name.trim(), grade);
 
-        if (result == null) {
+        if (result != null) {
             // Success: Refresh the student list
-            showSuccessPopup();
             filterStudentsByGrade();
+            showSuccessPopup(result);
+
 
             // Clear the inputs
             nameField.clear();
             createGradeComboBox.setValue(null);
         } else {
             // Error: Show the error message
-            showErrorPopup(result);
+            showErrorPopup("Add failed");
         }
     }
 
 
 
 
-    private void showSuccessPopup() {
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+    private void showSuccessPopup(String message) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText(null);
-        alert.setContentText("Student added successfully.");
+        alert.setContentText(message);
         alert.showAndWait();
-
-
     }
+
 
 
 

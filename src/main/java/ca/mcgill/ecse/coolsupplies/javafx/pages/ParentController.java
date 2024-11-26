@@ -1,7 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
-import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListener;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -20,9 +20,9 @@ public class ParentController {
     }
 
     private TOParent parent;
-    private EventListener listener;
+    private EventListenerParent listener;
 
-    public void setParent(TOParent parent, int students, EventListener listener) {
+    public void setParent(TOParent parent, int students, EventListenerParent listener) {
         this.parent = parent;
         this.listener = listener;
         parentLabel.setText(parent.getName());

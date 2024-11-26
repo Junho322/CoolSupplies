@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1114.0" style="-fx-background-radius: 10;" styleClass="non-highlight" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderController">
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
+   <children>
+      <HBox prefHeight="100.0" prefWidth="1114.0">
+         <children>
+            <Label fx:id="orderNumberLabel" prefHeight="18.0" prefWidth="135.0" text="ORDER_NUM">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="135.0" text="ORDER_STATUS">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateLabel" prefHeight="18.0" prefWidth="135.0" text="ORDER_DATE">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="parentEmaiLabel" prefHeight="23.0" prefWidth="172.0" text="ORDER_PARENT">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="studentNameLabel" prefHeight="23.0" prefWidth="119.0" text="ORDER_STUDENT">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="levelLabel" prefHeight="18.0" prefWidth="135.0" text="ORDER_LEVEL">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="numberOfItemsLabel" prefHeight="18.0" prefWidth="135.0" text="NUM_ITEMS">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalPriceLabel" prefHeight="18.0" prefWidth="135.0" text="TOTAL_PRICE">
+               <padding>
+                  <Insets left="12.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

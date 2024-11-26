@@ -1,7 +1,9 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
-import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListener;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.BundlePageController;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +24,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.ParentPageController;
+
 
 public class AdminPageController implements Initializable {
 
@@ -65,8 +70,14 @@ public class AdminPageController implements Initializable {
     @FXML
     private ImageView phone;
 
+    @FXML
+    private Button settingsButton;
+
+    @FXML
+    private Button logoutButton;
+
     private ArrayList<TOParent> parents = new ArrayList<>();
-    private EventListener listener;
+    private EventListenerParent listener;
     private AnchorPane lastSelectedCard;
     private TOParent chosenParent;
 
@@ -115,7 +126,7 @@ public class AdminPageController implements Initializable {
         }
 
         if (!parents.isEmpty()) {
-            listener = new EventListener() {
+            listener = new EventListenerParent() {
                 @Override
                 public void onClickListener(TOParent parent) {
                     setChosenParent(parent, lastSelectedCard);
@@ -153,9 +164,9 @@ public class AdminPageController implements Initializable {
                 i++;
 
                 //set grid width
-                grid.setMinWidth(Region.USE_PREF_SIZE);
+                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
                 grid.setPrefWidth(485);
-                grid.setMaxWidth(Region.USE_PREF_SIZE);
+                grid.setMaxWidth(Region.USE_COMPUTED_SIZE);
 
                 //set grid height
                 grid.setMinHeight(Region.USE_COMPUTED_SIZE);
@@ -167,6 +178,7 @@ public class AdminPageController implements Initializable {
                 e.printStackTrace();
             }
         }
+        initializeButtonGraphics();
     }
 
     private void initializeStudentList(String parentEmail) {
@@ -199,7 +211,7 @@ public class AdminPageController implements Initializable {
                 e.printStackTrace();
             }
         }
-        grid1.setPrefWidth(5000);
+        grid1.setPrefWidth(grid1.getScene().getWidth());
         scroll.fitToWidthProperty().set(true);
         scroll.fitToHeightProperty().set(true);
     }
@@ -212,6 +224,7 @@ public class AdminPageController implements Initializable {
             Stage stage = new Stage();
 
             stage.setTitle("Register Parent");
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
             stage.showAndWait(); // Use showAndWait to block the admin page until the register parent window is closed
@@ -287,6 +300,7 @@ public class AdminPageController implements Initializable {
             Stage stage = new Stage();
 
             stage.setTitle("Update Password");
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
             stage.showAndWait(); // Use showAndWait to block the admin page until the update password window is closed
@@ -300,10 +314,215 @@ public class AdminPageController implements Initializable {
     void deleteParentAccount(ActionEvent event) {
         try {
             String email = chosenParent.getEmail();
+
+            //confirmation window
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Parent");
+            alert.setHeaderText("Are you sure you want to delete this parent?");
+            alert.setContentText("This action cannot be undone.");
+            alert.getButtonTypes().setAll(alert.getButtonTypes().get(0), alert.getButtonTypes().get(1));
+            Boolean confirmed = alert.showAndWait().get() == alert.getButtonTypes().get(0);
+
+            if (!confirmed) {
+                return;
+            }
+
             CoolSuppliesFeatureSet1Controller.deleteParent(email);
             parents = null;
             initialize(null, null);
+
+            Alert alertConfirmation = new Alert(Alert.AlertType.INFORMATION);
+            alertConfirmation.setTitle("Success");
+            alertConfirmation.setHeaderText(null);
+            alertConfirmation.setContentText("Parent deleted successfully");
+            alertConfirmation.showAndWait();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+  @FXML
+  private void viewFullPage(ActionEvent event) {
+    try {
+      // Load ParentPage.fxml
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ParentPage.fxml"));
+      Parent parentPageRoot = loader.load();
+
+      // Get the ParentPageController instance
+      ParentPageController parentPageController = loader.getController();
+
+      String selectedEmail = chosenParent.getEmail(); // Assuming chosenParent is set when a parent is selected
+      TOParent parent = CoolSuppliesFeatureSet1Controller.getParent(selectedEmail);
+      if (parent == null) {
+        return;
+      }
+      parentPageController.setParentInfo(parent);
+
+      List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(chosenParent.getEmail());
+      parentPageController.populateStudentCards(students);
+
+
+
+      // Get the current stage
+      Stage stage = (Stage) parentNameLabel.getScene().getWindow();
+
+      // Set the new scene
+      stage.setScene(new Scene(parentPageRoot));
+      stage.setTitle("CoolSupplies - Parent Page");
+      stage.setResizable(true);
+      stage.setMaximized(true);
+      stage.setWidth(stage.getMaxWidth());
+      stage.setHeight(stage.getMaxHeight());
+      stage.show();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+
+    public void initializeButtonGraphics() {
+        ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
+        settingsImage.setFitHeight(30);
+        settingsImage.setFitWidth(30);
+        settingsImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
+        logoutImage.setFitHeight(30);
+        logoutImage.setFitWidth(30);
+        logoutImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        settingsButton.setGraphic(settingsImage);
+        settingsButton.setText("");
+        settingsButton.setStyle("-fx-background-color: transparent;");
+        settingsButton.setPadding(new Insets(0, 8, 0, 0));
+        settingsButton.setPrefSize(30, 30);
+
+        logoutButton.setGraphic(logoutImage);
+        logoutButton.setText("");
+        logoutButton.setStyle("-fx-background-color: transparent;");
+        logoutButton.setPadding(new Insets(0, 8, 0, 0));
+        logoutButton.setPrefSize(30, 30);
+    }
+
+    @FXML
+    void doLogout(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/LoginPage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setMaximized(false);
+        stage.setResizable(false);
+        stage.setTitle("CoolSupplies");
+        stage.setX(100);
+        stage.setY(100);
+        stage.show();
+    }
+
+    @FXML
+    void doUpdateParent(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateParent.fxml"));
+
+            UpdateParentController controller = loader.getController();
+            controller.setExistingEmail(chosenParent);
+
+            Parent root1 = loader.load();
+            Stage stage = new Stage();
+
+            stage.setTitle("Update Parent");
+            stage.setResizable(false);
+            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL); // Set the modality to APPLICATION_MODAL
+            stage.showAndWait(); // Use showAndWait to block the admin page until the update parent window is closed
+
+            // Refresh parent list
+            parents = getData();
+            initialize(null, null);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToStudentsPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            StudentPageController controller = loader.getController();
+            controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToOrderPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Order/OrderPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            OrderPageController controller = loader.getController();
+            controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToBundlePage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("BundlePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            BundlePageController controller = loader.getController();
+//            controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToInventoryPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("InventoryPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

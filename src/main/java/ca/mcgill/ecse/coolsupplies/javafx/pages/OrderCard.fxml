@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="437.0" style="-fx-background-radius: 10;" styleClass="non-highlight" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.StudentOfGradeController">
+<AnchorPane maxHeight="1.7976931348623157E308" prefHeight="40.0" style="-fx-background-radius: 10;" styleClass="non-highlight" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.OrderCardController">
    <children>
       <VBox onMouseClicked="#click" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="studentLabel" prefHeight="19.0" prefWidth="109.0" text="STUDENT NAME">
+                  <Label fx:id="orderLabel" prefHeight="18.0" prefWidth="129.0" text="ORDER NUMBER">
                      <padding>
                         <Insets left="12.0" top="2.0" />
                      </padding>
@@ -22,9 +22,9 @@
                         <Font name="SansSerif Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="gradeLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="19.0" prefWidth="140.0" text="GRADE" textAlignment="RIGHT">
+                  <Label fx:id="dateLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="18.0" prefWidth="100.0" text="DATE" textAlignment="RIGHT">
                      <padding>
-                        <Insets right="14.0" top="2.0" />
+                        <Insets right="10.0" top="2.0" />
                      </padding>
                      <font>
                         <Font name="SansSerif Bold" size="15.0" />
@@ -32,6 +32,14 @@
                   </Label>
                </children>
             </HBox>
+            <Label text="Click to view profile">
+               <font>
+                  <Font name="SansSerif Italic" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="2.0" left="12.0" />
+               </padding>
+            </Label>
          </children>
       </VBox>
    </children>

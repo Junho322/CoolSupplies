@@ -5,3 +5,10 @@
 .non-highlight {
     -fx-background-color: #CEEFFF;
 }
+
+.settings_button {
+    -fx-background-image:url('ca/mcgill/ecse/coolsupplies/javafx/resources/user1.jpg');
+    -fx-background-size: 30px 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}

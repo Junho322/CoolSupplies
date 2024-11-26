@@ -91,7 +91,7 @@ public class GradePageController implements Initializable {
 
     private void setChosenGrade(TOGrade grade, AnchorPane card) {
         selectedGrade = grade; 
-        gradeNameLabel.setText("> Students in Grade: " + grade.getLevel());
+        gradeNameLabel.setText("> Students | " + grade.getLevel() + " Grade");
 
         if (lastSelectedCard != null) {
             lastSelectedCard.getStyleClass().remove("highlight");
