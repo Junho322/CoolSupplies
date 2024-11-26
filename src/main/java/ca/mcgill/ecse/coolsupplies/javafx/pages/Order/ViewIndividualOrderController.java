@@ -286,6 +286,15 @@ public class ViewIndividualOrderController {
 
         String result = CoolSuppliesFeatureSet8Controller.addItemToOrder(itemName, quantity, currentOrder.getNumber());
         showAlert("Add Item", result);
+
+        List<TOOrderItem> ordersList = currentOrder.getItems();
+        
+        for (TOOrderItem orderItem: ordersList){
+            if (orderItem.getItemName().equalsIgnoreCase(itemName)){
+                items.add(orderItem);
+            }
+        }
+
         populateListView();
     }
 
@@ -303,7 +312,19 @@ public class ViewIndividualOrderController {
         String result = CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(currentOrder.getNumber(),itemName, quantity);
         showAlert("Add Item", result);
 
-        
+        // List<TOOrderItem> ordersList = currentOrder.getItems();
+        // for (int i = 0; i < ordersList.size(); i++){
+        //     if (ordersList.get(i).getItemName().equalsIgnoreCase(itemName)){
+        //         ordersList.get(i).Quantity(quantity);
+        //         itemsTable.getItems().set(i, ordersList.get(i));
+        //     }
+        // }
+
+        List<TOOrderItem> orderItems = currentOrder.getItems();
+        itemsTable.getItems().clear();
+        for (TOOrderItem orderItem : orderItems) {
+            itemsTable.getItems().add(orderItem);
+        }
 
         // boolean itemFound = false;
         //     for (int i = 0; i < listview.getItems().size(); i++) {
@@ -338,7 +359,6 @@ public class ViewIndividualOrderController {
                 itemsTable.getItems().remove(orderItem);
             }
         }
-        
     }
 
     private void populateListView() {itemsTable.setItems(items);}
