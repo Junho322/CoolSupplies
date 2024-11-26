@@ -6,6 +6,7 @@ import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
 import ca.mcgill.ecse.coolsupplies.model.SchoolAdmin;
 import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
 import javafx.application.Application;
+import java.sql.Date;
 
 public class CoolSuppliesApplication {
 
@@ -37,6 +38,10 @@ public class CoolSuppliesApplication {
 
     CoolSuppliesFeatureSet4Controller.addBundle("Pencil Bundle", 1, "3");
     CoolSuppliesFeatureSet4Controller.addBundle("Notebook Bundle", 1, "5th");
+
+    CoolSuppliesFeatureSet6Controller.startOrder(1, new Date(121, 2, 5), "mandatory", "abc@abc.ca", "s1");
+    CoolSuppliesFeatureSet6Controller.startOrder(2, new Date(121, 3, 21), "optional", "abc@abc.ca", "s1");
+    CoolSuppliesFeatureSet6Controller.startOrder(3, new Date(121, 5, 25), "recommended", "abc@abc.ca", "s2");
 
     try {
         getCoolSupplies().setAdmin(new SchoolAdmin("admin@cool.ca", "admin", getCoolSupplies()));

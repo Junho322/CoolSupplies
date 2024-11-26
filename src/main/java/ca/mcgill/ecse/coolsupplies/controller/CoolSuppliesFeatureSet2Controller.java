@@ -50,7 +50,7 @@ public class CoolSuppliesFeatureSet2Controller {
             return e.getMessage();
         }
 
-        return null;
+        return "Student successfully added.";
     }
 
 
@@ -86,7 +86,7 @@ public class CoolSuppliesFeatureSet2Controller {
                 return e.getMessage();
             }
 
-            return null;
+            return "Student successfully updated.";
         }
     }
 

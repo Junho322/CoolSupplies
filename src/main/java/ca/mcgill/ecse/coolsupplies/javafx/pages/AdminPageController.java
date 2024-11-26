@@ -1,7 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
-import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListener;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,7 +75,7 @@ public class AdminPageController implements Initializable {
     private Button logoutButton;
 
     private ArrayList<TOParent> parents = new ArrayList<>();
-    private EventListener listener;
+    private EventListenerParent listener;
     private AnchorPane lastSelectedCard;
     private TOParent chosenParent;
 
@@ -124,7 +124,7 @@ public class AdminPageController implements Initializable {
         }
 
         if (!parents.isEmpty()) {
-            listener = new EventListener() {
+            listener = new EventListenerParent() {
                 @Override
                 public void onClickListener(TOParent parent) {
                     setChosenParent(parent, lastSelectedCard);
@@ -162,9 +162,9 @@ public class AdminPageController implements Initializable {
                 i++;
 
                 //set grid width
-                grid.setMinWidth(Region.USE_PREF_SIZE);
+                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
                 grid.setPrefWidth(485);
-                grid.setMaxWidth(Region.USE_PREF_SIZE);
+                grid.setMaxWidth(Region.USE_COMPUTED_SIZE);
 
                 //set grid height
                 grid.setMinHeight(Region.USE_COMPUTED_SIZE);
@@ -209,7 +209,7 @@ public class AdminPageController implements Initializable {
                 e.printStackTrace();
             }
         }
-        grid1.setPrefWidth(5000);
+        grid1.setPrefWidth(grid1.getScene().getWidth());
         scroll.fitToWidthProperty().set(true);
         scroll.fitToHeightProperty().set(true);
     }
@@ -421,6 +421,7 @@ public class AdminPageController implements Initializable {
     void doUpdateParent(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateParent.fxml"));
+
             UpdateParentController controller = loader.getController();
             controller.setExistingEmail(chosenParent);
 
@@ -437,6 +438,27 @@ public class AdminPageController implements Initializable {
             parents = getData();
             initialize(null, null);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToStudentsPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            StudentPageController controller = loader.getController();
+            controller.initialize(null, null);
         } catch (IOException e) {
             e.printStackTrace();
         }

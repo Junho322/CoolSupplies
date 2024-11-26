@@ -1,12 +1,12 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
-import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerStudent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
-public class StudentController {
+public class StudentCardController {
 
     @FXML
     private Label gradeLabel;
@@ -14,22 +14,18 @@ public class StudentController {
     @FXML
     private Label studentLabel;
 
+    private TOStudent student;
+    private EventListenerStudent listener;
+
     @FXML
     void click(MouseEvent event) {
 
     }
 
-    private TOStudent student;
-    private EventListenerParent listener;
-
-    public void setStudent(TOStudent student, EventListenerParent listener) {
+    public void setStudent(TOStudent student, String gradeLevel, EventListenerStudent listener) {
         this.student = student;
         this.listener = listener;
         studentLabel.setText(student.getName());
-        gradeLabel.setText("Grade " + student.getGradeLevel());
-    }
-
-    public void setSize(double distance) {
-        gradeLabel.setTranslateX(distance);
+        gradeLabel.setText("Grade " + gradeLevel);
     }
 }
