@@ -40,6 +40,22 @@
           ],
           "grade": {
             "level": 1,
+            "bundle": {
+              "name": "bundle 1",
+              "orderItems": [
+                ""
+              ],
+              "discount": 10,
+              "coolSupplies": {
+                "@reference": "../../../../.."
+              },
+              "grade": {
+                "@reference": "../.."
+              },
+              "bundleItems": [
+                ""
+              ]
+            },
             "students": [
               {
                 "Student": {
@@ -62,10 +78,43 @@
       }
     ],
     "items": [
-      ""
+      {
+        "Item": [
+          {
+            "name": "pencil",
+            "orderItems": [
+              ""
+            ],
+            "price": 20,
+            "coolSupplies": {
+              "@reference": "../../.."
+            },
+            "bundleItems": [
+              ""
+            ]
+          },
+          {
+            "name": "eraser",
+            "orderItems": [
+              ""
+            ],
+            "price": 30,
+            "coolSupplies": {
+              "@reference": "../../.."
+            },
+            "bundleItems": [
+              ""
+            ]
+          }
+        ]
+      }
     ],
     "bundles": [
-      ""
+      {
+        "GradeBundle": {
+          "@reference": "../../students/Student/grade/bundle"
+        }
+      }
     ],
     "bundleItems": [
       ""
