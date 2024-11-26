@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.ItemListPageController">
+   <center>
+      <AnchorPane prefHeight="455.0" prefWidth="600.0">
+         <children>
+            <AnchorPane layoutX="192.0" layoutY="5.333333333333333" prefHeight="385.0" prefWidth="400.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="192.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="5.0">
+               <children>
+                  <ListView fx:id="listview" layoutX="12.8" layoutY="31.2" prefHeight="295.0" prefWidth="375.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="31.0" />
+                  <Button layoutY="342.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="168.0" style="-fx-background-radius: 10; -fx-background-color: #0066b2;" text="Return to [indicate page]" textFill="WHITE" AnchorPane.bottomAnchor="1.1999999999999886" AnchorPane.leftAnchor="0.0" />
+                  <Button layoutX="512.0" layoutY="342.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Go to" textFill="WHITE" AnchorPane.bottomAnchor="0.4000000000000341" AnchorPane.rightAnchor="0.0" />
+                  <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Items in the List" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="6.0" layoutY="5.0" prefHeight="439.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;">
+               <children>
+                  <Button layoutX="39.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" AnchorPane.bottomAnchor="119.33333333333331" AnchorPane.rightAnchor="39.0" />
+                  <VBox layoutX="23.0" layoutY="26.0" prefHeight="86.0" prefWidth="122.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                        <TextField fx:id="itemAdd" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
+                        <TextField fx:id="Price" prefWidth="122.0" />
+                     </children>
+                  </VBox>
+                  <Text layoutX="7.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Delete an Item:" />
+                  <VBox layoutX="22.0" layoutY="349.0" prefHeight="49.0" prefWidth="124.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                        <TextField fx:id="itemDelete" />
+                     </children>
+                  </VBox>
+                  <Button layoutX="40.0" layoutY="392.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: e32636;" text="Delete Item" textFill="WHITE" />
+                  <Text layoutX="7.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Add Item:" wrappingWidth="118.61719512939453" />
+                  <Button layoutX="51.0" layoutY="112.0" mnemonicParsing="false" onAction="#addItem" style="-fx-background-color: #0066b2; -fx-background-radius: 10;" text="Add Item" textFill="WHITE" />
+                  <VBox layoutX="22.0" layoutY="166.0" prefHeight="86.0" prefWidth="122.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                        <TextField fx:id="itemUpdate" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Name:" />
+                        <TextField fx:id="newName" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Price:" wrappingWidth="80.09637451171875" />
+                        <TextField fx:id="newPrice" />
+                     </children>
+                  </VBox>
+                  <Text layoutX="7.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Update Item:" wrappingWidth="118.61719512939453" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="30.0" prefWidth="500.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="556.7999938964844" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
+               <children>
+                  <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/settings.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <ColorAdjust brightness="0.34" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="587.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/bell.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="8.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <ColorAdjust brightness="0.34" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="595.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/menu.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="8.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <ColorAdjust brightness="0.34" />
+                     </effect>
+                  </ImageView>
+               </children>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <Label prefHeight="28.0" prefWidth="211.0" text="&gt; Items List">
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+               <padding>
+                  <Insets left="4.0" />
+               </padding>
+               <font>
+                  <Font name="SansSerif Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+   </top>
+</BorderPane>
