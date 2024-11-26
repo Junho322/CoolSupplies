@@ -586,4 +586,23 @@ public class ParentPageController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void doSwitchToGradePage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/GradePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) nameLabel.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
