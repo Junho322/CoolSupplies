@@ -6,9 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -19,19 +16,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController">
+<BorderPane prefHeight="446.0" prefWidth="1059.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController">
     <center>
         <AnchorPane prefHeight="455.0" prefWidth="600.0">
             <children>
                 <AnchorPane layoutX="192.0" layoutY="5.333333333333333" prefHeight="385.0" prefWidth="400.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="192.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="5.0">
                     <children>
                         <ListView fx:id="listview" layoutX="12.8" layoutY="31.2" prefHeight="295.0" prefWidth="375.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="31.0" />
-                        <Button layoutY="342.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="168.0" style="-fx-background-radius: 10; -fx-background-color: #0066b2;" text="Return to [indicate page]" textFill="WHITE" AnchorPane.bottomAnchor="1.1999999999999886" AnchorPane.leftAnchor="0.0" />
-                        <Button layoutX="512.0" layoutY="342.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Go to" textFill="WHITE" AnchorPane.bottomAnchor="0.4000000000000341" AnchorPane.rightAnchor="0.0" />
+                        <Button layoutY="342.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="168.0" style="-fx-background-radius: 10; -fx-background-color: #0066b2;" text="Return to [indicate page]" textFill="WHITE" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" />
+                        <Button layoutX="512.0" layoutY="342.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Go to" textFill="WHITE" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="8.0" />
                         <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Items in the List" />
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutX="6.0" layoutY="5.0" prefHeight="439.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;">
+                <AnchorPane layoutX="6.0" layoutY="5.0" prefHeight="439.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="0.6000000000000227">
                     <children>
                         <Button layoutX="39.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" AnchorPane.bottomAnchor="119.33333333333331" AnchorPane.rightAnchor="39.0" />
                         <VBox layoutX="23.0" layoutY="26.0" prefHeight="86.0" prefWidth="122.0">
@@ -78,58 +75,6 @@
                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
-                    <children>
-                        <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/settings.png" />
-                            </image>
-                            <HBox.margin>
-                                <Insets left="8.0" right="8.0" />
-                            </HBox.margin>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                            <effect>
-                                <ColorAdjust brightness="0.34" />
-                            </effect>
-                        </ImageView>
-                        <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="587.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/bell.png" />
-                            </image>
-                            <HBox.margin>
-                                <Insets right="8.0" />
-                            </HBox.margin>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                            <effect>
-                                <ColorAdjust brightness="0.34" />
-                            </effect>
-                        </ImageView>
-                        <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="595.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/menu.png" />
-                            </image>
-                            <HBox.margin>
-                                <Insets right="8.0" />
-                            </HBox.margin>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                            <effect>
-                                <ColorAdjust brightness="0.34" />
-                            </effect>
-                        </ImageView>
-                    </children>
-                    <GridPane.margin>
-                        <Insets right="5.0" />
-                    </GridPane.margin>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                </HBox>
                 <Label prefHeight="28.0" prefWidth="211.0" text="&gt; Items List">
                     <GridPane.margin>
                         <Insets left="5.0" />
@@ -141,6 +86,40 @@
                         <Font name="SansSerif Bold" size="20.0" />
                     </font>
                 </Label>
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToShowStudentsPage" text="Assign Students" />
+                  <Button fx:id="doSwitchToAdminPage" mnemonicParsing="false" onAction="#doSwitchToInventoryPage" text="Home">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" text="Orders" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" text="Students" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" text="Bundles">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" text="Grades" />
+                  <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Settings">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#doLogout" text="Logout">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
             </children>
         </GridPane>
     </top>

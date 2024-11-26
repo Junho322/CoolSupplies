@@ -44,6 +44,7 @@
             <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
                <children>
                   <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Home" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToShowStudentsPage" text="Assign Students" />
                   <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" text="Orders" />
                   <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" text="Students" />
                   <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" text="Bundles">

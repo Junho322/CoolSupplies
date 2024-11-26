@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
 
+import ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +39,12 @@ public class OrderPageController implements Initializable {
 
     // @FXML
     // private VBox chosenOrderCard;
+
+    @FXML
+    private Button settingsButton;
+
+    @FXML
+    private Button logoutButton;
 
     @FXML
     private ScrollPane scroll;
@@ -210,6 +217,7 @@ public class OrderPageController implements Initializable {
                 e.printStackTrace();
             }
         }
+        initializeButtonGraphics();
     }
 
     @FXML
@@ -485,4 +493,181 @@ public class OrderPageController implements Initializable {
         alert.showAndWait();
     }
 
+    @FXML
+    void doSwitchToShowStudentsPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ShowStudentsPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToAdminPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            AdminPageController controller = loader.getController();
+            controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToGradePage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/GradePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToInventoryPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/InventoryPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToBundlePage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/BundlePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToStudentsPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/StudentPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doLogout(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/LoginPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToParentPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ParentPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) scroll.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initializeButtonGraphics() {
+        ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
+        settingsImage.setFitHeight(30);
+        settingsImage.setFitWidth(30);
+        settingsImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
+        logoutImage.setFitHeight(30);
+        logoutImage.setFitWidth(30);
+        logoutImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        settingsButton.setGraphic(settingsImage);
+        settingsButton.setText("");
+        settingsButton.setStyle("-fx-background-color: transparent;");
+        settingsButton.setPadding(new Insets(0, 8, 0, 0));
+        settingsButton.setPrefSize(30, 30);
+
+        logoutButton.setGraphic(logoutImage);
+        logoutButton.setText("");
+        logoutButton.setStyle("-fx-background-color: transparent;");
+        logoutButton.setPadding(new Insets(0, 8, 0, 0));
+        logoutButton.setPrefSize(30, 30);
+    }
 }

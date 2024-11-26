@@ -36,6 +36,12 @@ public class GradePageController implements Initializable {
     GridPane rightSideGridPane;
 
     @FXML
+    private Button settingsButton;
+
+    @FXML
+    private Button logoutButton;
+
+    @FXML
     private VBox chosenGradeCard;
 
     @FXML
@@ -192,6 +198,7 @@ public class GradePageController implements Initializable {
                 e.printStackTrace();
             }
         }
+        initializeButtonGraphics();
     }
 
     private void initializeStudentList(String gradeLevel) {
@@ -485,5 +492,48 @@ public class GradePageController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void doSwitchToShowStudentsPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ShowStudentsPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) gradeNameLabel.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initializeButtonGraphics() {
+        ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
+        settingsImage.setFitHeight(30);
+        settingsImage.setFitWidth(30);
+        settingsImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
+        logoutImage.setFitHeight(30);
+        logoutImage.setFitWidth(30);
+        logoutImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+
+        settingsButton.setGraphic(settingsImage);
+        settingsButton.setText("");
+        settingsButton.setStyle("-fx-background-color: transparent;");
+        settingsButton.setPadding(new Insets(0, 8, 0, 0));
+        settingsButton.setPrefSize(30, 30);
+
+        logoutButton.setGraphic(logoutImage);
+        logoutButton.setText("");
+        logoutButton.setStyle("-fx-background-color: transparent;");
+        logoutButton.setPadding(new Insets(0, 8, 0, 0));
+        logoutButton.setPrefSize(30, 30);
     }
 }

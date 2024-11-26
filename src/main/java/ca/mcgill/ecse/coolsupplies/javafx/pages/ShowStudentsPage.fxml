@@ -6,18 +6,15 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.ColumnConstraints?>
 
 <BorderPane id="ShowStudentsStage" prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.ShowStudentsController">
 
@@ -29,43 +26,49 @@
                 <ColumnConstraints hgrow="SOMETIMES" prefWidth="600.0" />
             </columnConstraints>
             <children>
-                <Label text="> Students Dashboard" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;">
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="&gt; Students Dashboard">
                     <GridPane.margin>
                         <Insets left="10.0" />
                     </GridPane.margin>
                 </Label>
-                <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.columnIndex="1">
-                    <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/settings.png" />
-                            </image>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                        </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/bell.png" />
-                            </image>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                        </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/menu.png" />
-                            </image>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                        </ImageView>
-                    </children>
-                    <GridPane.margin>
-                        <Insets right="10.0" />
-                    </GridPane.margin>
-                </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
+               <children>
+                  <Button fx:id="doSwitchToAdminPage" mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Home" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" text="Orders" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" text="Students" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" text="Bundles">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToInventoryPage" text="Inventory">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" text="Grades" />
+                  <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Settings">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#doLogout" text="Logout">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
             </children>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
     </top>
 
@@ -77,26 +80,26 @@
                 <!-- Instructions Panel -->
                 <VBox fx:id="instructionsPanel" spacing="20" style="-fx-background-color: #f9f9f9; -fx-padding: 20; -fx-border-radius: 10;" visible="true">
                     <!-- Header for Instructions -->
-                    <Label wrapText="true" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Welcome to the Student Management System!" />
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Welcome to the Student Management System!" wrapText="true" />
 
                     <!-- Add Student Instructions -->
                     <VBox spacing="10">
-                        <Label wrapText="true" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Steps to Add a Student:" />
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Steps to Add a Student:" wrapText="true" />
                         <VBox spacing="5">
-                            <Label wrapText="true" maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="1. Click 'Add Student' in the grid area to open the create panel." />
-                            <Label wrapText="true" maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="2. Fill in the student's name and select their grade." />
-                            <Label wrapText="true" maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="3. Click 'Save and Add' to create the student and add them to the list." />
+                            <Label maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="1. Click 'Add Student' in the grid area to open the create panel." wrapText="true" />
+                            <Label maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="2. Fill in the student's name and select their grade." wrapText="true" />
+                            <Label maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="3. Click 'Save and Add' to create the student and add them to the list." wrapText="true" />
                         </VBox>
                     </VBox>
 
                     <!-- Update Student Instructions -->
                     <VBox spacing="10">
-                        <Label wrapText="true"  style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Steps to Update a Student:" />
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Steps to Update a Student:" wrapText="true" />
                         <VBox spacing="5">
-                            <Label wrapText="true" maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="1. Click on a student card in the grid area to open the edit panel." />
-                            <Label wrapText="true" maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="2. Update the student's name and/or grade in the edit panel." />
-                            <Label wrapText="true" maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="3. Click 'Save and Update' to apply the changes." />
-                            <Label wrapText="true" maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="4. Use the 'Remove Student' button to delete the student if needed." />
+                            <Label maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="1. Click on a student card in the grid area to open the edit panel." wrapText="true" />
+                            <Label maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="2. Update the student's name and/or grade in the edit panel." wrapText="true" />
+                            <Label maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="3. Click 'Save and Update' to apply the changes." wrapText="true" />
+                            <Label maxWidth="250" style="-fx-font-size: 14px; -fx-text-fill: #777;" text="4. Use the 'Remove Student' button to delete the student if needed." wrapText="true" />
                         </VBox>
                     </VBox>
                 </VBox>

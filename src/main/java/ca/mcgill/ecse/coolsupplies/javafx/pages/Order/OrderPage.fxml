@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController">
    <top>
       <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
          <columnConstraints>
@@ -30,58 +29,6 @@
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
-               <children>
-                  <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/settings.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="8.0" right="8.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <effect>
-                        <ColorAdjust brightness="0.34" />
-                     </effect>
-                  </ImageView>
-                  <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="587.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/bell.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="8.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <effect>
-                        <ColorAdjust brightness="0.34" />
-                     </effect>
-                  </ImageView>
-                  <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="595.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/menu.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="8.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <effect>
-                        <ColorAdjust brightness="0.34" />
-                     </effect>
-                  </ImageView>
-               </children>
-               <GridPane.margin>
-                  <Insets right="5.0" />
-               </GridPane.margin>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </HBox>
             <Label prefHeight="28.0" prefWidth="211.0" text="&gt; Admin Dashboard">
                <GridPane.margin>
                   <Insets left="5.0" />
@@ -93,6 +40,40 @@
                   <Font name="SansSerif Bold" size="20.0" />
                </font>
             </Label>
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Home" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToShowStudentsPage" text="Assign Students" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" text="Students" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" text="Bundles">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToInventoryPage" text="Inventory">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" text="Grades" />
+                  <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../../resources/styles.css" text="Settings">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#doLogout" text="Logout">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
          </children>
       </GridPane>
    </top>

@@ -38,6 +38,9 @@ public class StudentPageController implements Initializable {
     private GridPane grid1;
 
     @FXML
+    private Button settingsButton;
+
+    @FXML
     private Button logoutButton;
 
     @FXML
@@ -48,9 +51,6 @@ public class StudentPageController implements Initializable {
 
     @FXML
     private ScrollPane scroll;
-
-    @FXML
-    private Button settingsButton;
 
     @FXML
     private Label studentNameLabel;
@@ -356,7 +356,7 @@ public class StudentPageController implements Initializable {
         stage.setHeight(stage.getMaxHeight());
         stage.show();
         InventoryPageController controller = loader.getController();
-//        controller.initialize(null, null);
+        controller.initialize(null, null);
     }
 
     @FXML
@@ -392,6 +392,25 @@ public class StudentPageController implements Initializable {
             stage.show();
             GradePageController controller = loader.getController();
             controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToShowStudentsPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowStudentsPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
