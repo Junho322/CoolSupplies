@@ -15,34 +15,6 @@ public class CoolSuppliesApplication {
   public static final boolean DARK_MODE = false;
 
   public static void main(String[] args) {
-
-    //Test
-    CoolSuppliesFeatureSet1Controller.addParent("may@gmail.com", "a", "May", 6062535);
-    CoolSuppliesFeatureSet1Controller.addParent("abcd@abc.ca", "a", "Jane Doe", 1111111);
-    CoolSuppliesFeatureSet1Controller.addParent("abcde@abc.ca", "a", "abc", 6062535);
-    CoolSuppliesFeatureSet1Controller.addParent("abcdef@abc.ca", "a", "abcd", 6062535);
-    CoolSuppliesFeatureSet1Controller.addParent("abcdefg@abc.ca", "a", "abcde", 6062535);
-    CoolSuppliesFeatureSet1Controller.addParent("abcdefgh@abc.ca", "a", "abcdef", 6062535);
-
-    CoolSuppliesFeatureSet7Controller.addGrade("3");
-    CoolSuppliesFeatureSet7Controller.addGrade("4th");
-    CoolSuppliesFeatureSet7Controller.addGrade("5th");
-    CoolSuppliesFeatureSet7Controller.addGrade("7th");
-
-    CoolSuppliesFeatureSet2Controller.addStudent("Jamal", "4th");
-    CoolSuppliesFeatureSet2Controller.addStudent("Luke", "7th");
-    CoolSuppliesFeatureSet2Controller.addStudent("s3", "3");
-
-
-    CoolSuppliesFeatureSet6Controller.addStudentToParent("s3", "abcd@abc.ca");
-
-    CoolSuppliesFeatureSet4Controller.addBundle("Pencil Bundle", 1, "3");
-    CoolSuppliesFeatureSet4Controller.addBundle("Notebook Bundle", 1, "5th");
-
-    CoolSuppliesFeatureSet6Controller.startOrder(1, new Date(121, 2, 5), "mandatory", "abc@abc.ca", "s1");
-    CoolSuppliesFeatureSet6Controller.startOrder(2, new Date(121, 3, 21), "optional", "abc@abc.ca", "s1");
-    CoolSuppliesFeatureSet6Controller.startOrder(3, new Date(121, 5, 25), "recommended", "abc@abc.ca", "s2");
-
     try {
         getCoolSupplies().setAdmin(new SchoolAdmin("admin@cool.ca", "admin", getCoolSupplies()));
         CoolSuppliesPersistence.save();
