@@ -1,8 +1,12 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.BundlePageController;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerStudent;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.GradePageController;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -249,23 +253,6 @@ public class StudentPageController implements Initializable {
         }
     }
 
-    @FXML
-    void doSwitchToAdminPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) registerStudent.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.setResizable(true);
-        stage.setTitle("CoolSupplies");
-        stage.setWidth(stage.getMaxWidth());
-        stage.setHeight(stage.getMaxHeight());
-        stage.show();
-        AdminPageController controller = loader.getController();
-        controller.initialize(null, null);
-    }
-
     private void setChosenStudent(TOStudent student, AnchorPane card) {
         studentNameLabel.setText("> " + student.getName());
 
@@ -315,5 +302,94 @@ public class StudentPageController implements Initializable {
         grid1.setPrefWidth(grid1.getScene().getWidth());
         scroll.fitToWidthProperty().set(true);
         scroll.fitToHeightProperty().set(true);
+    }
+
+    @FXML
+    void doSwitchToAdminPage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) registerStudent.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.setResizable(true);
+        stage.setTitle("CoolSupplies");
+        stage.setWidth(stage.getMaxWidth());
+        stage.setHeight(stage.getMaxHeight());
+        stage.show();
+        AdminPageController controller = loader.getController();
+        controller.initialize(null, null);
+    }
+
+    @FXML
+    void doSwitchToOrderPage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/OrderPage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) registerStudent.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.setResizable(true);
+        stage.setTitle("CoolSupplies");
+        stage.setWidth(stage.getMaxWidth());
+        stage.setHeight(stage.getMaxHeight());
+        stage.show();
+        OrderPageController controller = loader.getController();
+        controller.initialize(null, null);
+    }
+
+    @FXML
+    void doSwitchToInventoryPage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/InventoryPage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) registerStudent.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.setResizable(true);
+        stage.setTitle("CoolSupplies");
+        stage.setWidth(stage.getMaxWidth());
+        stage.setHeight(stage.getMaxHeight());
+        stage.show();
+        InventoryPageController controller = loader.getController();
+//        controller.initialize(null, null);
+    }
+
+    @FXML
+    void doSwitchToBundlePage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/BundlePage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) registerStudent.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.setResizable(true);
+        stage.setTitle("CoolSupplies");
+        stage.setWidth(stage.getMaxWidth());
+        stage.setHeight(stage.getMaxHeight());
+        stage.show();
+        BundlePageController controller = loader.getController();
+//        controller.initialize(null, null);
+    }
+
+    @FXML
+    void doSwitchToGradePage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/GradePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            GradePageController controller = loader.getController();
+            controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
