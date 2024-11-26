@@ -7,15 +7,17 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet5Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOBundleItem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class BundleItemPageController {
+public class BundleItemPageController implements Initializable {
 
     private String fetchedBundleName;
 
@@ -33,6 +35,13 @@ public class BundleItemPageController {
 
     @FXML
     private ListView<String> listView;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Perform setup actions, such as clearing the list or setting defaults
+        listView.getItems().clear();
+        fetchedBundleName = ""; // Set a default value for the bundle name if needed
+    }
 
     @FXML
     void AddBundleItem(ActionEvent event) {
@@ -102,5 +111,6 @@ public class BundleItemPageController {
 
     public void getBundleName(String name) {
         fetchedBundleName = name;
+        refreshBundleItems();
     }
 }
