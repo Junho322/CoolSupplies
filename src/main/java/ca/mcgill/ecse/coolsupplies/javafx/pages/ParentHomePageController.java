@@ -4,6 +4,7 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet1Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.ViewIndividualOrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +31,8 @@ public class ParentHomePageController implements Initializable {
             return;
         }
         int orderNum = Integer.parseInt(orderNumber);
-        ViewIndividualOrderController.setOrderNumber(orderNum);
+        ViewIndividualOrderController controller = new ViewIndividualOrderController();
+        controller.setSelectedOrder(CoolSuppliesFeatureSet8Controller.viewIndividualOrder(orderNum), null);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ViewIndividualOrder.fxml"));
