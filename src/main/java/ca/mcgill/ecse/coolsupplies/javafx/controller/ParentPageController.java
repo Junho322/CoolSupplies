@@ -1,7 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
-import ca.mcgill.ecse.coolsupplies.model.Parent;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController;
 import ca.mcgill.ecse.coolsupplies.model.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
     import javafx.scene.control.Alert.AlertType;
@@ -27,129 +28,129 @@ import java.util.stream.Collectors;
 
 public class ParentPageController {
 
-  @FXML
-  private Label nameLabel;
+    @FXML
+    private Label nameLabel;
 
-  @FXML
-  private Label emailLabel;
+    @FXML
+    private Label emailLabel;
 
-  @FXML
-  private Label phoneLabel;
+    @FXML
+    private Label phoneLabel;
 
-  @FXML
-  private ComboBox<String> searchComboBox;
+    @FXML
+    private ComboBox<String> searchComboBox;
 
-  private ObservableList<String> allStudentNames;
-  private FilteredList<String> filteredStudentNames;
+    private ObservableList<String> allStudentNames;
+    private FilteredList<String> filteredStudentNames;
 
-  @FXML
-  private HBox studentCardContainer;
+    @FXML
+    private HBox studentCardContainer;
 
-  private static final String[] CARD_COLORS = {
-      "#FF4081", "#8E24AA", "#1E88E5", "#03A9F4"
-  };
+    private static final String[] CARD_COLORS = {
+            "#FF4081", "#8E24AA", "#1E88E5", "#03A9F4"
+    };
 
-  @FXML
-  public void initialize() {
-    // Initialize labels with empty values
-    nameLabel.setText("Name: ");
-    emailLabel.setText("Email: ");
-    phoneLabel.setText("Phone: ");
+    @FXML
+    public void initialize() {
+        // Initialize labels with empty values
+        nameLabel.setText("Name: ");
+        emailLabel.setText("Email: ");
+        phoneLabel.setText("Phone: ");
 
-    // Initialize the ComboBox with autocomplete
-    setupAutoComplete();
-  }
+        // Initialize the ComboBox with autocomplete
+        setupAutoComplete();
+    }
 
-  public void setParentInfo(TOParent parent) {
-    nameLabel.setText("Name: " + parent.getName());
-    emailLabel.setText("Email: " + parent.getEmail());
-    phoneLabel.setText("Phone: " + formatPhoneNumber(parent.getPhoneNumber()));
-  }
+    public void setParentInfo(TOParent parent) {
+        nameLabel.setText("Name: " + parent.getName());
+        emailLabel.setText("Email: " + parent.getEmail());
+        phoneLabel.setText("Phone: " + formatPhoneNumber(parent.getPhoneNumber()));
+    }
 
-  private void setupAutoComplete() {
-    // Get all students and extract their names
-    List<TOStudent> allStudents = CoolSuppliesFeatureSet2Controller.getStudents();
-    allStudentNames = FXCollections.observableArrayList(
-        allStudents.stream()
-            .map(TOStudent::getName)
-            .collect(Collectors.toList())
-    );
+    private void setupAutoComplete() {
+        // Get all students and extract their names
+        List<TOStudent> allStudents = CoolSuppliesFeatureSet2Controller.getStudents();
+        allStudentNames = FXCollections.observableArrayList(
+                allStudents.stream()
+                        .map(TOStudent::getName)
+                        .collect(Collectors.toList())
+        );
 
-    // Create a filtered list that will contain the suggestions
-    filteredStudentNames = new FilteredList<>(allStudentNames, p -> true);
+        // Create a filtered list that will contain the suggestions
+        filteredStudentNames = new FilteredList<>(allStudentNames, p -> true);
 
-    // Add a listener to the ComboBox editor
-    searchComboBox.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-      final TextField editor = searchComboBox.getEditor();
-      final String selected = searchComboBox.getSelectionModel().getSelectedItem();
+        // Add a listener to the ComboBox editor
+        searchComboBox.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            final TextField editor = searchComboBox.getEditor();
+            final String selected = searchComboBox.getSelectionModel().getSelectedItem();
 
-      // If nothing has been selected yet
-      if (selected == null || !selected.equals(editor.getText())) {
-        filteredStudentNames.setPredicate(item -> {
-          // If no search text, show all options
-          if (newValue == null || newValue.isEmpty()) {
-            return true;
-          }
+            // If nothing has been selected yet
+            if (selected == null || !selected.equals(editor.getText())) {
+                filteredStudentNames.setPredicate(item -> {
+                    // If no search text, show all options
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
 
-          // Compare search text with item text (case-insensitive)
-          String lowerCaseFilter = newValue.toLowerCase();
-          return item.toLowerCase().contains(lowerCaseFilter);
+                    // Compare search text with item text (case-insensitive)
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    return item.toLowerCase().contains(lowerCaseFilter);
+                });
+
+                // Show the popup if editor has focus or if there are matches
+                if (!filteredStudentNames.isEmpty()) {
+                    searchComboBox.show();
+                }
+            }
         });
 
-        // Show the popup if editor has focus or if there are matches
-        if (!filteredStudentNames.isEmpty()) {
-          searchComboBox.show();
+        // Bind the filtered list to the ComboBox items
+        searchComboBox.setItems(filteredStudentNames);
+    }
+
+    @FXML
+    private void handleDeleteParent(ActionEvent event) {
+        // Extract the email of the currently displayed parent
+        String displayedEmail = emailLabel.getText().replace("Email: ", "").trim();
+
+        // Check if an email is displayed
+        if (displayedEmail.isEmpty()) {
+            // Show an error if no email is displayed
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Delete Parent");
+            alert.setHeaderText(null);
+            alert.setContentText("No parent is selected to delete.");
+            alert.showAndWait();
+            return;
         }
-      }
-    });
 
-    // Bind the filtered list to the ComboBox items
-    searchComboBox.setItems(filteredStudentNames);
-  }
+        // Call the controller method to delete the parent
+        String result = CoolSuppliesFeatureSet1Controller.deleteParent(displayedEmail);
 
-  @FXML
-  private void handleDeleteParent(ActionEvent event) {
-    // Extract the email of the currently displayed parent
-    String displayedEmail = emailLabel.getText().replace("Email: ", "").trim();
+        // Show a success or error message based on the result
+        Alert alert;
+        if (result.equals("Parent deleted successfully")) {
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Delete Parent");
+            alert.setHeaderText(null);
+            alert.setContentText(result);
 
-    // Check if an email is displayed
-    if (displayedEmail.isEmpty()) {
-      // Show an error if no email is displayed
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Delete Parent");
-      alert.setHeaderText(null);
-      alert.setContentText("No parent is selected to delete.");
-      alert.showAndWait();
-      return;
+            // Clear the UI after deletion
+            nameLabel.setText("Name: ");
+            emailLabel.setText("Email: ");
+            phoneLabel.setText("Phone: ");
+        } else {
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Delete Parent");
+            alert.setHeaderText(null);
+            alert.setContentText(result);
+        }
+
+        alert.showAndWait();
     }
 
-    // Call the controller method to delete the parent
-    String result = CoolSuppliesFeatureSet1Controller.deleteParent(displayedEmail);
-
-    // Show a success or error message based on the result
-    Alert alert;
-    if (result.equals("Parent deleted successfully")) {
-      alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("Delete Parent");
-      alert.setHeaderText(null);
-      alert.setContentText(result);
-
-      // Clear the UI after deletion
-      nameLabel.setText("Name: ");
-      emailLabel.setText("Email: ");
-      phoneLabel.setText("Phone: ");
-    } else {
-      alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Delete Parent");
-      alert.setHeaderText(null);
-      alert.setContentText(result);
-    }
-
-    alert.showAndWait();
-  }
-
-  @FXML
-  private void handleChangeParent(ActionEvent event) {
+    @FXML
+    private void handleChangeParent(ActionEvent event) {
     /*
     // Create a custom dialog
     Dialog<String> dialog = new Dialog<>();
@@ -228,97 +229,98 @@ public class ParentPageController {
     populateStudentCards(students);
     */
 
-    try {
-      // Load AdminPage.fxml
-      javafx.scene.Parent adminPageRoot = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml")).load();
+        try {
+            // Load AdminPage.fxml
+            javafx.scene.Parent adminPageRoot = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml")).load();
 
-      // Get the current stage
-      Stage stage = (Stage) nameLabel.getScene().getWindow();
+            // Get the current stage
+            Stage stage = (Stage) nameLabel.getScene().getWindow();
 
-      // Set the new scene
-      stage.setScene(new Scene(adminPageRoot));
+            // Set the new scene
+            stage.setScene(new Scene(adminPageRoot));
 
-      // Optionally, maximize the stage
-      stage.setMaximized(true);
+            // Optionally, maximize the stage
+            stage.setMaximized(true);
 
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @FXML
-  private void handleSearchStudent(ActionEvent event) {
-    // Extract the displayed parent's email
-    String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
-
-    // Validate the parent email
-    if (parentEmail.isEmpty()) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Add Student");
-      alert.setHeaderText(null);
-      alert.setContentText("No parent is selected.");
-      alert.showAndWait();
-      return;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    // Get the selected student name
-    String studentName = searchComboBox.getValue();
+    @FXML
+    private void handleSearchStudent(ActionEvent event) {
+        // Extract the displayed parent's email
+        String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
 
-    // Validate the student name
-    if (studentName == null || studentName.trim().isEmpty()) {
-      return;
+        // Validate the parent email
+        if (parentEmail.isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Add Student");
+            alert.setHeaderText(null);
+            alert.setContentText("No parent is selected.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Get the selected student name
+        String studentName = searchComboBox.getValue();
+
+        // Validate the student name
+        if (studentName == null || studentName.trim().isEmpty()) {
+            return;
+        }
+
+        // Call the controller method to add the student to the parent
+        // String result = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
+
     }
 
-    // Call the controller method to add the student to the parent
-    // String result = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
+    @FXML
+    private void handleConfirmSearch(ActionEvent event) {
+        // Extract the displayed parent's email
+        String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
 
-  }
+        // Validate the parent email
+        if (parentEmail.isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Add Student");
+            alert.setHeaderText(null);
+            alert.setContentText("No parent is selected.");
+            alert.showAndWait();
+            return;
+        }
 
-  @FXML
-  private void handleConfirmSearch(ActionEvent event) {
-    // Extract the displayed parent's email
-    String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
+        // Get the selected student name
+        String studentName = searchComboBox.getValue();
 
-    // Validate the parent email
-    if (parentEmail.isEmpty()) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Add Student");
-      alert.setHeaderText(null);
-      alert.setContentText("No parent is selected.");
-      alert.showAndWait();
-      return;
+        // Validate the student name
+        if (studentName == null || studentName.trim().isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Add Student");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a student.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Call the controller method to add the student to the parent
+        String result = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
+
+        // Show a success or error message based on the result
+        Alert alert;
+        if (result.equals("Student added to parent.")) {
+            // Refresh the student cards
+            List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parentEmail);
+            populateStudentCards(students);
+        } else {
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(result);
+            alert.showAndWait();
+        }
     }
 
-    // Get the selected student name
-    String studentName = searchComboBox.getValue();
-
-    // Validate the student name
-    if (studentName == null || studentName.trim().isEmpty()) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Add Student");
-      alert.setHeaderText(null);
-      alert.setContentText("Please select a student.");
-      alert.showAndWait();
-      return;
-    }
-
-    // Call the controller method to add the student to the parent
-    String result = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
-
-    // Show a success or error message based on the result
-    Alert alert;
-    if (result.equals("Student added to parent.")) {
-      // Refresh the student cards
-      List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parentEmail);
-      populateStudentCards(students);
-    } else {
-      alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Error");
-      alert.setHeaderText(null);
-      alert.setContentText(result);
-      alert.showAndWait();
-    }
-  }
 
 
   private String formatPhoneNumber(int phoneNumber) {
@@ -469,4 +471,119 @@ public class ParentPageController {
     alert.showAndWait();
   }
 
+  @FXML
+  void doSwitchToAdminPage(ActionEvent event) {
+      try {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml"));
+          Parent root = loader.load();
+          Stage stage = (Stage) nameLabel.getScene().getWindow();
+          Scene scene = new Scene(root);
+          stage.setScene(scene);
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
+          AdminPageController controller = loader.getController();
+          controller.initialize(null, null);
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+
+  @FXML
+  void doSwitchToOrderPage(ActionEvent event) {
+      try {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/OrderPage.fxml"));
+          Parent root = loader.load();
+          Stage stage = (Stage) nameLabel.getScene().getWindow();
+          Scene scene = new Scene(root);
+          stage.setScene(scene);
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+
+  @FXML
+  void doSwitchToInventoryPage(ActionEvent event) {
+      try {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/InventoryPage.fxml"));
+          Parent root = loader.load();
+          Stage stage = (Stage) nameLabel.getScene().getWindow();
+          Scene scene = new Scene(root);
+          stage.setScene(scene);
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+
+  @FXML
+  void doSwitchToBundlePage(ActionEvent event) {
+      try {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/BundlePage.fxml"));
+          Parent root = loader.load();
+          Stage stage = (Stage) nameLabel.getScene().getWindow();
+          Scene scene = new Scene(root);
+          stage.setScene(scene);
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+
+  @FXML
+    void doSwitchToStudentsPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/StudentPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) nameLabel.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doLogout(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/LoginPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) nameLabel.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

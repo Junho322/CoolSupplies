@@ -1,7 +1,9 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.BundlePageController;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
+import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -459,6 +461,67 @@ public class AdminPageController implements Initializable {
             stage.show();
             StudentPageController controller = loader.getController();
             controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToOrderPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Order/OrderPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            OrderPageController controller = loader.getController();
+            controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToBundlePage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("BundlePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+            BundlePageController controller = loader.getController();
+//            controller.initialize(null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void doSwitchToInventoryPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("InventoryPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
+            stage.setTitle("CoolSupplies");
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

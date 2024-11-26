@@ -65,13 +65,19 @@ public class LoginPageController {
     }
 
     private void switchToAdminPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("pages/AdminPage.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("resources/styles.css").toExternalForm());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setMaximized(true);
+        stage.setResizable(true);
+        stage.setTitle("CoolSupplies");
+        stage.setWidth(stage.getMaxWidth());
+        stage.setHeight(stage.getMaxHeight());
         stage.show();
+        AdminPageController controller = loader.getController();
+        controller.initialize(null, null);
     }
 
     private void switchToBundlePage(ActionEvent event) throws IOException {

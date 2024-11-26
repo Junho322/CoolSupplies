@@ -29,13 +29,14 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Parents" />
-                  <Button mnemonicParsing="false" text="Bundles">
+                  <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Home" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" text="Orders" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" text="Bundles">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" text="Items">
+                  <Button mnemonicParsing="false" onAction="#doSwitchToInventoryPage" text="Inventory">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
