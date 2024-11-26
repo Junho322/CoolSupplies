@@ -4,17 +4,30 @@ import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.model.BundleItem;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
+import ca.mcgill.ecse.coolsupplies.model.Grade;
+import ca.mcgill.ecse.coolsupplies.model.GradeBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BundlePageController {
+
+    private Stage stage;
+
+    private Scene scene;
+
+    private Parent root;
 
     private final ArrayList<String> discountApplyChoices = new ArrayList<>();
 
@@ -59,11 +72,7 @@ public class BundlePageController {
     @FXML
     private void initialize() {
         // Initialize the list with any preexisting bundles
-        List<TOGradeBundle> allBundles = CoolSuppliesFeatureSet4Controller.getBundles();
-        for (TOGradeBundle bundle : allBundles) {
-            bundles.add(bundle.getName());
-        }
-        listView.setItems(bundles);
+        populateListView();
 
         // Set all dropdown menu values
         ArrayList<TOGrade> grades = new ArrayList<>();
@@ -72,10 +81,9 @@ public class BundlePageController {
         for (TOGrade grade : grades) {
             gradeNames.add(grade.getLevel());
         }
-        discountApplyChoices.add("Yes"); discountApplyChoices.add("No");
         gradeChoice.getItems().addAll(gradeNames);
         editGrade.getItems().addAll(gradeNames);
-        populateListView();
+
         // Add a listener for bundle selection
         listView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
@@ -91,7 +99,7 @@ public class BundlePageController {
         String grade = gradeChoice.getValue();
 
         if (name.isEmpty() || discount.isEmpty() || grade == null) {
-            showAlert("Error", "All fields must be filled to add a bundle.");
+            showErrorAlert("Error", "All fields must be filled to add a bundle.");
             return;
         }
 
@@ -126,24 +134,39 @@ public class BundlePageController {
 
     @FXML
     private void handleEditItems() {
-
-
+        Parent root = FXMLLoader.load(getClass().getResource("pages/AdminPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("resources/styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
     private void handleSaveButton() {
+        TOGradeBundle oldBundle = CoolSuppliesFeatureSet4Controller.getBundle(selectedBundleName);
+        String oldName = oldBundle.getName();
+        String oldDiscount = String.valueOf(oldBundle.getDiscount());
+        String oldGrade = oldBundle.getGradeLevel();
         String newName = editBundle.getText();
         String newDiscount = editDiscount.getText();
         String newGrade = editGrade.getValue();
+
         if (newName.isEmpty() || newDiscount.isEmpty() || newGrade == null) {
-            showAlert("Error", "All fields must be filled to edit a bundle.");
+            showErrorAlert("Error", "All fields must be filled to edit a bundle.");
             return;
         }
 
         try {
             int discountValue = Integer.parseInt(newDiscount);
-            String result = "ok";
-            if (!result.equals("Successfully updated Bundle")) {
+            String result = CoolSuppliesFeatureSet4Controller.updateBundle(
+                    selectedBundleName,
+                    newName,
+                    Integer.parseInt(newDiscount),
+                    newGrade
+            );
+            if (!result.equals("Successfully updated Bundle: " + selectedBundleName)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
@@ -158,9 +181,10 @@ public class BundlePageController {
             alert.setContentText("Invalid discount value. Enter a number.");
             alert.showAndWait();
         } finally {
-            nameField.clear();
-            discountField.clear();
+            editBundle.clear();
+            editDiscount.clear();
             populateListView();
+
         }
     }
 
@@ -178,7 +202,8 @@ public class BundlePageController {
             if (response == ButtonType.OK) {
                 bundles.remove(selectedBundleName);
                 CoolSuppliesFeatureSet4Controller.deleteBundle(selectedBundleName);
-                showAlert("Success", "Bundle deleted successfully.");
+                populateListView();
+                showSuccessAlert("Success", "Bundle deleted successfully.");
             } else {
                 // User canceled the action
                 System.out.println("Deletion canceled by the user.");
@@ -188,18 +213,34 @@ public class BundlePageController {
 
 
     // Handle bundle selection from the ListView
-    private void handleBundleSelection(String selectedBundle) {
-        selectedBundleName = selectedBundle;
-        System.out.println("Selected bundle: " + selectedBundle);
-
-        // Example: Display the bundle details (customize as needed)
-        // This is where you can load more details for the selected bundle.
+    private void handleBundleSelection(String selected) {
+        selectedBundleName = selected;
+        System.out.println("Selected bundle: " + selected);
+        TOGradeBundle selectedBundle = CoolSuppliesFeatureSet4Controller.getBundle(selected);
+        editBundle.setText(selectedBundle.getName());
+        editDiscount.setText(String.valueOf(selectedBundle.getDiscount()));
+        editGrade.setValue(selectedBundle.getGradeLevel());
     }
 
-    private void populateListView() {listView.setItems(bundles);}
+    private void populateListView() {
+        listView.getItems().clear();
+        List<TOGradeBundle> allBundles = CoolSuppliesFeatureSet4Controller.getBundles();
+        System.out.println(allBundles);
+        for (TOGradeBundle bundle : allBundles) {
+            bundles.add(bundle.getName());
+        }
+        listView.setItems(bundles);
+    }
 
-    private void showAlert(String title, String message) {
+    private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showSuccessAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
