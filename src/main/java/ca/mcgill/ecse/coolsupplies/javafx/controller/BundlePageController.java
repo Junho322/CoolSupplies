@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,7 +134,7 @@ public class BundlePageController {
     }
 
     @FXML
-    private void handleEditItems() {
+    private void handleEditItems() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("pages/AdminPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
