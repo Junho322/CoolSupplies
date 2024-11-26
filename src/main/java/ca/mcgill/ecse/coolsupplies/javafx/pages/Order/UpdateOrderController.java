@@ -15,7 +15,7 @@ public class UpdateOrderController {
     private TextField StudentName;
 
     @FXML
-    private PasswordField newLevel;
+    private TextField newLevel;
 
     private static TOOrder Order;
 
