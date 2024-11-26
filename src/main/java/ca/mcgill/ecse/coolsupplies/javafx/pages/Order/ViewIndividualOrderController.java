@@ -274,6 +274,7 @@ public class ViewIndividualOrderController {
 
     @FXML
     void AddOrderItem(ActionEvent event) {
+        
         String itemName = ItemName.getText();
         int quantity;
         
@@ -288,13 +289,11 @@ public class ViewIndividualOrderController {
         showAlert("Add Item", result);
 
         List<TOOrderItem> ordersList = currentOrder.getItems();
-        
         for (TOOrderItem orderItem: ordersList){
             if (orderItem.getItemName().equalsIgnoreCase(itemName)){
                 items.add(orderItem);
             }
         }
-
         populateListView();
     }
 
@@ -325,6 +324,7 @@ public class ViewIndividualOrderController {
         for (TOOrderItem orderItem : orderItems) {
             itemsTable.getItems().add(orderItem);
         }
+        populateListView();
 
         // boolean itemFound = false;
         //     for (int i = 0; i < listview.getItems().size(); i++) {
