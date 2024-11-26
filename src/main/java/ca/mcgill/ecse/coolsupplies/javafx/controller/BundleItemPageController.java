@@ -17,8 +17,7 @@ import java.util.List;
 
 public class BundleItemPageController {
 
-    @FXML
-    private Label BundleNameLabel;
+    private String fetchedBundleName;
 
     @FXML
     private TextField DeleteItemName;
@@ -34,12 +33,11 @@ public class BundleItemPageController {
 
     @FXML
     private ListView<String> listView;
+
     @FXML
     void AddBundleItem(ActionEvent event) {
-      handleAddBundle();
-        
         //String bundleName = BundleNameLabel.getText();
-        String bundleName = "Pencil";
+        String bundleName = fetchedBundleName;
         String itemName = ItemName.getText();
         String level = LevelName.getText();
         int quantity;
@@ -58,7 +56,7 @@ public class BundleItemPageController {
 
     @FXML
     void DeleteBundleItem(ActionEvent event) {
-        String bundleName = BundleNameLabel.getText();
+        String bundleName = fetchedBundleName;
         String itemName = DeleteItemName.getText();
 
         String result = CoolSuppliesFeatureSet5Controller.deleteBundleItem(itemName, bundleName);
@@ -68,7 +66,7 @@ public class BundleItemPageController {
 
     @FXML
     void updateBundleItem(ActionEvent event) {
-        String bundleName = BundleNameLabel.getText();
+        String bundleName = fetchedBundleName;
         String itemName = ItemName.getText();
         String level = LevelName.getText();
         int quantity;
@@ -86,7 +84,7 @@ public class BundleItemPageController {
     }
 
     private void refreshBundleItems() {
-        String bundleName = BundleNameLabel.getText();
+        String bundleName = fetchedBundleName;
         List<TOBundleItem> bundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(bundleName);
 
         listView.getItems().clear();
@@ -102,7 +100,7 @@ public class BundleItemPageController {
         alert.showAndWait();
     }
 
-    private void handleAddBundle(){
-      CoolSuppliesFeatureSet4Controller.addBundle("pencil", 2, "4");
+    public void getBundleName(String name) {
+        fetchedBundleName = name;
     }
 }
