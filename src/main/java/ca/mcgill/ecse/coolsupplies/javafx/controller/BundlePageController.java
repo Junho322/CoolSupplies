@@ -142,7 +142,7 @@ public class BundlePageController {
 
         // Get the controller and pass data to it
         BundleItemPageController passer = fxmlLoader.getController();
-//        passer.getBundleName(selectedBundleName); // Updated method name to reflect action
+        passer.getBundleName(selectedBundleName);
 
         // Set up the scene and stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
