@@ -105,7 +105,7 @@ public class ViewIndividualOrderController {
       this.listener = listener;
       initialize();
     }
-    ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
+    
     @FXML
     public void initialize() {
         try {
@@ -274,8 +274,21 @@ public class ViewIndividualOrderController {
 
     @FXML
     void AddOrderItem(ActionEvent event) {
-        
-        String itemName = ItemName.getText();
+        if (ItemName == null || ItemName.getText() == null || ItemName.getText().isEmpty()) {
+            showAlert("Error", "Item name cannot be empty.");
+            return;
+        }
+    
+        if (QuantityNumber == null || QuantityNumber.getText() == null || QuantityNumber.getText().isEmpty()) {
+            showAlert("Error", "Quantity cannot be empty.");
+            return;
+        }
+    
+        if (currentOrder == null) {
+            showAlert("Error", "No order selected.");
+            return;
+        }
+        String itemName = ItemName.getText().trim();
         int quantity;
         
         try {
@@ -288,18 +301,44 @@ public class ViewIndividualOrderController {
         String result = CoolSuppliesFeatureSet8Controller.addItemToOrder(itemName, quantity, currentOrder.getNumber());
         showAlert("Add Item", result);
 
-        List<TOOrderItem> ordersList = currentOrder.getItems();
-        for (TOOrderItem orderItem: ordersList){
-            if (orderItem.getItemName().equalsIgnoreCase(itemName)){
-                items.add(orderItem);
-            }
+        // List<TOOrderItem> ordersList = currentOrder.getItems();
+        // for (TOOrderItem orderItem: ordersList){
+        //     if (orderItem.getItemName().equalsIgnoreCase(itemName)){
+        //         items.add(orderItem);
+        //     }
+        // }
+        // populateListView();
+
+        List<TOOrderItem> orderItems = currentOrder.getItems();
+        itemsTable.getItems().clear();
+        for (TOOrderItem orderItem : orderItems) {
+            itemsTable.getItems().add(orderItem);
         }
-        populateListView();
+
+        // Populate items table
+        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
+        //itemsTable.getItems().clear();
+        itemsTable.setItems(items);
     }
 
     @FXML
     void updateOrderItem(ActionEvent event) {
-        String itemName = ItemName.getText();
+        if (ItemName == null || ItemName.getText() == null || ItemName.getText().isEmpty()) {
+            showAlert("Error", "Item name cannot be empty.");
+            return;
+        }
+    
+        if (QuantityNumber == null || QuantityNumber.getText() == null || QuantityNumber.getText().isEmpty()) {
+            showAlert("Error", "Quantity cannot be empty.");
+            return;
+        }
+    
+        if (currentOrder == null) {
+            showAlert("Error", "No order selected.");
+            return;
+        }
+
+        String itemName = ItemName.getText().trim();
         int quantity;
         
         try {
@@ -311,55 +350,50 @@ public class ViewIndividualOrderController {
         String result = CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(currentOrder.getNumber(),itemName, quantity);
         showAlert("Add Item", result);
 
-        // List<TOOrderItem> ordersList = currentOrder.getItems();
-        // for (int i = 0; i < ordersList.size(); i++){
-        //     if (ordersList.get(i).getItemName().equalsIgnoreCase(itemName)){
-        //         ordersList.get(i).Quantity(quantity);
-        //         itemsTable.getItems().set(i, ordersList.get(i));
-        //     }
-        // }
+        
 
         List<TOOrderItem> orderItems = currentOrder.getItems();
         itemsTable.getItems().clear();
         for (TOOrderItem orderItem : orderItems) {
             itemsTable.getItems().add(orderItem);
         }
-        populateListView();
 
-        // boolean itemFound = false;
-        //     for (int i = 0; i < listview.getItems().size(); i++) {
-        //         String item = listview.getItems().get(i);
-        //         if (updatedName.equals(item) ){
-        //             showAlert(Alert.AlertType.ERROR, "Input Error", "The new name must not already exist");
-        //             return;
-        //         }
-        //         // Check if the item's name matches the one to be updated
-        //         if (item.equalsIgnoreCase(currentItemName)) {
-        //             // Update the item
-        //             String updatedItem = updatedName; //+ " - $" + String.format("%.2f", price);
-        //             listview.getItems().set(i, updatedItem);
-        //             CoolSuppliesFeatureSet3Controller.updateItem(currentItemName, updatedName, price);
-        //             itemFound = true;
-        //             break;
-        //         }
-        //     }
+              
+        // Populate items table
+        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
+        //itemsTable.getItems().clear();
+        itemsTable.setItems(items);
+        
     }
 
     @FXML
     void DeleteOrderItem(ActionEvent event) {
+if (DeleteItemName == null || DeleteItemName.getText() == null || DeleteItemName.getText().isEmpty()) {
+        showAlert("Error", "Item name to delete cannot be empty.");
+        return;
+    }
+
+    if (currentOrder == null) {
+        showAlert("Error", "No order selected.");
+        return;
+    }
+
         String itemName = DeleteItemName.getText();
         
         String result = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, String.valueOf(currentOrder.getNumber()));
         showAlert("Add Item", result);
 
         List<TOOrderItem> ordersList = currentOrder.getItems();
-        
         for (TOOrderItem orderItem: ordersList){
             if (orderItem.getItemName().equalsIgnoreCase(itemName)){
                 itemsTable.getItems().remove(orderItem);
             }
         }
+        // Populate items table
+        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
+        //itemsTable.getItems().clear();
+        itemsTable.setItems(items);
     }
 
-    private void populateListView() {itemsTable.setItems(items);}
+    //private void populateListView() {itemsTable.setItems(items);}
 }
