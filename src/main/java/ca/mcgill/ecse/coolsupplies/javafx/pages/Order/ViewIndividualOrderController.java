@@ -109,10 +109,12 @@ public class ViewIndividualOrderController {
         }
 
         // Set up toggle button
-        paymentForm.setVisible(false);
-        paymentForm.setManaged(false);
-        togglePaymentButton.setOnAction(event -> togglePaymentForm());
-        payButton.setOnAction(event -> processPayment());
+        if (paymentForm != null) {
+            paymentForm.setVisible(false);
+            paymentForm.setManaged(false);
+            togglePaymentButton.setOnAction(event -> togglePaymentForm());
+            payButton.setOnAction(event -> processPayment());
+        }
     }
 
     private void setupTableColumns() {

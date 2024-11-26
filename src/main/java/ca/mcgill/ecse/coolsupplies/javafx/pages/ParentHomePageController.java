@@ -35,8 +35,13 @@ public class ParentHomePageController implements Initializable {
         controller.setSelectedOrder(CoolSuppliesFeatureSet8Controller.viewIndividualOrder(orderNum), null);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ViewIndividualOrder.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/ViewIndividualOrder.fxml"));
             Parent root = loader.load();
+            ViewIndividualOrderController controller1 = loader.getController();
+            controller1.initialize();
+            controller1.setSelectedOrder(CoolSuppliesFeatureSet8Controller.viewIndividualOrder(orderNum), null);
+            controller1.initialize();
+
             Stage stage = (Stage) orderComboBox.getScene().getWindow();
             stage.setScene(new javafx.scene.Scene(root));
             stage.setTitle("Cool Supplies");
