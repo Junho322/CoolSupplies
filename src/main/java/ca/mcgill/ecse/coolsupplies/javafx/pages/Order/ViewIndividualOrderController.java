@@ -6,6 +6,7 @@ import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController.EventL
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrderItem;
+import ca.mcgill.ecse.coolsupplies.model.OrderItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -273,128 +274,158 @@ public class ViewIndividualOrderController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
     @FXML
     void AddOrderItem(ActionEvent event) {
-        if (ItemName == null || ItemName.getText() == null || ItemName.getText().isEmpty()) {
-            showAlert("Error", "Item name cannot be empty.");
-            return;
-        }
-    
-        if (QuantityNumber == null || QuantityNumber.getText() == null || QuantityNumber.getText().isEmpty()) {
-            showAlert("Error", "Quantity cannot be empty.");
-            return;
-        }
-    
-        if (currentOrder == null) {
-            showAlert("Error", "No order selected.");
-            return;
-        }
-        String itemName = ItemName.getText().trim();
-        int quantity;
-        
-        try {
-            quantity = Integer.parseInt(QuantityNumber.getText());
-        } catch (NumberFormatException e) {
-            showAlert("Invalid Input", "Quantity must be a number.");
-            return;
-        }
+        if (validateInputFields()) {
+            String itemName = ItemName.getText().trim();
+            int quantity;
 
-        String result = CoolSuppliesFeatureSet8Controller.addItemToOrder(itemName, quantity, currentOrder.getNumber());
-        showAlert("Add Item", result);
+            try {
+                quantity = Integer.parseInt(QuantityNumber.getText());
+                if (quantity <= 0) {
+                    showAlert("Invalid Input", "Quantity must be a positive number.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showAlert("Invalid Input", "Quantity must be a valid number.");
+                return;
+            }
 
-        // List<TOOrderItem> ordersList = currentOrder.getItems();
-        // for (TOOrderItem orderItem: ordersList){
-        //     if (orderItem.getItemName().equalsIgnoreCase(itemName)){
-        //         items.add(orderItem);
-        //     }
-        // }
-        // populateListView();
+            try {
+                String result = CoolSuppliesFeatureSet8Controller.addItemToOrder(itemName, quantity, currentOrder.getNumber());
 
-        List<TOOrderItem> orderItems = currentOrder.getItems();
-        itemsTable.getItems().clear();
-        for (TOOrderItem orderItem : orderItems) {
-            itemsTable.getItems().add(orderItem);
+                if (result.equals("Successfully added item to order")) {
+                    currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
+                    ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
+                    itemsTable.setItems(items);
+                    itemsTable.refresh();
+                    populateOrderDetails();
+
+                    ItemName.clear();
+                    QuantityNumber.clear();
+                } else {
+                    showAlert("Error", result);
+                }
+            } catch (Exception e) {
+                showAlert("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
+            }
         }
-
-        // Populate items table
-        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
-        //itemsTable.getItems().clear();
-        itemsTable.setItems(items);
     }
 
     @FXML
     void updateOrderItem(ActionEvent event) {
-        if (ItemName == null || ItemName.getText() == null || ItemName.getText().isEmpty()) {
-            showAlert("Error", "Item name cannot be empty.");
-            return;
-        }
-    
-        if (QuantityNumber == null || QuantityNumber.getText() == null || QuantityNumber.getText().isEmpty()) {
-            showAlert("Error", "Quantity cannot be empty.");
-            return;
-        }
-    
-        if (currentOrder == null) {
-            showAlert("Error", "No order selected.");
-            return;
-        }
+        if (validateUpdateInputFields()) {
+            String itemName = ItemName.getText().trim();
+            int quantity;
 
-        String itemName = ItemName.getText().trim();
-        int quantity;
-        
-        try {
-            quantity = Integer.parseInt(QuantityNumber.getText());
-        } catch (NumberFormatException e) {
-            showAlert("Invalid Input", "Quantity must be a number.");
-            return;
+            try {
+                quantity = Integer.parseInt(QuantityNumber.getText());
+            } catch (NumberFormatException e) {
+                showAlert("Error", "Quantity must be a number.");
+                return;
+            }
+
+            try {
+                String result = CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(
+                        currentOrder.getNumber(), itemName, quantity
+                );
+
+                showAlert(result.contains("successfully") ? "Success" : "Error", result);
+
+                if (result.contains("successfully")) {
+                    currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
+                    ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
+                    itemsTable.setItems(items);
+                    itemsTable.refresh();
+                    populateOrderDetails();
+
+                    ItemName.clear();
+                    QuantityNumber.clear();
+                }
+            } catch (Exception e) {
+                showAlert("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
+            }
         }
-        String result = CoolSuppliesFeatureSet8Controller.updateQuantityOfAnExistingItemOfOrder(currentOrder.getNumber(),itemName, quantity);
-        showAlert("Add Item", result);
-
-        
-
-        List<TOOrderItem> orderItems = currentOrder.getItems();
-        itemsTable.getItems().clear();
-        for (TOOrderItem orderItem : orderItems) {
-            itemsTable.getItems().add(orderItem);
-        }
-
-              
-        // Populate items table
-        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
-        //itemsTable.getItems().clear();
-        itemsTable.setItems(items);
-        
     }
 
     @FXML
     void DeleteOrderItem(ActionEvent event) {
-if (DeleteItemName == null || DeleteItemName.getText() == null || DeleteItemName.getText().isEmpty()) {
-        showAlert("Error", "Item name to delete cannot be empty.");
-        return;
-    }
+        if (validateDeleteInputFields()) {
+            String itemName = DeleteItemName.getText().trim();
 
-    if (currentOrder == null) {
-        showAlert("Error", "No order selected.");
-        return;
-    }
+            try {
+                String result = CoolSuppliesFeatureSet8Controller.deleteOrderItem(
+                        itemName, String.valueOf(currentOrder.getNumber())
+                );
 
-        String itemName = DeleteItemName.getText();
-        
-        String result = CoolSuppliesFeatureSet8Controller.deleteOrderItem(itemName, String.valueOf(currentOrder.getNumber()));
-        showAlert("Add Item", result);
+                if (result.contains("deleted successfully")) {
+                    currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
+                    ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
+                    itemsTable.setItems(items);
+                    itemsTable.refresh();
+                    populateOrderDetails();
 
-        List<TOOrderItem> ordersList = currentOrder.getItems();
-        for (TOOrderItem orderItem: ordersList){
-            if (orderItem.getItemName().equalsIgnoreCase(itemName)){
-                itemsTable.getItems().remove(orderItem);
+                    showAlert("Success", result);
+                    DeleteItemName.clear();
+                } else {
+                    showAlert("Error", result);
+                }
+            } catch (Exception e) {
+                showAlert("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
             }
         }
-        // Populate items table
-        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
-        //itemsTable.getItems().clear();
-        itemsTable.setItems(items);
+    }
+
+    private boolean validateInputFields() {
+        if (currentOrder == null) {
+            showAlert("Error", "No order selected.");
+            return false;
+        }
+
+        if (ItemName == null || ItemName.getText() == null || ItemName.getText().trim().isEmpty()) {
+            showAlert("Error", "Item name cannot be empty.");
+            return false;
+        }
+
+        if (QuantityNumber == null || QuantityNumber.getText() == null || QuantityNumber.getText().trim().isEmpty()) {
+            showAlert("Error", "Quantity cannot be empty.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validateUpdateInputFields() {
+        if (currentOrder == null) {
+            showAlert("Error", "No order selected.");
+            return false;
+        }
+
+        if (ItemName == null || ItemName.getText() == null || ItemName.getText().isEmpty()) {
+            showAlert("Error", "Item name cannot be empty.");
+            return false;
+        }
+
+        if (QuantityNumber == null || QuantityNumber.getText() == null || QuantityNumber.getText().isEmpty()) {
+            showAlert("Error", "Quantity cannot be empty.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validateDeleteInputFields() {
+        if (currentOrder == null) {
+            showAlert("Error", "No order selected.");
+            return false;
+        }
+
+        if (DeleteItemName == null || DeleteItemName.getText() == null || DeleteItemName.getText().isEmpty()) {
+            showAlert("Error", "Item name to delete cannot be empty.");
+            return false;
+        }
+
+        return true;
     }
 
     //private void populateListView() {itemsTable.setItems(items);}

@@ -91,7 +91,7 @@ public class CoolSuppliesFeatureSet8Controller {
      *
      * @param itemName    The name of the item to add.
      * @param quantity    The quantity of the item to add.
-     * @param orderNumber The number of the order to add the item to.
+     * @param orderNumber The number of the order to add the item to.a
      * @return A success message if the item was added to the order or an appropriate error message.
      * @author Jack McDonald
      */
@@ -129,7 +129,7 @@ public class CoolSuppliesFeatureSet8Controller {
         } catch (RuntimeException e) {
             return e.getMessage();
         }
-        return "Could not add item to order";
+        return "Successfully added item to order";
     }
 
     /**
@@ -196,7 +196,7 @@ public class CoolSuppliesFeatureSet8Controller {
         }catch (RuntimeException e) {
             return e.getMessage();
         }
-        return "Could not update the quantity of existing item of order";
+        return "Item updated successfully";
     }
 
     /**
