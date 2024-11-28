@@ -151,87 +151,13 @@ public class ParentPageController {
 
     @FXML
     private void handleChangeParent(ActionEvent event) {
-    /*
-    // Create a custom dialog
-    Dialog<String> dialog = new Dialog<>();
-    dialog.setTitle("Select Parent");
-    dialog.setHeaderText("Choose a parent from the list:");
-
-    // Get list of parents
-    List<TOParent> parents = CoolSuppliesFeatureSet1Controller.getParents();
-
-    if (parents.isEmpty()) {
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("No Parents");
-      alert.setHeaderText(null);
-      alert.setContentText("No parents are currently registered in the system.");
-      alert.showAndWait();
-      return;
-    }
-
-    // Create a ListView to display parent emails
-    ListView<String> listView = new ListView<>();
-    for (TOParent parent : parents) {
-      listView.getItems().add(parent.getEmail());
-    }
-
-    // Set the preferred size of the ListView
-    listView.setPrefWidth(300);
-    listView.setPrefHeight(200);
-
-    // Create the dialog's content
-    VBox content = new VBox(10);
-    content.getChildren().add(listView);
-    VBox.setVgrow(listView, Priority.ALWAYS);
-    dialog.getDialogPane().setContent(content);
-
-    // Add buttons to the dialog
-    ButtonType selectButtonType = new ButtonType("Select", ButtonBar.ButtonData.OK_DONE);
-    ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-    dialog.getDialogPane().getButtonTypes().addAll(selectButtonType, cancelButtonType);
-
-    // Enable/Disable Select button depending on whether a parent is selected
-    Button selectButton = (Button) dialog.getDialogPane().lookupButton(selectButtonType);
-    selectButton.setDisable(true);
-
-    listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-        selectButton.setDisable(newValue == null)
-    );
-
-    // Convert the result to the selected email when the Select button is clicked
-    dialog.setResultConverter(dialogButton -> {
-      if (dialogButton == selectButtonType) {
-        return listView.getSelectionModel().getSelectedItem();
-      }
-      return null;
-    });
-
-    // Show the dialog and handle the result
-    dialog.initModality(Modality.APPLICATION_MODAL);
-    dialog.showAndWait().ifPresent(selectedEmail -> {
-      TOParent selectedParent = CoolSuppliesFeatureSet1Controller.getParent(selectedEmail);
-      if (selectedParent != null) {
-        // Update the labels with parent information
-        setParentInfo(selectedParent);
-      }
-    });
-
-    String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
-
-    if (parentEmail.isEmpty()) {
-      System.out.println("No parent selected.");
-      return;
-    }
-    // Fetch students for the selected parent
-    List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(parentEmail);
-
-    // Populate the student cards dynamically
-    populateStudentCards(students);
-    */
-
         try {
-            // Load AdminPage.fxml
-            javafx.scene.Parent adminPageRoot = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml")).load();
+            // Load AdminPage.fxml using FXMLLoader
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/AdminPage.fxml"));
+            javafx.scene.Parent adminPageRoot = loader.load();
+
+            // Get the AdminPageController instance
+            AdminPageController adminPageController = loader.getController();
 
             // Get the current stage
             Stage stage = (Stage) nameLabel.getScene().getWindow();
@@ -241,6 +167,9 @@ public class ParentPageController {
 
             // Optionally, maximize the stage
             stage.setMaximized(true);
+
+            // Call the method from AdminPageController (simulate case NAME_DESCENDING)
+            adminPageController.toggleParentSort(null); // Pass `null` if `event` is not needed.
 
         } catch (IOException e) {
             e.printStackTrace();

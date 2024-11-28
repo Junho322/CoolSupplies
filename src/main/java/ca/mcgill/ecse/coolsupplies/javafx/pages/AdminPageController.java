@@ -239,7 +239,7 @@ public class AdminPageController implements Initializable {
     }
 
     @FXML
-    void toggleParentSort(ActionEvent event) {
+    public void toggleParentSort(ActionEvent event) {
         switch (sort) {
             case SYSTEM_DEFAULT:
                 sort = Sort.NAME_ASCENDING;
