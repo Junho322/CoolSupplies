@@ -7,19 +7,28 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet5Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOBundleItem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 public class BundleItemPageController implements Initializable {
 
     private String fetchedBundleName;
+
+    @FXML
+    private Label BundleNameLable;
 
     @FXML
     private TextField DeleteItemName;
@@ -113,4 +122,29 @@ public class BundleItemPageController implements Initializable {
         fetchedBundleName = name;
         refreshBundleItems();
     }
+
+    @FXML
+    void doSwitchToBundlePage(ActionEvent event) {
+        try {
+        // Load the FXML file for the Bundle Page
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/BundlePage.fxml"));
+        Parent bundlePageRoot = loader.load();
+
+        // Get the current stage from any control
+        Stage stage = (Stage) listView.getScene().getWindow();
+
+        // Set the new scene
+        Scene bundlePageScene = new Scene(bundlePageRoot);
+        stage.setScene(bundlePageScene);
+        
+        // Show the updated stage
+        stage.show();
+    } catch (IOException e) {
+        showAlert("Error", "Failed to load the Bundle Page.");
+        e.printStackTrace();
+    }
+
+    }
+
+
 }
