@@ -22,16 +22,16 @@ import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
  * @author David Zhou
  *
  * @see #updateOrder(int, String, String) Updates an order to a new level and assigns it to a student.
- * @see #addItemToOrder(int, String, int) Adds a specific item with a quantity to an order.
+ * @see #addItemToOrder(String, int, int) Adds a specific item with a quantity to an order.
  * @see #updateQuantityOfAnExistingItemOfOrder(int, String, int) Updates the quantity of an existing item in an order.
- * @see #deleteOrderItem(int, String) Deletes an item from an order if it exists.
- * @see #payForOrder(int) Completes the payment process for an order.
- * @see #payPenaltyForOrder(int) Pays a penalty associated with a penalized order.
+ * @see #deleteOrderItem(String, String) Deletes an item from an order if it exists.
+ * @see #payForOrder(int, String) Completes the payment process for an order.
+ * @see #payPenaltyForOrder(int, String, String) Pays a penalty associated with a penalized order.
  * @see #pickUpOrder(int) Marks an order as picked up if conditions allow.
  * @see #cancelOrder(int) Cancels an order if it meets cancellation criteria.
  * @see #viewIndividualOrder(int) Retrieves detailed information about a specific order.
  * @see #getOrders() Retrieves all orders within the system.
- * @see #startSchoolYear() Resets attributes in preparation for a new school year.
+ * @see #startSchoolYear(int) Resets attributes in preparation for a new school year.
  */
 
 public class CoolSuppliesFeatureSet8Controller {
@@ -97,6 +97,8 @@ public class CoolSuppliesFeatureSet8Controller {
      */
     public static String addItemToOrder(String itemName, int quantity, int orderNumber) {
         try {
+            CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
+
             Order order = Order.getWithNumber(orderNumber);
             if (order == null) {
                 return "Order " + orderNumber + " does not exist";
@@ -105,6 +107,14 @@ public class CoolSuppliesFeatureSet8Controller {
             InventoryItem targetItem = Item.getWithName(itemName);
             if (targetItem == null) {
                 return "Item " + itemName + " does not exist.";
+            }
+
+            for (GradeBundle bundle: coolSupplies.getBundles()){
+                if (bundle.getName().equals(itemName)){
+                    if (bundle.getBundleItems().isEmpty()){
+                        return "Bundle " + itemName + " does not contain any items.";
+                    }
+                }
             }
 
             //attempt to add the item to the order and store the result
