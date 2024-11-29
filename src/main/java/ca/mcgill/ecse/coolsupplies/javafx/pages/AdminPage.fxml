@@ -352,21 +352,10 @@
                                           <ColorAdjust brightness="0.34" />
                                        </effect>
                                     </ImageView>
-                                    <Button fx:id="registerStudent" mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Register Student" textFill="WHITE" GridPane.columnIndex="4">
+                                    <Button onAction="#doUpdateParent" fx:id="registerStudent" mnemonicParsing="false" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="UpdateParent" textFill="WHITE" GridPane.columnIndex="4">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <effect>
-                                          <DropShadow height="10.0" offsetX="1.0" offsetY="1.0" radius="4.5" width="10.0" />
-                                       </effect>
-                                       <font>
-                                          <Font name="SansSerif Bold" size="15.0" />
-                                       </font>
-                                    </Button>
-                                    <Button layoutX="419.0" layoutY="18.0" mnemonicParsing="false" onAction="#doUpdateParent" prefWidth="210.0" style="-fx-background-color: #006EA6; -fx-background-radius: 20;" text="Update Information" textFill="WHITE" GridPane.columnIndex="3">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
