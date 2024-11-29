@@ -405,7 +405,7 @@ public class BundlePageController {
     @FXML
     void doSwitchToShowStudentsPage(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowStudentsPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ShowStudentsPage.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
