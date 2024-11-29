@@ -86,6 +86,8 @@ public class InventoryPageController implements Initializable {
 
         if (Integer.parseInt(itemPrice) <= 0) {
             showAlert(Alert.AlertType.ERROR, "Invalid Input", "Item price cannot be negative or 0.");
+            itemAdd.clear();
+            Price.clear();
             return;
         }
 
@@ -168,11 +170,22 @@ public class InventoryPageController implements Initializable {
         // } else {
         //     showAlert(AlertType.ERROR, "Not Found", "Item '" + itemNameDeletion + "' does not exist in the list.");
         // }
-        CoolSuppliesFeatureSet3Controller.deleteItem(itemNameDeletion);
-        listview.getItems().remove(itemNameDeletion);
-        // Clear the input field
+        
+        for (int i = 0; i < listview.getItems().size(); i++) {
+            String item = listview.getItems().get(i);
+            if (itemNameDeletion.equals(item)){
+                CoolSuppliesFeatureSet3Controller.deleteItem(itemNameDeletion);
+                listview.getItems().remove(itemNameDeletion);
+                // Clear the input field
+                itemDelete.clear();
+                populateListView();
+            }
+        }
+        showAlert(AlertType.ERROR, "Input Error", "Item does not exist.");
         itemDelete.clear();
-        populateListView();
+        return;
+
+        
 
     }
 
