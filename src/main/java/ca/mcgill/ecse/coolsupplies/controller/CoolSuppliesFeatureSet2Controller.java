@@ -69,7 +69,15 @@ public class CoolSuppliesFeatureSet2Controller {
 
         Student targetStudent = Student.getWithName(name);
         Grade grade = Grade.getWithLevel(newGradeLevel);
-        boolean nameUniqueness = !Student.hasWithName(newName);
+        boolean nameUniqueness;
+        if(targetStudent!= null && targetStudent.getName().equals(newName)){
+            nameUniqueness = true;
+        }else{
+            nameUniqueness = !Student.hasWithName(newName);
+        }
+
+
+
 
         if(newName.isBlank() || !nameUniqueness || targetStudent == null || grade == null  ){
             return newName.isBlank() ? "The name must not be empty."
