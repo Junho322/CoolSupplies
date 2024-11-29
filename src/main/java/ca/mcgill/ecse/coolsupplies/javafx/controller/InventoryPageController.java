@@ -367,24 +367,24 @@ public class InventoryPageController implements Initializable {
         }
     }
 
-    @FXML
-    void doSwitchToParentPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ParentPage.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) itemAdd.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setResizable(true);
-            stage.setTitle("CoolSupplies");
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // @FXML
+    // void doSwitchToParentPage(ActionEvent event) {
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ParentPage.fxml"));
+    //         Parent root = loader.load();
+    //         Stage stage = (Stage) itemAdd.getScene().getWindow();
+    //         Scene scene = new Scene(root);
+    //         stage.setScene(scene);
+    //         stage.setMaximized(true);
+    //         stage.setResizable(true);
+    //         stage.setTitle("CoolSupplies");
+    //         stage.setWidth(stage.getMaxWidth());
+    //         stage.setHeight(stage.getMaxHeight());
+    //         stage.show();
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     @FXML
     void doSwitchToShowStudentsPage(ActionEvent event) {
