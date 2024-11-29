@@ -71,9 +71,9 @@ public class LoginPageController {
         Stage stage = (Stage) loginButton.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.setResizable(true);
         stage.setTitle("CoolSupplies");
+        stage.setMaxHeight(1080);
+        stage.setMaxWidth(1920);   
         stage.setWidth(stage.getMaxWidth());
         stage.setHeight(stage.getMaxHeight());
         stage.show();

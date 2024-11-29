@@ -198,7 +198,6 @@ public class OrderPageController implements Initializable {
 
                 anchorPane.setOnMouseClicked(event -> {
                     setChosenOrder(order, anchorPane);
-                    System.out.println(order);
                 });
 
                 grid.add(anchorPane, 0, i);

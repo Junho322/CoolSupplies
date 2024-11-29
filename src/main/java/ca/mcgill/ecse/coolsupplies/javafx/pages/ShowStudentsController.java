@@ -483,7 +483,7 @@ public class ShowStudentsController {
     @FXML
     void doSwitchToGradePage(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/GradePage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/GradePage.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) removeButton.getScene().getWindow();
             Scene scene = new Scene(root);
