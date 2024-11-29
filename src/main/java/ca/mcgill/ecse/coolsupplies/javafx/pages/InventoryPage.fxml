@@ -18,13 +18,11 @@
 
 <BorderPane prefHeight="446.0" prefWidth="1059.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController">
     <center>
-        <AnchorPane prefHeight="455.0" prefWidth="600.0">
+        <AnchorPane fx:id="pannel" prefHeight="455.0" prefWidth="600.0">
             <children>
                 <AnchorPane layoutX="192.0" layoutY="5.333333333333333" prefHeight="385.0" prefWidth="400.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="192.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="5.0">
                     <children>
                         <ListView fx:id="listview" layoutX="12.8" layoutY="31.2" prefHeight="295.0" prefWidth="375.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="31.0" />
-                        <Button layoutY="342.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="168.0" style="-fx-background-radius: 10; -fx-background-color: #0066b2;" text="Return to [indicate page]" textFill="WHITE" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" />
-                        <Button layoutX="512.0" layoutY="342.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Go to" textFill="WHITE" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="8.0" />
                         <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Items in the List" />
                     </children>
                 </AnchorPane>
@@ -68,8 +66,8 @@
     <top>
         <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="30.0" prefWidth="500.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="556.7999938964844" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.3333740234375" minWidth="30.0" prefWidth="228.66666158040363" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="831.3333384195962" minWidth="10.0" prefWidth="831.3333384195962" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -86,22 +84,27 @@
                         <Font name="SansSerif Bold" size="20.0" />
                     </font>
                 </Label>
-            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="664.0" spacing="5.0" GridPane.columnIndex="1">
                <children>
                   <Button mnemonicParsing="false" onAction="#doSwitchToShowStudentsPage" text="Assign Students" />
-                  <Button fx:id="doSwitchToAdminPage" mnemonicParsing="false" onAction="#doSwitchToInventoryPage" text="Home">
+                  <Button fx:id="doSwitchToAdminPage" mnemonicParsing="false" onAction="#doSwitchToAdminPage" prefHeight="25.0" prefWidth="81.0" text="Home">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" text="Orders" />
-                  <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" text="Students" />
-                  <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" text="Bundles">
+                  <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" prefHeight="25.0" prefWidth="77.0" text="Orders" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" prefHeight="25.0" prefWidth="79.0" text="Students" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" prefHeight="25.0" prefWidth="63.0" text="Bundles">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" text="Grades" />
+                  <Button mnemonicParsing="false" onAction="#doSwitchToParentPage" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Parent">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" prefHeight="25.0" prefWidth="60.0" text="Grades" />
                   <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Settings">
                      <HBox.margin>
                         <Insets left="50.0" />
