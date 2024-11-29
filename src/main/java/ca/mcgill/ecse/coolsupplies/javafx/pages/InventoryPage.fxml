@@ -20,21 +20,21 @@
     <center>
         <AnchorPane fx:id="pannel" prefHeight="455.0" prefWidth="600.0">
             <children>
-                <AnchorPane layoutX="192.0" layoutY="5.333333333333333" prefHeight="385.0" prefWidth="400.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="192.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                <AnchorPane layoutX="192.0" layoutY="6.0" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" prefHeight="439.0" prefWidth="100.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="192.0" AnchorPane.rightAnchor="298.0" AnchorPane.topAnchor="6.0">
                     <children>
-                        <ListView fx:id="listview" layoutX="12.8" layoutY="31.2" prefHeight="295.0" prefWidth="375.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="31.0" />
+                        <ListView fx:id="listview" layoutX="12.8" layoutY="31.2" prefWidth="178.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="31.0" />
                         <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Items in the List" />
                     </children>
                 </AnchorPane>
                 <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="439.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                     <children>
-                        <Button layoutX="39.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" AnchorPane.bottomAnchor="119.33333333333331" AnchorPane.rightAnchor="39.0" />
                         <VBox layoutX="23.0" layoutY="26.0" prefHeight="86.0" prefWidth="122.0">
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
                                 <TextField fx:id="itemAdd" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
                                 <TextField fx:id="Price" prefWidth="122.0" />
+                              <Button mnemonicParsing="false" onAction="#addItem" style="-fx-background-color: #0066b2; -fx-background-radius: 10;" text="Add Item" textFill="WHITE" />
                             </children>
                         </VBox>
                         <Text layoutX="7.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Delete an Item:" />
@@ -42,11 +42,10 @@
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
                                 <TextField fx:id="itemDelete" />
+                              <Button mnemonicParsing="false" onAction="#deleteItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: e32636;" text="Delete Item" textFill="WHITE" />
                             </children>
                         </VBox>
-                        <Button layoutX="40.0" layoutY="392.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: e32636;" text="Delete Item" textFill="WHITE" />
                         <Text layoutX="7.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Add Item:" wrappingWidth="118.61719512939453" />
-                        <Button layoutX="51.0" layoutY="112.0" mnemonicParsing="false" onAction="#addItem" style="-fx-background-color: #0066b2; -fx-background-radius: 10;" text="Add Item" textFill="WHITE" />
                         <VBox layoutX="22.0" layoutY="166.0" prefHeight="86.0" prefWidth="122.0">
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
@@ -55,6 +54,7 @@
                                 <TextField fx:id="newName" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Price:" wrappingWidth="80.09637451171875" />
                                 <TextField fx:id="newPrice" />
+                              <Button mnemonicParsing="false" onAction="#updateItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" />
                             </children>
                         </VBox>
                         <Text layoutX="7.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Update Item:" wrappingWidth="118.61719512939453" />
@@ -64,10 +64,10 @@
         </AnchorPane>
     </center>
    <top>
-      <GridPane alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="793.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER_LEFT" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="405.3332977294922" minWidth="30.0" prefWidth="400.66661071777344" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="587.6666920979818" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="30.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -84,7 +84,7 @@
                   <Font name="SansSerif Bold" size="20.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="30.0" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                <children>
                   <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Home">
                      <cursor>

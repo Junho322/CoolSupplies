@@ -179,6 +179,7 @@ public class InventoryPageController implements Initializable {
                 // Clear the input field
                 itemDelete.clear();
                 populateListView();
+                return;
             }
         }
         showAlert(AlertType.ERROR, "Input Error", "Item does not exist.");
