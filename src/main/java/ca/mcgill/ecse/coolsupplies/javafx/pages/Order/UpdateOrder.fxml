@@ -16,7 +16,7 @@
    <children>
       <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F4F2F2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="98.0" text="new Level:">
+            <Label alignment="CENTER" prefHeight="20.0" prefWidth="98.0" text="New Level:">
                <font>
                   <Font name="SansSerif Bold" size="16.0" />
                </font>
