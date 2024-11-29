@@ -16,17 +16,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="446.0" prefWidth="1059.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController">
+<BorderPane prefHeight="446.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController">
     <center>
         <AnchorPane fx:id="pannel" prefHeight="455.0" prefWidth="600.0">
             <children>
-                <AnchorPane layoutX="192.0" layoutY="5.333333333333333" prefHeight="385.0" prefWidth="400.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="192.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="5.0">
+                <AnchorPane layoutX="194.0" layoutY="10.0" prefHeight="435.0" prefWidth="800.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="194.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                     <children>
                         <ListView fx:id="listview" layoutX="12.8" layoutY="31.2" prefHeight="295.0" prefWidth="375.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="31.0" />
                         <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Items in the List" />
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="439.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.topAnchor="5.0">
+                <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="439.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                     <children>
                         <Button layoutX="39.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" AnchorPane.bottomAnchor="119.33333333333331" AnchorPane.rightAnchor="39.0" />
                         <VBox layoutX="23.0" layoutY="26.0" prefHeight="86.0" prefWidth="122.0">
@@ -64,7 +64,7 @@
         </AnchorPane>
     </center>
    <top>
-      <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="30.0" prefWidth="500.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="556.7999938964844" />
@@ -84,9 +84,9 @@
                   <Font name="SansSerif Bold" size="20.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="532.0" spacing="5.0" GridPane.columnIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Home">
+                  <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" prefHeight="25.0" prefWidth="51.0" text="Home">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
