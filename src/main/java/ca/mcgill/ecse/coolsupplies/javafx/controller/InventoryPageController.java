@@ -26,9 +26,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class InventoryPageController implements Initializable {
+
+    @FXML
+    private AnchorPane pannel;
 
     @FXML
     private TextField Price;
@@ -59,12 +63,14 @@ public class InventoryPageController implements Initializable {
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO Auto-generated method stub
-
+        System.out.println("InventoryPageController initialized");
         List<TOItem> exisitingItems = CoolSuppliesFeatureSet3Controller.getItems();
         for (int i = 0; i < exisitingItems.size(); i++){
+            listview.getItems().clear();
             items.add(exisitingItems.get(i).getName());
             populateListView();
         }
@@ -370,7 +376,7 @@ public class InventoryPageController implements Initializable {
     @FXML
     void doSwitchToShowStudentsPage(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowStudentsPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ShowStudentsPage.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) itemAdd.getScene().getWindow();
             Scene scene = new Scene(root);
@@ -386,27 +392,34 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    
+
     public void initializeButtonGraphics() {
-        ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
-        settingsImage.setFitHeight(30);
-        settingsImage.setFitWidth(30);
-        settingsImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+    // Settings Button Image
+    ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
+    settingsImage.setPreserveRatio(true);
+    settingsImage.fitWidthProperty().bind(settingsButton.widthProperty().multiply(0.8));
+    settingsImage.fitHeightProperty().bind(settingsButton.heightProperty().multiply(0.8));
 
-        ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
-        logoutImage.setFitHeight(30);
-        logoutImage.setFitWidth(30);
-        logoutImage.setEffect(new javafx.scene.effect.ColorAdjust(0, 0, 0.34, 0));
+    // Logout Button Image
+    ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
+    logoutImage.setPreserveRatio(true);
+    logoutImage.fitWidthProperty().bind(logoutButton.widthProperty().multiply(0.8));
+    logoutImage.fitHeightProperty().bind(logoutButton.heightProperty().multiply(0.8));
 
-        settingsButton.setGraphic(settingsImage);
-        settingsButton.setText("");
-        settingsButton.setStyle("-fx-background-color: transparent;");
-        settingsButton.setPadding(new Insets(0, 8, 0, 0));
-        settingsButton.setPrefSize(30, 30);
+    // Settings Button
+    settingsButton.setGraphic(settingsImage);
+    settingsButton.setText("");
+    settingsButton.setStyle("-fx-background-color: transparent;");
+    settingsButton.setPadding(new Insets(0)); // Uniform padding
+    settingsButton.setPrefSize(40, 40); // Default size
 
-        logoutButton.setGraphic(logoutImage);
-        logoutButton.setText("");
-        logoutButton.setStyle("-fx-background-color: transparent;");
-        logoutButton.setPadding(new Insets(0, 8, 0, 0));
-        logoutButton.setPrefSize(30, 30);
-    }
+    // Logout Button
+    logoutButton.setGraphic(logoutImage);
+    logoutButton.setText("");
+    logoutButton.setStyle("-fx-background-color: transparent;");
+    logoutButton.setPadding(new Insets(0)); // Uniform padding
+    logoutButton.setPrefSize(40, 40); // Default size
+}
+
 }
