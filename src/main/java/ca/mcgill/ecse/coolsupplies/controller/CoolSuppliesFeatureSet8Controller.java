@@ -78,6 +78,7 @@ public class CoolSuppliesFeatureSet8Controller {
                         return "Could not update the order";
                 }
             }
+            
             order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
             CoolSuppliesPersistence.save();
             return "Order updated successfully";
