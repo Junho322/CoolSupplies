@@ -1,12 +1,12 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages.Grade;
+package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
 import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.GradePageController.EventListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.GradePageController.EventListener;
 
 public class StudentOfGradeController {
 

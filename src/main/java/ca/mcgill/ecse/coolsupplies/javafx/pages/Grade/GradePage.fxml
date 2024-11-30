@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.GradePageController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="10.0" minWidth="10.0" prefHeight="619.0" prefWidth="1118.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.GradePageController">
    <top>
       <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
          <columnConstraints>
