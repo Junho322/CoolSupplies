@@ -189,6 +189,8 @@ public class StudentPageController implements Initializable {
         stage.setTitle("CoolSupplies");
         stage.setX(100);
         stage.setY(100);
+        stage.setHeight(600);
+        stage.setWidth(800);
         stage.show();
     }
 
@@ -258,7 +260,11 @@ public class StudentPageController implements Initializable {
 
     private void setChosenStudent(TOStudent student, AnchorPane card) {
         studentNameLabel.setText("> " + student.getName());
-        studentParentName.setText("Parent: " + CoolSuppliesFeatureSet1Controller.getParentFromStudentName(student.getName()).getName());
+        if (CoolSuppliesFeatureSet1Controller.getParentFromStudentName(student.getName()) != null) {
+            studentParentName.setText("Parent: " + CoolSuppliesFeatureSet1Controller.getParentFromStudentName(student.getName()).getName());
+        } else {
+            studentParentName.setText("Parent: N/A");
+        }
 
         if (lastSelectedCard != null) {
             lastSelectedCard.getStyleClass().remove("highlight");
@@ -303,9 +309,13 @@ public class StudentPageController implements Initializable {
                 }
             }
         }
-        grid1.setPrefWidth(grid1.getScene().getWidth());
-        scroll.fitToWidthProperty().set(true);
-        scroll.fitToHeightProperty().set(true);
+        try {
+            grid1.setPrefWidth(grid1.getScene().getWidth());
+            scroll.fitToWidthProperty().set(true);
+            scroll.fitToHeightProperty().set(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

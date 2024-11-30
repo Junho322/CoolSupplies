@@ -616,11 +616,13 @@ public class OrderPageController implements Initializable {
             Stage stage = (Stage) scroll.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setResizable(true);
+            stage.setMaximized(false);
+            stage.setResizable(false);
             stage.setTitle("CoolSupplies");
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
+            stage.setX(100);
+            stage.setY(100);
+            stage.setHeight(600);
+            stage.setWidth(800);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

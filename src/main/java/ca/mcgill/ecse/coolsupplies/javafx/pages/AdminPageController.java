@@ -416,6 +416,8 @@ public class AdminPageController implements Initializable {
         stage.setTitle("CoolSupplies");
         stage.setX(100);
         stage.setY(100);
+        stage.setHeight(600);
+        stage.setWidth(800);
         stage.show();
     }
 
