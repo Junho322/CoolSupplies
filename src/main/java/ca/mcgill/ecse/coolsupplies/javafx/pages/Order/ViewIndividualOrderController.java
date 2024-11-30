@@ -1,10 +1,11 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
 
-import ca.mcgill.ecse.coolsupplies.controller.*;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet3Controller;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController.EventListener;
-import ca.mcgill.ecse.coolsupplies.model.BundleItem;
-import ca.mcgill.ecse.coolsupplies.model.GradeBundle;
-import ca.mcgill.ecse.coolsupplies.model.InventoryItem;
+import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
+import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
+import ca.mcgill.ecse.coolsupplies.controller.TOOrderItem;
 import ca.mcgill.ecse.coolsupplies.model.OrderItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -101,11 +102,11 @@ public class ViewIndividualOrderController {
     }
 
     public void setSelectedOrder(TOOrder order, EventListener listener) {
-      this.selectedOrder = order;
-      this.listener = listener;
-      initialize();
+        this.selectedOrder = order;
+        this.listener = listener;
+        initialize();
     }
-    
+
     @FXML
     public void initialize() {
         try {
@@ -140,55 +141,28 @@ public class ViewIndividualOrderController {
     }
 
     private void populateOrderDetails() {
-        // Set order details
         orderNumberLabel.setText("Order Number: " + currentOrder.getNumber());
         parentEmailLabel.setText("Parent Email: " + currentOrder.getParentEmail());
         studentNameLabel.setText("Student Name: " + currentOrder.getStudentName());
         statusLabel.setText("Status: " + currentOrder.getStatus());
 
-        // Format and set date
+        // Format date if needed
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = sdf.format(currentOrder.getDate());
-        dateLabel.setText("Date: " + formattedDate);
 
+        dateLabel.setText("Date: " + formattedDate);
         levelLabel.setText("Level: " + currentOrder.getLevel());
         totalCostLabel.setText(String.format("Order Cost: $%.2f", currentOrder.getTotalPrice()));
-        penaltyCostLabel.setVisible(false);
+        penaltyCostLabel.setVisible(false); // Assuming penalty cost isn't dynamically available
 
-        authCodeLabel.setText("Authorization Code: " +
-                (currentOrder.getAuthorizationCode() != null ? currentOrder.getAuthorizationCode() : "N/A"));
-        penaltyAuthCodeLabel.setText("Penalty Authorization Code: " +
-                (currentOrder.getPenaltyAuthorizationCode() != null ? currentOrder.getPenaltyAuthorizationCode() : "N/A"));
+        // Authorization codes
+        authCodeLabel.setText("Authorization Code: " + (currentOrder.getAuthorizationCode() != null ? currentOrder.getAuthorizationCode() : "N/A"));
+        penaltyAuthCodeLabel.setText("Penalty Authorization Code: " + (currentOrder.getPenaltyAuthorizationCode() != null ? currentOrder.getPenaltyAuthorizationCode() : "N/A"));
 
-        // Populate the items table
-        List<TOOrderItem> fullItemList = new ArrayList<>();
-        for (TOOrderItem orderItem : currentOrder.getItems()) {
-            // If the order item is part of a bundle, extract the bundle items
-            if (orderItem.getGradeBundleName() != null) {
-                GradeBundle bundle = (GradeBundle) InventoryItem.getWithName(orderItem.getGradeBundleName());
-                if (bundle != null) {
-                    for (BundleItem bundleItem : bundle.getBundleItems()) {
-                        fullItemList.add(new TOOrderItem(
-                                bundleItem.getQuantity() * orderItem.getQuantity(),
-                                bundleItem.getItem().getName(),
-                                bundle.getName(),
-                                bundleItem.getItem().getPrice(),
-                                null // Discount can be calculated if necessary
-                        ));
-                    }
-                }
-            } else {
-                // Add standalone items
-                fullItemList.add(orderItem);
-            }
-        }
-
-        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(fullItemList);
+        // Populate items table
+        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
         itemsTable.setItems(items);
-        itemsTable.refresh();
     }
-
-
 
     private void togglePaymentForm() {
         boolean isVisible = paymentForm.isVisible();
