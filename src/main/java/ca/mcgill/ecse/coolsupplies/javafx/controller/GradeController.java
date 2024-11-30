@@ -1,6 +1,6 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages.Grade;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.GradePageController.EventListener;
+package ca.mcgill.ecse.coolsupplies.javafx.controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.GradePageController.EventListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;

@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages.Grade;
+package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController;
 import javafx.event.ActionEvent;
@@ -27,7 +27,6 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.*;
 
 /**
  * GradePageController.java is the starting point for all Grade related operations. It is the controller for GradePage.fxml, and allows the user to view and manage grades.
@@ -109,6 +108,11 @@ public class GradePageController implements Initializable {
         return new ArrayList<TOGrade>(CoolSuppliesFeatureSet7Controller.getGrades());
     }
 
+    /**
+     * Set the chosen grade and highlight the selected card
+     * @param grade
+     * @param card
+     */
     private void setChosenGrade(TOGrade grade, AnchorPane card) {
         selectedGrade = grade; 
         gradeNameLabel.setText("> Students | " + grade.getLevel() + " Grade");
@@ -126,6 +130,11 @@ public class GradePageController implements Initializable {
         selectedGrade = grade;
     }
 
+    /**
+     * Initialize the page with the grades
+     * @param location
+     * @param resources
+     */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -172,7 +181,7 @@ public class GradePageController implements Initializable {
         for (TOGrade grade : grades) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("Grade.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/Grade.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 if (lastSelectedCard == null) {
@@ -224,7 +233,7 @@ public class GradePageController implements Initializable {
         for (TOStudent student: students) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("StudentOfGrade.fxml")); //??
+                fxmlLoader.setLocation(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/StudentOfGrade.fxml")); //??
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 StudentOfGradeController studentOfGradeController = fxmlLoader.getController();
@@ -252,7 +261,7 @@ public class GradePageController implements Initializable {
     @FXML
     void switchToAddGrade(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("./AddGrade.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/AddGrade.fxml"));
             Parent root1 = loader.load();
             Stage stage = new Stage();
 
@@ -277,7 +286,7 @@ public class GradePageController implements Initializable {
     }
 
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("./UpdateGrade.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/UpdateGrade.fxml"));
         Parent root = loader.load();
 
         UpdateGradeController updateGradeController = loader.getController();
@@ -346,7 +355,7 @@ public class GradePageController implements Initializable {
     @FXML
     void updatePassword(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../UpdatePassword.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/UpdatePassword.fxml"));
             Parent root1 = loader.load();
             Stage stage = new Stage();
 

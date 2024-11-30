@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages.Grade;
+package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
 import javafx.event.ActionEvent;
