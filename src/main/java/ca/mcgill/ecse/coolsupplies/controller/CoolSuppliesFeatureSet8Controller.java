@@ -60,6 +60,7 @@ public class CoolSuppliesFeatureSet8Controller {
             if (!newLevel.equalsIgnoreCase("mandatory") && !newLevel.equalsIgnoreCase("optional") && !newLevel.equalsIgnoreCase("recommended")) {
                 return "Purchase level " + newLevel + " does not exist.";
             }
+            newLevel = newLevel.substring(0, 1).toUpperCase() + newLevel.substring(1);
             BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
 
             if (!order.getStatusFullName().equalsIgnoreCase("Started")) {
@@ -106,6 +107,14 @@ public class CoolSuppliesFeatureSet8Controller {
             if (targetItem == null) {
                 return "Item " + itemName + " does not exist.";
             }
+
+          try {
+            List<TOBundleItem> bundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(itemName);
+            if (bundleItems.isEmpty()) {
+              return "Bundle is empty. Add items to the bundle";
+            }
+          } catch (Exception e) {
+          }
 
             //attempt to add the item to the order and store the result
             boolean wasAdded = order.addItem(targetItem, quantity);
@@ -321,11 +330,11 @@ public class CoolSuppliesFeatureSet8Controller {
         }
 
         // Check if authorization codes are provided
-        if (penaltyAuthorizationCode == null || penaltyAuthorizationCode.isEmpty()) {
+        if (penaltyAuthorizationCode == null || penaltyAuthorizationCode.length() != 4) {
             return "Penalty authorization code is invalid";
         }
 
-        if (authorizationCode == null || authorizationCode.isEmpty()) {
+        if (authorizationCode == null || authorizationCode.length() != 4) {
             return "Authorization code is invalid";
         }
 
