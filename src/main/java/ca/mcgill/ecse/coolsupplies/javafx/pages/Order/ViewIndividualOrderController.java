@@ -1,11 +1,8 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
 
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet3Controller;
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
+import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController.EventListener;
-import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
-import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
-import ca.mcgill.ecse.coolsupplies.controller.TOOrderItem;
+import ca.mcgill.ecse.coolsupplies.model.BundleItem;
 import ca.mcgill.ecse.coolsupplies.model.OrderItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -295,6 +292,8 @@ public class ViewIndividualOrderController {
                 String result = CoolSuppliesFeatureSet8Controller.addItemToOrder(itemName, quantity, currentOrder.getNumber());
 
                 if (result.equals("Successfully added item to order")) {
+
+
                     currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
                     ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
                     itemsTable.setItems(items);

@@ -107,6 +107,14 @@ public class CoolSuppliesFeatureSet8Controller {
                 return "Item " + itemName + " does not exist.";
             }
 
+          try {
+            List<TOBundleItem> bundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(itemName);
+            if (bundleItems.isEmpty()) {
+              return "Bundle is empty. Add items to the bundle";
+            }
+          } catch (Exception e) {
+          }
+
             //attempt to add the item to the order and store the result
             boolean wasAdded = order.addItem(targetItem, quantity);
             CoolSuppliesPersistence.save();
@@ -321,11 +329,11 @@ public class CoolSuppliesFeatureSet8Controller {
         }
 
         // Check if authorization codes are provided
-        if (penaltyAuthorizationCode == null || penaltyAuthorizationCode.isEmpty()) {
+        if (penaltyAuthorizationCode == null || penaltyAuthorizationCode.length() != 4) {
             return "Penalty authorization code is invalid";
         }
 
-        if (authorizationCode == null || authorizationCode.isEmpty()) {
+        if (authorizationCode == null || authorizationCode.length() != 4) {
             return "Authorization code is invalid";
         }
 
