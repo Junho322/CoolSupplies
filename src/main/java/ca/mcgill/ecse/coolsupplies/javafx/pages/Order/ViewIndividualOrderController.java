@@ -267,6 +267,8 @@ public class ViewIndividualOrderController {
         }
     }
 
+
+    
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -274,13 +276,25 @@ public class ViewIndividualOrderController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+
+    /**
+     * Adds desired Item to the individual Order that was selected. Validates
+     * user inputs, ensuring item exists, quantities are positive and updating the order
+     * details. Proper error messages are displayed
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void AddOrderItem(ActionEvent event) {
         if (validateInputFields()) {
             String itemName = ItemName.getText().trim();
             int quantity;
-
+            
             try {
+                //quantity should be positive
                 quantity = Integer.parseInt(QuantityNumber.getText());
                 if (quantity <= 0) {
                     showAlert("Invalid Input", "Quantity must be a positive number.");
@@ -293,7 +307,7 @@ public class ViewIndividualOrderController {
 
             try {
                 String result = CoolSuppliesFeatureSet8Controller.addItemToOrder(itemName, quantity, currentOrder.getNumber());
-
+                //uses controller feature set 8 method to add to order
                 if (result.equals("Successfully added item to order")) {
                     currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
                     ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
@@ -312,6 +326,14 @@ public class ViewIndividualOrderController {
         }
     }
 
+    /**
+     * Updates the item in the order (its quantity). Validates user inputs and displays 
+     * appropriate error message. Updates order details 
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void updateOrderItem(ActionEvent event) {
         if (validateUpdateInputFields()) {
@@ -331,7 +353,7 @@ public class ViewIndividualOrderController {
                 );
 
                 showAlert(result.contains("successfully") ? "Success" : "Error", result);
-
+                //updates the item in the order details
                 if (result.contains("successfully")) {
                     currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(currentOrder.getNumber());
                     ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
@@ -348,6 +370,14 @@ public class ViewIndividualOrderController {
         }
     }
 
+    /**
+     * Deletes the desired item from the order. Validates user input and updates order details 
+     * and prints appropriate error messages
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void DeleteOrderItem(ActionEvent event) {
         if (validateDeleteInputFields()) {
@@ -428,5 +458,5 @@ public class ViewIndividualOrderController {
         return true;
     }
 
-    //private void populateListView() {itemsTable.setItems(items);}
+    
 }
