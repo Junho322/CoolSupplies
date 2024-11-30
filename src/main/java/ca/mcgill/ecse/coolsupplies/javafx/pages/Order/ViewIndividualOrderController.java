@@ -339,6 +339,7 @@ public class ViewIndividualOrderController {
                     itemsTable.refresh();
                     populateOrderDetails();
 
+
                     ItemName.clear();
                     QuantityNumber.clear();
                 } else {
