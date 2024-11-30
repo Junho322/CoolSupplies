@@ -3,7 +3,7 @@ package ca.mcgill.ecse.coolsupplies.javafx.pages;
 import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.BundlePageController;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.OrderPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

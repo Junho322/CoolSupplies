@@ -1,7 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController.EventListener;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.OrderPageController.EventListener;
 import ca.mcgill.ecse.coolsupplies.model.BundleItem;
 import ca.mcgill.ecse.coolsupplies.model.OrderItem;
 import javafx.collections.FXCollections;

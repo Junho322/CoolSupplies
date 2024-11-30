@@ -1,7 +1,7 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.OrderPageController.EventListener;
+package ca.mcgill.ecse.coolsupplies.javafx.controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrderItem;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.OrderPageController.EventListener;
 import java.util.Date;
 import java.util.List;
 import javafx.fxml.FXML;

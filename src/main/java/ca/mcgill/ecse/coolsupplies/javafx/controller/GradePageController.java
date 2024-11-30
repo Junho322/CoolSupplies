@@ -355,7 +355,7 @@ public class GradePageController implements Initializable {
     @FXML
     void updatePassword(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Grade/UpdatePassword.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/UpdatePassword.fxml"));
             Parent root1 = loader.load();
             Stage stage = new Stage();
 
