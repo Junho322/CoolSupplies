@@ -28,7 +28,7 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <AnchorPane prefWidth="507.0" GridPane.columnIndex="1">
+            <AnchorPane GridPane.columnIndex="1">
                <children>
                   <Pane prefHeight="500.0" prefWidth="430.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <children>
