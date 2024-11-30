@@ -76,22 +76,29 @@ public class InventoryPageController implements Initializable {
         System.out.println("InventoryPageController initialized");
         List<TOItem> exisitingItems = CoolSuppliesFeatureSet3Controller.getItems();
         //this is to add the items
+        listview.getItems().clear();
         for (int i = 0; i < exisitingItems.size(); i++){
-            listview.getItems().clear();
             items.add(exisitingItems.get(i).getName());
-            populateListView();
+            
         }
 
         //this is to add the bundle items
         List<TOGradeBundle> existingBundles = CoolSuppliesFeatureSet4Controller.getBundles();
         for (int i = 0; i < existingBundles.size(); i++){
             List<TOBundleItem> existingBundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(existingBundles.get(i).getName());
+            System.out.println(existingBundleItems);
             for (int j = 0; j < existingBundleItems.size(); j++){
-                items.add(existingBundleItems.get(j).getItemName());
-                populateListView();
+                
+                for (int l = 0; l < listview.getItems().size(); l++){
+                    String item = listview.getItems().get(l);
+                    if (!(existingBundleItems.get(j).getItemName().equals(item))){
+                        items.add(existingBundleItems.get(j).getItemName());
+                        
+                    }
+                }
             }
         }
-        
+        populateListView();
 
         initializeButtonGraphics();
     }
@@ -267,7 +274,10 @@ public class InventoryPageController implements Initializable {
         }
     }
 
-    private void populateListView() {listview.setItems(items);}
+    private void populateListView() {
+        
+        listview.setItems(items);
+    }
 
     @FXML
     void doSwitchToAdminPage(ActionEvent event) {
