@@ -227,10 +227,10 @@ public class BundlePageController {
         // Wait for the user's response
         confirmationAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                bundles.remove(selectedBundleName);
-                CoolSuppliesFeatureSet4Controller.deleteBundle(selectedBundleName);
+                System.out.println(selectedBundleName + " deleted.");
+                String result = CoolSuppliesFeatureSet4Controller.deleteBundle(selectedBundleName);
                 populateListView();
-                showSuccessAlert("Success", "Bundle deleted successfully.");
+                showSuccessAlert("Success", result);
             } else {
                 // User canceled the action
                 System.out.println("Deletion canceled by the user.");
