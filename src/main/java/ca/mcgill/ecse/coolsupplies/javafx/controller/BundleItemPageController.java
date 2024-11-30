@@ -1,8 +1,5 @@
 package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet4Controller;
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet5Controller;
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet5Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOBundleItem;
 import javafx.event.ActionEvent;
@@ -21,7 +18,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+
 
 public class BundleItemPageController implements Initializable {
 
@@ -37,7 +35,7 @@ public class BundleItemPageController implements Initializable {
     private TextField ItemName;
 
     @FXML
-    private TextField LevelName;
+    private ComboBox<String> LevelName;
 
     @FXML
     private TextField QuantityNumber;
@@ -47,9 +45,12 @@ public class BundleItemPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Populate ComboBox with options
+        LevelName.getItems().addAll("Recommended", "Optional", "Mandatory");
         // Perform setup actions, such as clearing the list or setting defaults
         listView.getItems().clear();
-        fetchedBundleName = ""; // Set a default value for the bundle name if needed
+        //fetchedBundleName = ""; // Set a default value for the bundle name if needed
+        BundleNameLable.setText(fetchedBundleName);
     }
 
     @FXML
@@ -57,7 +58,7 @@ public class BundleItemPageController implements Initializable {
         //String bundleName = BundleNameLabel.getText();
         String bundleName = fetchedBundleName;
         String itemName = ItemName.getText();
-        String level = LevelName.getText();
+        String level = LevelName.getValue();
         int quantity;
 
         try {
@@ -86,7 +87,7 @@ public class BundleItemPageController implements Initializable {
     void updateBundleItem(ActionEvent event) {
         String bundleName = fetchedBundleName;
         String itemName = ItemName.getText();
-        String level = LevelName.getText();
+        String level = LevelName.getValue();
         int quantity;
 
         try {
@@ -120,6 +121,9 @@ public class BundleItemPageController implements Initializable {
 
     public void getBundleName(String name) {
         fetchedBundleName = name;
+        if (BundleNameLable != null) {
+            BundleNameLable.setText("> "+fetchedBundleName+" Bundle");
+        }
         refreshBundleItems();
     }
 
