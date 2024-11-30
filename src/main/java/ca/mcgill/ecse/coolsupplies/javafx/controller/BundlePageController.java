@@ -231,6 +231,11 @@ public class BundlePageController {
                 String result = CoolSuppliesFeatureSet4Controller.deleteBundle(selectedBundleName);
                 populateListView();
                 showSuccessAlert("Success", result);
+                selectedBundleName = null;
+                editBundle.clear();
+                editDiscount.clear();
+                editGrade.setValue("");
+
             } else {
                 // User canceled the action
                 System.out.println("Deletion canceled by the user.");

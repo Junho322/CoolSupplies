@@ -141,6 +141,10 @@ public class CoolSuppliesFeatureSet5Controller {
           } catch (Exception e) {
               return e.getMessage();
           }
+          if (aBundle.getBundleItems().size() < 2) {
+              aBundle.setDiscount(0);
+              CoolSuppliesPersistence.save();
+          }
           return "Bundle Item successfully deleted.";
       }
     }

@@ -90,10 +90,10 @@ public class CoolSuppliesFeatureSet4Controller {
     if (!Grade.hasWithLevel(newGradeLevel)) {
       return "The grade does not exist.";
     }
-    if (Grade.getWithLevel(newGradeLevel).hasBundle()) {
+    if (Grade.getWithLevel(newGradeLevel).hasBundle() && !(newGradeLevel.equals(targetBundle.getGrade().getLevel()))) {
       return "A bundle already exists for the grade.";
     }
-    if (GradeBundle.hasWithName(newName)) {
+    if (GradeBundle.hasWithName(newName) && !(newName.equals(targetBundle.getName()))) {
       return "The name must be unique.";
     }
     try {
