@@ -60,6 +60,7 @@ public class CoolSuppliesFeatureSet8Controller {
             if (!newLevel.equalsIgnoreCase("mandatory") && !newLevel.equalsIgnoreCase("optional") && !newLevel.equalsIgnoreCase("recommended")) {
                 return "Purchase level " + newLevel + " does not exist.";
             }
+            newLevel = newLevel.substring(0, 1).toUpperCase() + newLevel.substring(1);
             BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
 
             if (!order.getStatusFullName().equalsIgnoreCase("Started")) {
