@@ -83,6 +83,12 @@ public class BundlePageController {
     private void initialize() {
         // Initialize the list with any preexisting bundles
         populateListView();
+        gradeChoice.setStyle("-fx-background-color: #006EA6; " +
+                "-fx-background-radius: 10; " +
+                "-fx-text-base-color: white;");
+        editGrade.setStyle("-fx-background-color: #006EA6; " +
+                "-fx-background-radius: 10; " +
+                "-fx-text-base-color: white;");
 
         // Set all dropdown menu values
         ArrayList<TOGrade> grades = new ArrayList<>();
@@ -221,10 +227,10 @@ public class BundlePageController {
         // Wait for the user's response
         confirmationAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                bundles.remove(selectedBundleName);
-                CoolSuppliesFeatureSet4Controller.deleteBundle(selectedBundleName);
+                System.out.println(selectedBundleName + " deleted.");
+                String result = CoolSuppliesFeatureSet4Controller.deleteBundle(selectedBundleName);
                 populateListView();
-                showSuccessAlert("Success", "Bundle deleted successfully.");
+                showSuccessAlert("Success", result);
             } else {
                 // User canceled the action
                 System.out.println("Deletion canceled by the user.");
@@ -346,25 +352,6 @@ public class BundlePageController {
     }
 
     @FXML
-    void doSwitchToStudentsPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/StudentPage.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) nameField.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setResizable(true);
-            stage.setTitle("CoolSupplies");
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     void doLogout(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/LoginPage.fxml"));
@@ -410,11 +397,13 @@ public class BundlePageController {
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setResizable(true);
+            stage.setMaximized(false);
+            stage.setResizable(false);
             stage.setTitle("CoolSupplies");
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
+            stage.setX(100);
+            stage.setY(100);
+            stage.setHeight(600);
+            stage.setWidth(800);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

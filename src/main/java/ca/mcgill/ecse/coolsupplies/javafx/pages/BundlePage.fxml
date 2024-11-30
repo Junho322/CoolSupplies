@@ -16,10 +16,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="726.0" prefWidth="1122.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.BundlePageController">
+<BorderPane minHeight="496.0" minWidth="1122.0" prefHeight="496.0" prefWidth="1122.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.BundlePageController">
 
    <top>
-      <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" minWidth="1122.0" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="30.0" prefWidth="500.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="556.7999938964844" />
@@ -47,14 +47,13 @@
                </Button>
                <Button mnemonicParsing="false" onAction="#doSwitchToShowStudentsPage" text="Assign Students" />
                <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" text="Orders" />
-               <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" text="Students" />
                <Button mnemonicParsing="false" onAction="#doSwitchToInventoryPage" text="Inventory">
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor>
                </Button>
                <Button mnemonicParsing="false" onAction="#doSwitchToGradePage" text="Grades" />
-               <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" stylesheets="@../resources/styles.css" text="Settings">
+               <Button fx:id="settingsButton" mnemonicParsing="false" styleClass="settings_button" text="Settings">
                   <HBox.margin>
                      <Insets left="50.0" />
                   </HBox.margin>
@@ -75,13 +74,13 @@
       </GridPane>
    </top>
    <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <HBox minHeight="0.0" minWidth="200.0" prefHeight="532.0" prefWidth="1122.0" spacing="10.0" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
-         <VBox prefHeight="676.0" prefWidth="285.0" spacing="10.0">
-            <Pane prefHeight="263.0" prefWidth="283.0" style="-fx-background-color: #F4F2F2; -fx-background-radius: 10;">
-               <VBox layoutX="7.0" prefHeight="259.0" prefWidth="274.0" spacing="20.0">
+         <VBox prefHeight="471.0" prefWidth="282.0" spacing="10.0">
+            <Pane prefHeight="190.0" prefWidth="283.0" style="-fx-background-color: #F4F2F2; -fx-background-radius: 10;">
+               <VBox layoutX="7.0" prefHeight="193.0" prefWidth="274.0" spacing="10.0">
                   <padding>
                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                   </padding>
@@ -96,17 +95,17 @@
                      </Label>
                      <TextField fx:id="nameField" promptText="Enter bundle name..." />
                      <TextField fx:id="discountField" prefHeight="26.0" prefWidth="209.0" promptText="Enter discount..." />
-                     <ComboBox fx:id="gradeChoice" prefWidth="150.0" promptText="Select grade" style="-fx-background-color: #006EA6; -fx-background-radius: 10;" />
+                     <ComboBox fx:id="gradeChoice" prefWidth="150.0" promptText="Select grade" style="-fx-prompt-text-fill: #FFFFFF; -fx-background-color: #006EA6; -fx-background-radius: 10;" />
                      <Button mnemonicParsing="false" onAction="#handleAddButton" prefHeight="26.0" prefWidth="51.0" style="-fx-background-color: #006EA6; -fx-background-radius: 10;" text="Add" textFill="WHITE">
                         <VBox.margin>
-                           <Insets top="20.0" />
+                           <Insets />
                         </VBox.margin>
                      </Button>
                   </children>
                </VBox>
             </Pane>
-            <Pane prefHeight="373.0" prefWidth="283.0" style="-fx-background-color: #F4F2F2; -fx-background-radius: 10;">
-               <VBox prefHeight="363.0" prefWidth="276.0" spacing="15.0">
+            <Pane prefHeight="217.0" prefWidth="283.0" style="-fx-background-color: #F4F2F2; -fx-background-radius: 10;">
+               <VBox prefHeight="228.0" prefWidth="276.0">
                   <padding>
                      <Insets left="20.0" top="10.0" />
                   </padding>
@@ -114,36 +113,44 @@
                      <font>
                         <Font size="16.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
                   </Label>
+                  <Label prefHeight="20.0" prefWidth="121.0" text="Bundle name" />
                   <TextField fx:id="editBundle" prefHeight="26.0" prefWidth="175.0" promptText="Edit bundle name...">
                      <VBox.margin>
                         <Insets right="25.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="editDiscount" prefHeight="26.0" prefWidth="175.0" promptText="Set discount...">
+                  <Label prefHeight="20.0" prefWidth="121.0" text="Bundle discount" />
+                  <TextField fx:id="editDiscount" prefHeight="26.0" prefWidth="234.0" promptText="Set discount...">
                      <VBox.margin>
                         <Insets right="25.0" />
                      </VBox.margin>
                   </TextField>
-                  <ComboBox fx:id="editGrade" prefWidth="150.0" promptText="Select grade" style="-fx-background-color: #006EA6; -fx-background-radius: 10;" />
-                  <Button fx:id="buttonToEdit" mnemonicParsing="false" onAction="#handleEditItems" prefHeight="26.0" prefWidth="144.0" style="-fx-background-color: #006EA6; -fx-background-radius: 10;" text="Edit bundle items" textFill="WHITE" />
-                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="26.0" prefWidth="93.0" style="-fx-background-color: #006EA6; -fx-background-radius: 10;" text="Save" textFill="WHITE">
+                  <ComboBox fx:id="editGrade" prefWidth="150.0" promptText="Select grade" style="-fx-background-color: #006EA6; -fx-background-radius: 10; -fx-prompt-text-fill: #FFFFF;">
                      <VBox.margin>
-                        <Insets top="70.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="26.0" prefWidth="93.0" style="-fx-background-color: #FF4C4C; -fx-background-radius: 10;" text="Delete" textFill="WHITE" />
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin></ComboBox>
+                  <HBox prefHeight="44.0" prefWidth="256.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="buttonToEdit" mnemonicParsing="false" onAction="#handleEditItems" prefHeight="26.0" prefWidth="77.0" style="-fx-background-color: #006EA6; -fx-background-radius: 10;" text="Edit  items" textFill="WHITE" />
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #006EA6; -fx-background-radius: 10;" text="Save" textFill="WHITE" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #FF4C4C; -fx-background-radius: 10;" text="Delete" textFill="WHITE" />
+                     </children>
+                  </HBox>
                </VBox>
             </Pane>
          </VBox>
-         <VBox prefHeight="633.0" prefWidth="812.0" style="-fx-background-radius: 10;">
-            <Pane prefHeight="645.0" prefWidth="810.0" style="-fx-background-color: #F4F2F2; -fx-background-radius: 10;">
+         <VBox prefHeight="495.0" prefWidth="811.0" style="-fx-background-radius: 10;">
+            <Pane prefHeight="415.0" prefWidth="811.0" style="-fx-background-color: #F4F2F2; -fx-background-radius: 10;">
                <Label layoutX="15.0" layoutY="10.0" text="View Bundles" underline="true">
                   <font>
                      <Font size="16.0" />
                   </font>
                </Label>
-               <ListView fx:id="listView" layoutX="11.0" layoutY="43.0" prefHeight="584.0" prefWidth="784.0" style="-fx-background-radius: 10;" />
+               <ListView fx:id="listView" layoutX="11.0" layoutY="43.0" prefHeight="363.0" prefWidth="784.0" />
             </Pane>
          </VBox>
       </HBox>

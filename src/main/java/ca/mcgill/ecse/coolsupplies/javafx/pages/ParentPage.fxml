@@ -45,7 +45,6 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#doSwitchToAdminPage" text="Home" />
                   <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" text="Orders" />
-                  <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" text="Students" />
                   <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" text="Bundles">
                      <cursor>
                         <Cursor fx:constant="HAND" />

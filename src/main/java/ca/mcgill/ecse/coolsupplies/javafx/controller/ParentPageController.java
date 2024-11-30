@@ -478,25 +478,6 @@ public class ParentPageController {
       }
   }
 
-  @FXML
-    void doSwitchToStudentsPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/StudentPage.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) nameLabel.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setResizable(true);
-            stage.setTitle("CoolSupplies");
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @FXML
     void doLogout(ActionEvent event) {
         try {
@@ -505,11 +486,13 @@ public class ParentPageController {
             Stage stage = (Stage) nameLabel.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setResizable(true);
+            stage.setMaximized(false);
+            stage.setResizable(false);
             stage.setTitle("CoolSupplies");
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
+            stage.setX(100);
+            stage.setY(100);
+            stage.setHeight(600);
+            stage.setWidth(800);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

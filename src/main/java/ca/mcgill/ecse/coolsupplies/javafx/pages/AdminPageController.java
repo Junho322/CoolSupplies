@@ -416,6 +416,8 @@ public class AdminPageController implements Initializable {
         stage.setTitle("CoolSupplies");
         stage.setX(100);
         stage.setY(100);
+        stage.setHeight(600);
+        stage.setWidth(800);
         stage.show();
     }
 
@@ -440,27 +442,6 @@ public class AdminPageController implements Initializable {
             parents = getData();
             initialize(null, null);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void doSwitchToStudentsPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentPage.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) registerStudent.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);  
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.show();
-            StudentPageController controller = loader.getController();
-            controller.initialize(null, null);
         } catch (IOException e) {
             e.printStackTrace();
         }

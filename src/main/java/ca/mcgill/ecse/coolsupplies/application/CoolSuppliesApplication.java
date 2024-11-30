@@ -15,13 +15,6 @@ public class CoolSuppliesApplication {
   public static final boolean DARK_MODE = false;
 
   public static void main(String[] args) {
-    try {
-        getCoolSupplies().setAdmin(new SchoolAdmin("admin@cool.ca", "admin", getCoolSupplies()));
-        CoolSuppliesPersistence.save();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
     Application.launch(CoolSuppliesFxmlView.class, args);
   }
 
