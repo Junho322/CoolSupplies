@@ -149,58 +149,20 @@ public class ViewIndividualOrderController {
         // Format date if needed
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = sdf.format(currentOrder.getDate());
-        dateLabel.setText("Date: " + formattedDate);
 
+        dateLabel.setText("Date: " + formattedDate);
         levelLabel.setText("Level: " + currentOrder.getLevel());
         totalCostLabel.setText(String.format("Order Cost: $%.2f", currentOrder.getTotalPrice()));
-        penaltyCostLabel.setVisible(false);
+        penaltyCostLabel.setVisible(false); // Assuming penalty cost isn't dynamically available
 
+        // Authorization codes
         authCodeLabel.setText("Authorization Code: " + (currentOrder.getAuthorizationCode() != null ? currentOrder.getAuthorizationCode() : "N/A"));
         penaltyAuthCodeLabel.setText("Penalty Authorization Code: " + (currentOrder.getPenaltyAuthorizationCode() != null ? currentOrder.getPenaltyAuthorizationCode() : "N/A"));
 
-        // Clear and repopulate the items table
-        ObservableList<TOOrderItem> items = FXCollections.observableArrayList();
-        List<String> processedBundles = new ArrayList<>();
-
-        // Add compatible items
-        for (TOOrderItem item : currentOrder.getItems()) {
-            items.add(item);
-
-            // Track bundles that have compatible items
-            if (item.getGradeBundleName() != null && !processedBundles.contains(item.getGradeBundleName())) {
-                processedBundles.add(item.getGradeBundleName());
-            }
-        }
-
-        // Add placeholders for bundles with no compatible items
-        for (TOOrderItem bundleItem : currentOrder.getItems()) {
-            if (bundleItem.getGradeBundleName() != null && !processedBundles.contains(bundleItem.getGradeBundleName())) {
-                TOOrderItem placeholder = new TOOrderItem(
-                        0, // Quantity 0 to indicate no items are shown
-                        "Bundle Added: " + bundleItem.getGradeBundleName(),
-                        bundleItem.getGradeBundleName(),
-                        0.0, // No cost for placeholder
-                        null // No discount
-                );
-                items.add(placeholder);
-                processedBundles.add(bundleItem.getGradeBundleName());
-            }
-        }
-
+        // Populate items table
+        ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
         itemsTable.setItems(items);
     }
-
-
-    // Helper method to check if a bundle contributes no compatible items
-    private boolean isBundleEmpty(TOOrderItem bundleItem) {
-        for (TOOrderItem item : currentOrder.getItems()) {
-            if (item.getGradeBundleName() != null && item.getGradeBundleName().equals(bundleItem.getGradeBundleName())) {
-                return false; // Bundle has compatible items
-            }
-        }
-        return true; // No compatible items in the bundle
-    }
-
 
     private void togglePaymentForm() {
         boolean isVisible = paymentForm.isVisible();
@@ -339,7 +301,6 @@ public class ViewIndividualOrderController {
                     itemsTable.refresh();
                     populateOrderDetails();
 
-
                     ItemName.clear();
                     QuantityNumber.clear();
                 } else {
@@ -458,9 +419,9 @@ public class ViewIndividualOrderController {
             showAlert("Error", "No order selected.");
             return false;
         }
-
         if (DeleteItemName == null || DeleteItemName.getText() == null || DeleteItemName.getText().isEmpty()) {
             showAlert("Error", "Item name to delete cannot be empty.");
+
             return false;
         }
 
