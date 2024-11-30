@@ -456,8 +456,8 @@ public class AdminPageController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(1080);
-            stage.setMaxWidth(1920);   
+            stage.setMaxHeight(620);
+            stage.setMaxWidth(1120);  
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
             stage.show();
@@ -477,8 +477,8 @@ public class AdminPageController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(1080);
-            stage.setMaxWidth(1920);   
+            stage.setMaxHeight(620);
+            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
             stage.show();
@@ -498,8 +498,8 @@ public class AdminPageController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(1080);
-            stage.setMaxWidth(1920);   
+            stage.setMaxHeight(620);
+            stage.setMaxWidth(1120);   
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
             stage.show();
@@ -519,8 +519,8 @@ public class AdminPageController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(1080);
-            stage.setMaxWidth(1920);   
+            stage.setMaxHeight(620);
+            stage.setMaxWidth(1120);   
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
             stage.show();
@@ -538,8 +538,8 @@ public class AdminPageController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(1080);
-            stage.setMaxWidth(1920);   
+            stage.setMaxHeight(620);
+            stage.setMaxWidth(1120); 
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
             stage.show();
@@ -557,8 +557,8 @@ public class AdminPageController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(1080);
-            stage.setMaxWidth(1920);   
+            stage.setMaxHeight(620);
+            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
             stage.show();
