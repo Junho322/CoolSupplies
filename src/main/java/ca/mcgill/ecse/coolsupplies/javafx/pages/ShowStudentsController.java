@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
 
+import ca.mcgill.ecse.coolsupplies.controller.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -23,10 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
-import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet2Controller;
-import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
 import javafx.stage.Stage;
 
 
@@ -188,7 +185,7 @@ public class ShowStudentsController {
         avatar.setFitHeight(120);
         avatar.setPreserveRatio(true);
 
-
+        // Add the student's name
         Label nameLabel = new Label(student.getName());
         nameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-alignment: center;");
 
@@ -196,8 +193,16 @@ public class ShowStudentsController {
         Label gradeLabel = new Label("Grade: " + student.getGradeLevel());
         gradeLabel.setStyle("-fx-font-size: 12px; -fx-text-alignment: center; -fx-text-fill: #666;");
 
+        // Get the parent of the student (if any)
+        TOParent parent = CoolSuppliesFeatureSet1Controller.getParentFromStudentName(student.getName());
+        String parentText = (parent != null) ? "Parent: " + parent.getName() : "Parent: No Parent";
+
+        // Add the parent's information
+        Label parentLabel = new Label(parentText);
+        parentLabel.setStyle("-fx-font-size: 12px; -fx-text-alignment: center; -fx-text-fill: #666;");
+
         // Create a VBox for the content inside the button
-        VBox content = new VBox(10, avatar, nameLabel, gradeLabel);
+        VBox content = new VBox(10, avatar, nameLabel, gradeLabel, parentLabel);
         content.setAlignment(javafx.geometry.Pos.CENTER);
 
         // Add the content to the button
@@ -208,6 +213,7 @@ public class ShowStudentsController {
 
         return card;
     }
+
 
 
     private void editStudent(TOStudent student) {
