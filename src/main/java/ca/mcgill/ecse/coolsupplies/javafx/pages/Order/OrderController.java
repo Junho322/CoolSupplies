@@ -73,7 +73,6 @@ public class OrderController {
         this.number = order.getNumber();
         this.date = order.getDate();
         this.level = order.getLevel();
-        this.totalPrice = order.getTotalPrice();
         this.items = order.getItems();
         //int numItems = items.size();
         // System.out.println("items" + items);
@@ -81,6 +80,16 @@ public class OrderController {
         int numItems = 0;
         for (TOOrderItem item : items) {
             numItems += item.getQuantity();
+            double discount = 0;
+
+            if (item.getDiscount() == null || item.getDiscount().equals("") || item.getDiscount().equals("0")) {
+                discount = 0;
+            }
+            else {
+                discount = Math.abs(Double.parseDouble(item.getDiscount()));
+            }
+
+            totalPrice += ( item.getPrice()- discount ) * item.getQuantity();
         }
         this.listener = listener;
 

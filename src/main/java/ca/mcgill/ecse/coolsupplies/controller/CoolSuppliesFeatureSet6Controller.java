@@ -167,6 +167,10 @@ public class CoolSuppliesFeatureSet6Controller {
       return "Purchase level cannot be null.";
     }
 
+    if (student.getParent() != parent) {
+      return "The student is not associated with this parent.";
+    }
+
     BundleItem.PurchaseLevel purchaseLevel;
     switch (level.toLowerCase()) {
       case "mandatory":
