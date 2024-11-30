@@ -42,6 +42,10 @@ public class CoolSuppliesFeatureSet6Controller {
       }
     }
 
+    if (student.getParent() != null) {
+      return "The student is already assigned to another parent.";
+    }
+
       try {
           parent.addStudent(student);
           CoolSuppliesPersistence.save();

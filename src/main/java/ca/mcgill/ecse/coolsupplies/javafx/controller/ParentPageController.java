@@ -199,9 +199,6 @@ public class ParentPageController {
             return;
         }
 
-        // Call the controller method to add the student to the parent
-        // String result = CoolSuppliesFeatureSet6Controller.addStudentToParent(studentName, parentEmail);
-
     }
 
     @FXML
@@ -301,18 +298,8 @@ public class ParentPageController {
       VBox detailsContainer = new VBox(10, nameLabel, separator, gradeLabel);
       detailsContainer.setAlignment(Pos.CENTER);
 
-      // Buttons Container
-      VBox buttonsContainer = new VBox(15); // Increased spacing between buttons
-      buttonsContainer.setAlignment(Pos.CENTER);
-
-      Button startOrderButton = new Button("Start Order");
-      startOrderButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 20; -fx-font-size: 28px;");
-      startOrderButton.setOnAction(e -> handleStartOrder(student));
-
-      buttonsContainer.getChildren().addAll(startOrderButton);
-
       // Add elements to card
-      card.getChildren().addAll(header, detailsContainer, buttonsContainer);
+      card.getChildren().addAll(header, detailsContainer);
 
       // Add the card to the container
       studentCardContainer.getChildren().add(card);
