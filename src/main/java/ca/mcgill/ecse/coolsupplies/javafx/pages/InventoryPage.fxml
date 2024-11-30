@@ -17,79 +17,79 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="446.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController">
+<BorderPane prefHeight="600.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.coolsupplies.javafx.controller.InventoryPageController">
     <center>
-        <AnchorPane fx:id="pannel" prefHeight="455.0" prefWidth="600.0">
-            <children>
-            <VBox layoutX="192.0" layoutY="5.333333492279053" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="192.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="5.0">
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+            <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <AnchorPane prefWidth="507.0" GridPane.columnIndex="1">
                <children>
-                  <Pane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;">
+                  <Pane prefHeight="500.0" prefWidth="430.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <children>
                               <Text layoutX="5.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Items in the List" />
                               <ListView fx:id="listview" layoutX="20.0" layoutY="20.0" prefHeight="350.0" prefWidth="400.0" />
                      </children>
                   </Pane>
                </children>
-            </VBox>
-                <AnchorPane layoutX="6.0" layoutY="5.0" prefHeight="444.0" prefWidth="166.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.topAnchor="5.0">
+            </AnchorPane>
+                <AnchorPane prefHeight="549.0" prefWidth="195.0">
                     <children>
-                        <VBox layoutX="23.0" layoutY="26.0" prefHeight="86.0" prefWidth="122.0">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
-                                <TextField fx:id="itemAdd" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
-                                <TextField fx:id="Price" prefWidth="122.0" />
-                              <Button mnemonicParsing="false" onAction="#addItem" style="-fx-background-color: #0066b2; -fx-background-radius: 10;" text="Add Item" textFill="WHITE" />
-                            </children>
-                        </VBox>
-                        <Text layoutX="7.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Delete an Item:" />
-                        <VBox layoutX="22.0" layoutY="349.0" prefHeight="49.0" prefWidth="124.0">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
-                                <TextField fx:id="itemDelete" />
-                              <Button mnemonicParsing="false" onAction="#deleteItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: e32636;" text="Delete Item" textFill="WHITE" />
-                            </children>
-                        </VBox>
-                        <Text layoutX="7.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Add Item:" wrappingWidth="118.61719512939453" />
-                        <VBox layoutX="22.0" layoutY="166.0" prefHeight="86.0" prefWidth="122.0">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
-                                <TextField fx:id="itemUpdate" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Name:" />
-                                <TextField fx:id="newName" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Price:" wrappingWidth="80.09637451171875" />
-                                <TextField fx:id="newPrice" />
-                              <Button mnemonicParsing="false" onAction="#updateItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" />
-                            </children>
-                        </VBox>
-                        <Text layoutX="7.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Update Item:" wrappingWidth="118.61719512939453" />
+                  <Pane layoutX="5.0" layoutY="5.0" prefHeight="500.0" prefWidth="359.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <children>
+                              <VBox layoutX="14.0" layoutY="14.0" prefHeight="86.0" prefWidth="122.0">
+                                  <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Add Item:" wrappingWidth="118.61719512939453" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                                      <TextField fx:id="itemAdd" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
+                                      <TextField fx:id="Price" prefWidth="122.0" />
+                                    <Button mnemonicParsing="false" onAction="#addItem" style="-fx-background-color: #0066b2; -fx-background-radius: 10;" text="Add Item" textFill="WHITE" />
+                                  </children>
+                              </VBox>
+                              <VBox layoutX="13.0" layoutY="352.0" prefHeight="49.0" prefWidth="124.0">
+                                  <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Delete an Item:" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                                      <TextField fx:id="itemDelete" />
+                                    <Button mnemonicParsing="false" onAction="#deleteItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: e32636;" text="Delete Item" textFill="WHITE" />
+                                  </children>
+                              </VBox>
+                              <VBox layoutX="14.0" layoutY="159.0" prefHeight="86.0" prefWidth="122.0">
+                                  <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; Update Item:" wrappingWidth="118.61719512939453" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" />
+                                      <TextField fx:id="itemUpdate" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Name:" />
+                                      <TextField fx:id="newName" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Price:" wrappingWidth="80.09637451171875" />
+                                      <TextField fx:id="newPrice" />
+                                    <Button mnemonicParsing="false" onAction="#updateItem" prefHeight="26.0" prefWidth="88.0" style="-fx-background-radius: 10; -fx-background-color: #17B169;" text="Update Item" textFill="WHITE" />
+                                  </children>
+                              </VBox>
+                     </children>
+                  </Pane>
                     </children>
                 </AnchorPane>
-            </children>
-        </AnchorPane>
+         </children>
+      </GridPane>
     </center>
     <top>
         <GridPane alignment="CENTER" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #B1B1B1;" BorderPane.alignment="CENTER_RIGHT">
             <columnConstraints>
-                <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="NEVER" maxWidth="130.0" minWidth="0.0" prefWidth="130.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="130.0" minWidth="0.0" prefWidth="130.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label prefHeight="28.0" prefWidth="211.0" text="&gt; Items List">
-                    <GridPane.margin>
-                        <Insets left="5.0" />
-                    </GridPane.margin>
-                    <padding>
-                        <Insets left="4.0" />
-                    </padding>
-                    <font>
-                        <Font name="SansSerif Bold" size="20.0" />
-                    </font>
-                </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="530.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="400.0" spacing="5.0" GridPane.columnIndex="1">
                <children>
                   <Button mnemonicParsing="false" onAction="#doSwitchToShowStudentsPage" text="Assign Students" />
                   <Button fx:id="doSwitchToAdminPage" mnemonicParsing="false" onAction="#doSwitchToAdminPage" prefHeight="25.0" prefWidth="81.0" text="Home">
@@ -128,6 +128,17 @@
                   <Insets />
                </opaqueInsets>
             </HBox>
+                <Label prefHeight="28.0" prefWidth="211.0" text="&gt; Items List">
+                    <GridPane.margin>
+                        <Insets left="5.0" />
+                    </GridPane.margin>
+                    <padding>
+                        <Insets left="4.0" />
+                    </padding>
+                    <font>
+                        <Font name="SansSerif Bold" size="20.0" />
+                    </font>
+                </Label>
             </children>
         </GridPane>
     </top>
