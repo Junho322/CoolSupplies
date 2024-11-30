@@ -19,7 +19,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
-
+/**
+ * Controller for the Bundle Item Page.
+ * 
+ * This controller manages the user interface for viewing, adding, updating, and deleting items
+ * in a specific bundle within the Cool Supplies system. It interacts with the back-end
+ * controller to perform these operations and updates the UI accordingly.
+ * @author Shayan Yamanidouzi Sorkhabi
+ */
 
 public class BundleItemPageController implements Initializable {
 
@@ -43,6 +50,14 @@ public class BundleItemPageController implements Initializable {
     @FXML
     private ListView<String> listView;
 
+    /**
+     * Initializes the controller after the root element has been completely processed.
+     * 
+     * @param location  the location used to resolve relative paths for the root object
+     * @param resources the resources used to localize the root object
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Populate ComboBox with options
@@ -53,6 +68,12 @@ public class BundleItemPageController implements Initializable {
         BundleNameLable.setText(fetchedBundleName);
     }
 
+    /**
+     * Adds a new item to the selected bundle.
+     * 
+     * @param event
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
     @FXML
     void AddBundleItem(ActionEvent event) {
         //String bundleName = BundleNameLabel.getText();
@@ -73,6 +94,14 @@ public class BundleItemPageController implements Initializable {
         refreshBundleItems();
     }
 
+    /**
+     * 
+     * Deletes an item from the selected bundle
+     * 
+     * @param event
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
+
     @FXML
     void DeleteBundleItem(ActionEvent event) {
         String bundleName = fetchedBundleName;
@@ -82,7 +111,13 @@ public class BundleItemPageController implements Initializable {
         showAlert("Delete Item", result);
         refreshBundleItems();
     }
-
+    
+    /**
+     * Updates an existing item in the selected bundle
+     * 
+     * @param event
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
     @FXML
     void updateBundleItem(ActionEvent event) {
         String bundleName = fetchedBundleName;
@@ -102,6 +137,10 @@ public class BundleItemPageController implements Initializable {
         refreshBundleItems();
     }
 
+    /**
+     * refreshes the list of itmes desplayed in listview
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
     private void refreshBundleItems() {
         String bundleName = fetchedBundleName;
         List<TOBundleItem> bundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(bundleName);
@@ -112,6 +151,13 @@ public class BundleItemPageController implements Initializable {
         }
     }
 
+    /**
+     * Displayes an alert messasge to ther user
+     * 
+     * @param title the title of the alert
+     * @param message the message content of the alert
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
@@ -119,6 +165,12 @@ public class BundleItemPageController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Sets the name oif the hbudnle that is selected in bundle page to be edited for the bundleNameLabel
+     * 
+     * @param name the name of the bundle
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
     public void getBundleName(String name) {
         fetchedBundleName = name;
         if (BundleNameLable != null) {
@@ -127,6 +179,13 @@ public class BundleItemPageController implements Initializable {
         refreshBundleItems();
     }
 
+
+    /**
+     * Switches the user to the bundle page view
+     * 
+     * @param event
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
     @FXML
     void doSwitchToBundlePage(ActionEvent event) {
         try {
