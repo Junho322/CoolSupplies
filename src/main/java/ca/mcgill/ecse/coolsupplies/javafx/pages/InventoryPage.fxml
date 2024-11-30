@@ -98,7 +98,6 @@
                      </cursor>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#doSwitchToOrderPage" prefHeight="25.0" prefWidth="77.0" text="Orders" />
-                  <Button mnemonicParsing="false" onAction="#doSwitchToStudentsPage" prefHeight="25.0" prefWidth="79.0" text="Students" />
                   <Button mnemonicParsing="false" onAction="#doSwitchToBundlePage" prefHeight="25.0" prefWidth="63.0" text="Bundles">
                      <cursor>
                         <Cursor fx:constant="HAND" />

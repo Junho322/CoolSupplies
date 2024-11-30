@@ -352,25 +352,6 @@ public class BundlePageController {
     }
 
     @FXML
-    void doSwitchToStudentsPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/StudentPage.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) nameField.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setResizable(true);
-            stage.setTitle("CoolSupplies");
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     void doLogout(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/LoginPage.fxml"));
