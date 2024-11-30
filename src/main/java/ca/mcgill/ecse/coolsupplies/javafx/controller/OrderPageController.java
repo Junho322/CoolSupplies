@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
+package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController;
 import javafx.event.ActionEvent;
@@ -176,7 +176,7 @@ public class OrderPageController implements Initializable {
         for (TOOrder order : orders) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("Order.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/Order.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 if (lastSelectedCard == null) {
@@ -216,7 +216,7 @@ public class OrderPageController implements Initializable {
     @FXML
     void switchToAddOrder(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("./AddOrder.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/AddOrder.fxml"));
             Parent root1 = loader.load();
             Stage stage = new Stage();
 
@@ -330,7 +330,7 @@ public class OrderPageController implements Initializable {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewIndividualOrder.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/ViewIndividualOrder.fxml"));
             Parent root = loader.load();
 
             ViewIndividualOrderController viewIndividualOrderController = loader.getController();
@@ -359,7 +359,7 @@ public class OrderPageController implements Initializable {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateOrder.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/UpdateOrder.fxml"));
             Parent root = loader.load();
 
             UpdateOrderController updateOrderController = loader.getController();
@@ -382,7 +382,7 @@ public class OrderPageController implements Initializable {
     @FXML
     void startOrder(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("StartOrder.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/Order/StartOrder.fxml"));
             Parent root1 = loader.load();
             Stage stage = new Stage();
 
@@ -427,7 +427,7 @@ public class OrderPageController implements Initializable {
     @FXML
     void updatePassword(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../UpdatePassword.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/UpdatePassword.fxml"));
             Parent root1 = loader.load();
             Stage stage = new Stage();
 
