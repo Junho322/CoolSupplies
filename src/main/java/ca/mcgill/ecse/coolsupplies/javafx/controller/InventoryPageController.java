@@ -70,19 +70,28 @@ public class InventoryPageController implements Initializable {
     private ObservableList<String> items = FXCollections.observableArrayList();
 
     
+    /**
+     * This method overwrites for the extended parent class, it initializes the Inventory Page by loading all existing items 
+     * and bundle items into the ListView and calls upon the button initialization defined below
+     * 
+     * @param location location used to resolve relative paths for root object 
+     * @param resources resources used to localize the root object
+     * 
+     * @author Jun Ho Oh
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO Auto-generated method stub
-        System.out.println("InventoryPageController initialized");
+        // System.out.println("InventoryPageController initialized");
         List<TOItem> exisitingItems = CoolSuppliesFeatureSet3Controller.getItems();
-        //this is to add the items
+        //this is to add existing Items into the ListView
         listview.getItems().clear();
         for (int i = 0; i < exisitingItems.size(); i++){
             items.add(exisitingItems.get(i).getName());
             
         }
 
-        //this is to add the bundle items
+        //this is to add the bundle items into the ListView
         List<TOGradeBundle> existingBundles = CoolSuppliesFeatureSet4Controller.getBundles();
         for (int i = 0; i < existingBundles.size(); i++){
             List<TOBundleItem> existingBundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(existingBundles.get(i).getName());
@@ -98,17 +107,26 @@ public class InventoryPageController implements Initializable {
                 }
             }
         }
-        populateListView();
+        populateListView(); //after adding all items into items, it populates ListView
 
         initializeButtonGraphics();
     }
 
+    /**
+     * Handles addition of new items into the inventory and populates the ListView for the user to see
+     * Validates inputs from user and makes sure to not populate already existing items, updates inventory and ListView
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void addItem(ActionEvent event) {
         // Get user input
         String itemName = itemAdd.getText().trim();
         String itemPrice = Price.getText().trim();
 
+        //Price must be greater than 0 (logical)
         if (Integer.parseInt(itemPrice) <= 0) {
             showAlert(Alert.AlertType.ERROR, "Invalid Input", "Item price cannot be negative or 0.");
             itemAdd.clear();
@@ -128,6 +146,7 @@ public class InventoryPageController implements Initializable {
 
 
         try{
+            //makes sure that the item does not already exist in the inventory
             for (int i = 0; i < listview.getItems().size(); i++) {
                 String item = listview.getItems().get(i);
                 if (itemName.equals(item)){
@@ -142,10 +161,6 @@ public class InventoryPageController implements Initializable {
             CoolSuppliesFeatureSet3Controller.addItem(itemName, price);
 
             // Add the item to the ListView
-            //String itemEntry = itemName;// + " - $" + String.format("%.2f", price);
-            //listview.getItems().setItem(itemEntry);
-
-
             items.add(itemName);
 
             // Show success message (optional)
@@ -161,7 +176,17 @@ public class InventoryPageController implements Initializable {
             populateListView();
         }
     }
-    // Helper method to show alerts
+
+
+    /**
+     * Helper function to show the desired messages
+     * 
+     * @param alertType the type of message displayed
+     * @param title the title of the message displayed
+     * @param message the content of the message displayed
+     * 
+     * @author Jun Ho Oh
+     */
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -170,6 +195,14 @@ public class InventoryPageController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Deletes desired Item from Inventory Item and updates the inventory as well as ListView
+     * Validates user inputs
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void deleteItem(ActionEvent event) {
         String itemNameDeletion = itemDelete.getText().trim();
@@ -179,23 +212,8 @@ public class InventoryPageController implements Initializable {
             showAlert(AlertType.ERROR, "Input Error", "Item name cannot be empty.");
             return;
         }
-        // Search for the item in the ListView
-        // boolean itemView = false;
-        // for (String item : listview.getItems()) {
-        //     if (item.equalsIgnoreCase(itemNameDeletion)) { // Check if item name matches
-        //         listview.getItems().remove(item); // Remove the item
-        //         CoolSuppliesFeatureSet3Controller.deleteItem(itemNameDeletion);
-        //         itemView = true;
-        //         break;
-        //     }
-        // }
-
-        // if (itemView) {
-        //     showAlert(AlertType.INFORMATION, "Success", "Item '" + itemNameDeletion + "' has been deleted.");
-        // } else {
-        //     showAlert(AlertType.ERROR, "Not Found", "Item '" + itemNameDeletion + "' does not exist in the list.");
-        // }
         
+        //verifies that the inputed item name exists in inventory items
         for (int i = 0; i < listview.getItems().size(); i++) {
             String item = listview.getItems().get(i);
             if (itemNameDeletion.equals(item)){
@@ -214,6 +232,14 @@ public class InventoryPageController implements Initializable {
 
     }
 
+    /**
+     * Updates the desired item's quantity and name inputed. Validates user inputs
+     * and assures proper udpating of inventory and ListView
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void updateItem(ActionEvent event) {
         // Get input values
@@ -274,11 +300,25 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    /**
+     * Populates the ListView by adding the inventory item names
+     * 
+     * takes no parameters
+     * 
+     * @author Jun Ho Oh
+     * 
+     */
     private void populateListView() {
-        
         listview.setItems(items);
     }
 
+    /**
+     * Swithces to the Admin Page View
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void doSwitchToAdminPage(ActionEvent event) {
         try {
@@ -300,6 +340,13 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    /**
+     * Swithces to the Order Page View
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void doSwitchToOrderPage(ActionEvent event) {
         try {
@@ -319,6 +366,13 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    /**
+     * Swithces to the Grade Page View
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void doSwitchToGradePage(ActionEvent event) {
         try {
@@ -338,6 +392,13 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    /**
+     * Swithces to the Bundle Page View
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void doSwitchToBundlePage(ActionEvent event) {
         try {
@@ -357,6 +418,13 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    /**
+     * Logs the user out and brings the user to the Login Page View
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void doLogout(ActionEvent event) {
         try {
@@ -378,6 +446,13 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    /**
+     * Swithces to the Parent Page View
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void doSwitchToParentPage(ActionEvent event) {
         try {
@@ -397,6 +472,13 @@ public class InventoryPageController implements Initializable {
         }
     }
 
+    /**
+     * Swithces to the Show Student Page View
+     * 
+     * @param event this is an action event triggered by method Add Item Button defined in FXML page
+     * 
+     * @author Jun Ho Oh
+     */
     @FXML
     void doSwitchToShowStudentsPage(ActionEvent event) {
         try {
@@ -417,7 +499,11 @@ public class InventoryPageController implements Initializable {
     }
 
     
-
+    /**
+     * Initializes the buttons's graphics for Settings and Logout buttons
+     * 
+     * @author Jun Ho Oh
+     */
     public void initializeButtonGraphics() {
     // Settings Button Image
     ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
