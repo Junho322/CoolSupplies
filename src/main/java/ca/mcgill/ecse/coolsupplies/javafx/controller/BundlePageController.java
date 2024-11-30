@@ -83,6 +83,8 @@ public class BundlePageController {
     private void initialize() {
         // Initialize the list with any preexisting bundles
         populateListView();
+
+        // Set styles for ComboBox to be readable
         gradeChoice.setStyle("-fx-background-color: #006EA6; " +
                 "-fx-background-radius: 10; " +
                 "-fx-text-base-color: white;");
@@ -106,8 +108,10 @@ public class BundlePageController {
                 handleBundleSelection(newVal);
             }
         });
-
         initializeButtonGraphics();
+
+        // Ensure all bundle discounts are valid
+        refreshAllBundleDiscounts();
     }
 
     @FXML
@@ -262,6 +266,19 @@ public class BundlePageController {
             bundles.add(bundle.getName());
         }
         listView.setItems(bundles);
+    }
+
+    private void refreshAllBundleDiscounts() {
+        for (String bundleName : bundles) {
+            refreshSelectedBundleDiscount(bundleName);
+        }
+    }
+
+    private void refreshSelectedBundleDiscount(String bundleName) {
+        GradeBundle bundle = (GradeBundle) GradeBundle.getWithName(bundleName);
+        if (bundle.getBundleItems().size() < 2) {
+            bundle.setDiscount(0);
+        }
     }
 
     private void showErrorAlert(String title, String message) {
