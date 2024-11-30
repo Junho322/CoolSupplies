@@ -9,6 +9,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+/**
+ * handles update order functinality 
+ * 
+ * @author Shayan Yamanidouzi Sorkhabi
+ */
+
 public class UpdateOrderController {
 
     @FXML
@@ -19,10 +25,22 @@ public class UpdateOrderController {
 
     private static TOOrder Order;
 
+
+    /**
+     * sets the order that we want to be updated
+     * @param o
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
     public static void setExistingOrder(TOOrder o) {
         Order = o;
     }
 
+
+    /**
+     * retrieves the inputted value through the ui and handles updating an orde rthrough the backend controller method
+     * @param event the event triggererd by clicking the update order button
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
 
     @FXML
     void updateOrder(ActionEvent event) {
@@ -52,6 +70,7 @@ public class UpdateOrderController {
      * Helper method to display an alert to the user.
      * @param title The title of the alert
      * @param message The message to be displayed in the alert
+     * @author Shayan Yamanidouzi Sorkhabi
      */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
