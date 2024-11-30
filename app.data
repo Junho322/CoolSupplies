@@ -126,24 +126,7 @@
                                                         "bundle": {
                                                           "name": "B7",
                                                           "orderItems": [
-                                                            {
-                                                              "OrderItem": {
-                                                                "quantity": 1,
-                                                                "coolSupplies": {
-                                                                  "@reference": "../../../../../../../../../../../../../../../../../../.."
-                                                                },
-                                                                "order": {
-                                                                  "@reference": "../../../../../../../../../../../.."
-                                                                },
-                                                                "item": {
-                                                                  "@class": "GradeBundle",
-                                                                  "@reference": "../../.."
-                                                                },
-                                                                "cachedHashCode": -1,
-                                                                "canSetOrder": true,
-                                                                "canSetItem": true
-                                                              }
-                                                            }
+                                                            ""
                                                           ],
                                                           "discount": 10,
                                                           "coolSupplies": {
@@ -445,9 +428,6 @@
                                   },
                                   {
                                     "@reference": "../OrderItem/item/bundleItems/BundleItem/item/bundleItems/BundleItem/bundle/bundleItems/BundleItem[2]/item/orderItems/OrderItem"
-                                  },
-                                  {
-                                    "@reference": "../OrderItem/item/bundleItems/BundleItem/item/bundleItems/BundleItem/bundle/orderItems/OrderItem"
                                   }
                                 ]
                               }
@@ -611,9 +591,6 @@
           },
           {
             "@reference": "../../students/Student/parent/students/Student[2]/orders/Order/orderItems/OrderItem/item/bundleItems/BundleItem/item/bundleItems/BundleItem/bundle/bundleItems/BundleItem[2]/item/orderItems/OrderItem"
-          },
-          {
-            "@reference": "../../students/Student/parent/students/Student[2]/orders/Order/orderItems/OrderItem/item/bundleItems/BundleItem/item/bundleItems/BundleItem/bundle/orderItems/OrderItem"
           }
         ]
       }
