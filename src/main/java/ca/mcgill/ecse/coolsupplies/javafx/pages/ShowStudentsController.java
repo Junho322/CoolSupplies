@@ -201,6 +201,7 @@ public class ShowStudentsController {
         Label parentLabel = new Label(parentText);
         parentLabel.setStyle("-fx-font-size: 12px; -fx-text-alignment: center; -fx-text-fill: #666;");
 
+
         // Create a VBox for the content inside the button
         VBox content = new VBox(10, avatar, nameLabel, gradeLabel, parentLabel);
         content.setAlignment(javafx.geometry.Pos.CENTER);
