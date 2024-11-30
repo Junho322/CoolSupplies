@@ -32,6 +32,7 @@ public class CoolSuppliesFeatureSet3Controller {
       return "The name must be unique.";
     }  
     //checks if name is imputed
+
     if (name == null || name.isEmpty()){
       return "The name must not be empty.";
     }
