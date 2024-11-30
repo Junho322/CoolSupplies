@@ -100,34 +100,39 @@ public class CoolSuppliesFeatureSet8Controller {
      */
     public static String addItemToOrder(String itemName, int quantity, int orderNumber) {
         try {
+//            GradeBundle targetBundle;
+//            OrderItem targetItem;
             Order order = Order.getWithNumber(orderNumber);
             if (order == null) {
                 return "Order " + orderNumber + " does not exist";
             }
 
-            InventoryItem targetItem = Item.getWithName(itemName);
-            if (targetItem == null) {
+            InventoryItem unknownItem1 = Item.getWithName(itemName);
+            InventoryItem unknownItem2 = GradeBundle.getWithName(itemName);
+
+            if (unknownItem1 == null && unknownItem2 == null) {
                 return "Item " + itemName + " does not exist.";
             }
 
+            GradeBundle bundle = (GradeBundle) GradeBundle.getWithName(itemName);
+            if (bundle.getBundleItems().isEmpty()){
+                return "Bundle cannot be empty and added";
+            }
+
             //attempt to add the item to the order and store the result
-            boolean wasAdded = order.addItem(targetItem, quantity);
+            boolean wasAdded1 = order.addItem(unknownItem1, quantity);
+            boolean wasAdded2 = order.addItem(unknownItem2, quantity);
             CoolSuppliesPersistence.save();
 
             //most likely reason for failure is that the order is in a state where items cannot be added
-            if (!wasAdded) {
-                switch (order.getStatusFullName()) {
-                    case "Paid":
-                        return "Cannot add items to a paid order";
-                    case "Penalized":
-                        return "Cannot add items to a penalized order";
-                    case "Prepared":
-                        return "Cannot add items to a prepared order";
-                    case "PickedUp":
-                        return "Cannot add items to a picked up order";
-                    default:
-                        return "Could not add item to order";
-                }
+            if (!(wasAdded1 || wasAdded2)) {
+                return switch (order.getStatusFullName()) {
+                    case "Paid" -> "Cannot add items to a paid order";
+                    case "Penalized" -> "Cannot add items to a penalized order";
+                    case "Prepared" -> "Cannot add items to a prepared order";
+                    case "PickedUp" -> "Cannot add items to a picked up order";
+                    default -> "Could not add item to order";
+                };
             }
         } catch (RuntimeException e) {
             return e.getMessage();

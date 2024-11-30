@@ -83,6 +83,12 @@ public class BundlePageController {
     private void initialize() {
         // Initialize the list with any preexisting bundles
         populateListView();
+        gradeChoice.setStyle("-fx-background-color: #006EA6; " +
+                "-fx-background-radius: 10; " +
+                "-fx-text-base-color: white;");
+        editGrade.setStyle("-fx-background-color: #006EA6; " +
+                "-fx-background-radius: 10; " +
+                "-fx-text-base-color: white;");
 
         // Set all dropdown menu values
         ArrayList<TOGrade> grades = new ArrayList<>();
