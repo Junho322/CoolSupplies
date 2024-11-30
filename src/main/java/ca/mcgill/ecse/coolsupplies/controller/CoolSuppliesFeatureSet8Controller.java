@@ -22,16 +22,16 @@ import ca.mcgill.ecse.coolsupplies.persistence.CoolSuppliesPersistence;
  * @author David Zhou
  *
  * @see #updateOrder(int, String, String) Updates an order to a new level and assigns it to a student.
- * @see #addItemToOrder(String, int, int) Adds a specific item with a quantity to an order.
+ * @see #addItemToOrder(int, String, int) Adds a specific item with a quantity to an order.
  * @see #updateQuantityOfAnExistingItemOfOrder(int, String, int) Updates the quantity of an existing item in an order.
- * @see #deleteOrderItem(String, String) Deletes an item from an order if it exists.
- * @see #payForOrder(int, String) Completes the payment process for an order.
- * @see #payPenaltyForOrder(int, String, String) Pays a penalty associated with a penalized order.
+ * @see #deleteOrderItem(int, String) Deletes an item from an order if it exists.
+ * @see #payForOrder(int) Completes the payment process for an order.
+ * @see #payPenaltyForOrder(int) Pays a penalty associated with a penalized order.
  * @see #pickUpOrder(int) Marks an order as picked up if conditions allow.
  * @see #cancelOrder(int) Cancels an order if it meets cancellation criteria.
  * @see #viewIndividualOrder(int) Retrieves detailed information about a specific order.
  * @see #getOrders() Retrieves all orders within the system.
- * @see #startSchoolYear(int) Resets attributes in preparation for a new school year.
+ * @see #startSchoolYear() Resets attributes in preparation for a new school year.
  */
 
 public class CoolSuppliesFeatureSet8Controller {
@@ -60,7 +60,6 @@ public class CoolSuppliesFeatureSet8Controller {
             if (!newLevel.equalsIgnoreCase("mandatory") && !newLevel.equalsIgnoreCase("optional") && !newLevel.equalsIgnoreCase("recommended")) {
                 return "Purchase level " + newLevel + " does not exist.";
             }
-            newLevel = newLevel.substring(0, 1).toUpperCase() + newLevel.substring(1);
             BundleItem.PurchaseLevel aLevel= BundleItem.PurchaseLevel.valueOf(newLevel);
 
             if (!order.getStatusFullName().equalsIgnoreCase("Started")) {
@@ -79,8 +78,6 @@ public class CoolSuppliesFeatureSet8Controller {
                         return "Could not update the order";
                 }
             }
-            
-            
             order.updateOrder(aLevel, aStudent); //this checks in itself if the student belond to the parent
             CoolSuppliesPersistence.save();
             return "Order updated successfully";
@@ -100,43 +97,34 @@ public class CoolSuppliesFeatureSet8Controller {
      */
     public static String addItemToOrder(String itemName, int quantity, int orderNumber) {
         try {
-
-            CoolSupplies coolSupplies = CoolSuppliesApplication.getCoolSupplies();
-
             Order order = Order.getWithNumber(orderNumber);
             if (order == null) {
                 return "Order " + orderNumber + " does not exist";
             }
 
-            InventoryItem unknownItem1 = Item.getWithName(itemName);
-            InventoryItem unknownItem2 = GradeBundle.getWithName(itemName);
-
-            if (unknownItem1 == null && unknownItem2 == null) {
+            InventoryItem targetItem = Item.getWithName(itemName);
+            if (targetItem == null) {
                 return "Item " + itemName + " does not exist.";
             }
 
-            for (GradeBundle bundle: coolSupplies.getBundles()){
-                if (bundle.getName().equals(itemName)){
-                    if (bundle.getBundleItems().isEmpty()){
-                        return "Bundle " + itemName + " does not contain any items.";
-                    }
-                }
-            }
-
             //attempt to add the item to the order and store the result
-            boolean wasAdded1 = order.addItem(unknownItem1, quantity);
-            boolean wasAdded2 = order.addItem(unknownItem2, quantity);
+            boolean wasAdded = order.addItem(targetItem, quantity);
             CoolSuppliesPersistence.save();
 
             //most likely reason for failure is that the order is in a state where items cannot be added
-            if (!(wasAdded1 || wasAdded2)) {
-                return switch (order.getStatusFullName()) {
-                    case "Paid" -> "Cannot add items to a paid order";
-                    case "Penalized" -> "Cannot add items to a penalized order";
-                    case "Prepared" -> "Cannot add items to a prepared order";
-                    case "PickedUp" -> "Cannot add items to a picked up order";
-                    default -> "Could not add item to order";
-                };
+            if (!wasAdded) {
+                switch (order.getStatusFullName()) {
+                    case "Paid":
+                        return "Cannot add items to a paid order";
+                    case "Penalized":
+                        return "Cannot add items to a penalized order";
+                    case "Prepared":
+                        return "Cannot add items to a prepared order";
+                    case "PickedUp":
+                        return "Cannot add items to a picked up order";
+                    default:
+                        return "Could not add item to order";
+                }
             }
         } catch (RuntimeException e) {
             return e.getMessage();
@@ -211,6 +199,7 @@ public class CoolSuppliesFeatureSet8Controller {
         return "Item updated successfully";
     }
 
+
     /**
      * Deletes an item from an order, should either exist simultaneously and if the item exists in the order.
      *
@@ -220,6 +209,7 @@ public class CoolSuppliesFeatureSet8Controller {
      * @author David Wang
      *
      */
+
     public static String deleteOrderItem(String itemName, String orderNumber) {
         int orderNumberInt;
         try {
