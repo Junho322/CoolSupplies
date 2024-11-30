@@ -460,8 +460,6 @@ public class AdminPageController implements Initializable {
             stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
             OrderPageController controller = loader.getController();
             controller.initialize(null, null);
@@ -480,11 +478,9 @@ public class AdminPageController implements Initializable {
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
             stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
+            stage.setMaxWidth(1120);   
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
             BundlePageController controller = loader.getController();
 //            controller.initialize(null, null);
@@ -503,11 +499,9 @@ public class AdminPageController implements Initializable {
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
             stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
+            stage.setMaxWidth(1120);   
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -524,11 +518,9 @@ public class AdminPageController implements Initializable {
             stage.setScene(scene);
             stage.setTitle("CoolSupplies");
             stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
+            stage.setMaxWidth(1120); 
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -548,8 +540,6 @@ public class AdminPageController implements Initializable {
             stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

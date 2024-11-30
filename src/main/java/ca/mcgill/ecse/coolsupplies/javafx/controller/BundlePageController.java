@@ -286,13 +286,11 @@ public class BundlePageController {
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
             AdminPageController controller = loader.getController();
             controller.initialize(null, null);
@@ -309,13 +307,11 @@ public class BundlePageController {
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -330,13 +326,11 @@ public class BundlePageController {
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -351,13 +345,11 @@ public class BundlePageController {
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -391,13 +383,11 @@ public class BundlePageController {
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -412,13 +402,13 @@ public class BundlePageController {
             Stage stage = (Stage) nameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(false);
+            stage.setResizable(false);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
+            stage.setX(100);
+            stage.setY(100);
+            stage.setHeight(600);
+            stage.setWidth(800);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
