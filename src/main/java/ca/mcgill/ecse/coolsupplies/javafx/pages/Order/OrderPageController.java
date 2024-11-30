@@ -32,13 +32,20 @@ import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.*;
 
 
+/**
+ * OrderPageController.java is the starting point for all Order related operations. It is the controller for OrderPage.fxml, and allows the user to view and manage orders.
+ * Supported features include viewing all orders, starting an order, updating an order, cancelling an order, picking up an order, and viewing an order's details.
+ * 
+ * Redirection:
+ * -Order.fxml (each individual Order component is rendered in OrderPage.fxml, with its corresponding attributes of number, status, date, parent, student, level, items, price)
+ * -StartOrder.fxml (redirects the user to the StartOrder.fxml page)
+ * -UpdateOrder.fxml (redirects the user to the UpdateGrade.fxml page)
+ * -ViewIndividualOrder.fxml (redirects the user to the ViewIndividualOrder.fxml page of the selected order)
+ * 
+ * @author David Vo
+ */
+
 public class OrderPageController implements Initializable {
-
-    // @FXML
-    // GridPane rightSideGridPane;
-
-    // @FXML
-    // private VBox chosenOrderCard;
 
     @FXML
     private Button settingsButton;
@@ -86,8 +93,6 @@ public class OrderPageController implements Initializable {
     private ArrayList<TOOrder> orders = new ArrayList<>();
     private EventListener listener;
     private AnchorPane lastSelectedCard;
-
-
 
     private enum Sort {
         SYSTEM_DEFAULT,
@@ -165,13 +170,8 @@ public class OrderPageController implements Initializable {
             };
         }
 
-        // grid1.setMinHeight(Region.USE_COMPUTED_SIZE);
-        // grid1.setPrefHeight(700);
-        // grid1.setMaxHeight(Region.USE_COMPUTED_SIZE);
-
         int numItems = 0;
         List<TOOrderItem> items = new ArrayList<TOOrderItem>();
-        //String bundleName = null;
         int i = 0;
         for (TOOrder order : orders) {
             try {
@@ -186,12 +186,6 @@ public class OrderPageController implements Initializable {
 
                 numItems = order.getItems().size();
                 items = order.getItems();
-                // if (CoolSuppliesFeatureSet8Controller.getBundleOfOrder(order.getLevel()) != null) {
-                //     bundleName = CoolSuppliesFeatureSet8Controller.getBundleOfOrder(order.getLevel()).getName();
-                // }
-                // else {
-                //     bundleName = null;
-                // }
                 
                 OrderController orderController = fxmlLoader.getController();
                 orderController.setOrder(order, listener);
@@ -238,34 +232,6 @@ public class OrderPageController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    // @FXML
-    // void switchToUpdateOrder(ActionEvent event) throws IOException {
-    // if (selectedOrder == null) {
-    //     showAlert(Alert.AlertType.WARNING, "No Order Selected", "Please select a order to update.");
-    //     return;
-    // }
-
-    // try {
-    //     FXMLLoader loader = new FXMLLoader(getClass().getResource("./UpdateOrder.fxml"));
-    //     Parent root = loader.load();
-
-    //     UpdateOrderController updateOrderController = loader.getController();
-    //     updateOrderController.setSelectedOrder(selectedOrder);
-
-    //     Stage stage = new Stage();
-    //     stage.setTitle("Update Order");
-    //     stage.setScene(new Scene(root));
-    //     stage.initModality(Modality.APPLICATION_MODAL);
-    //     stage.showAndWait();
-
-    //     orders = getData();
-    //     initialize(null, null);
-
-    // } catch (IOException e) {
-    //     e.printStackTrace();
-    //     }
-    // }
 
     @FXML
     void toggleOrderSort(ActionEvent event) {
@@ -366,11 +332,6 @@ public class OrderPageController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewIndividualOrder.fxml"));
             Parent root = loader.load();
-
-            // if (lastSelectedCard == null) {
-            //     setChosenOrder(selectedOrder, anchorPane);
-            //     lastSelectedCard = anchorPane;
-            // }
 
             ViewIndividualOrderController viewIndividualOrderController = loader.getController();
             viewIndividualOrderController.setSelectedOrder(selectedOrder, listener);

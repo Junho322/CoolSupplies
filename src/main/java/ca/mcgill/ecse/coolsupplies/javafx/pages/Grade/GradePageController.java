@@ -29,6 +29,19 @@ import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.Grade.*;
 
+/**
+ * GradePageController.java is the starting point for all Grade related operations. It is the controller for GradePage.fxml, and allows the user to view and manage grades.
+ * Supported features include viewing all grades, adding a grade, updating a grade, deleting a grade, starting a new school year, and updating the user's password.
+ * 
+ * Redirection:
+ * -Grade.fxml (each individual Grade component is rendered in GradePage.fxml)
+ * -AddGrade.fxml (redirects the user to the AddGrade.fxml page)
+ * -UpdateGrade.fxml (redirects the user to the UpdateGrade.fxml page)
+ * -UpdatePassword.fxml (redirects the user to the UpdatePassword.fxml page)
+ * -StudentOfGrade.fxml (each individual StudentOfGrade component of a Grade is rendered in GradePage.fxml)
+ * 
+ * @author David Vo
+ */
 
 public class GradePageController implements Initializable {
 
