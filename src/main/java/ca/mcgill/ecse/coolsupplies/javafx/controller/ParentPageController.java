@@ -26,6 +26,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Controller for managing parent information and student relationships in the GUI.
+ *
+ * Features Addressed:
+ * - Add student to parent.
+ * - Remove student from parent.
+ *
+ * @author David Zhou
+ */
 public class ParentPageController {
 
     @FXML
@@ -50,6 +60,9 @@ public class ParentPageController {
             "#FF4081", "#8E24AA", "#1E88E5", "#03A9F4"
     };
 
+    /**
+   * Initializes the Parent Page GUI components.
+   */
     @FXML
     public void initialize() {
         // Initialize labels with empty values
@@ -61,12 +74,20 @@ public class ParentPageController {
         setupAutoComplete();
     }
 
+  /**
+   * Sets the displayed parent information.
+   *
+   * @param parent The parent to be displayed.
+   */
     public void setParentInfo(TOParent parent) {
         nameLabel.setText("Name: " + parent.getName());
         emailLabel.setText("Email: " + parent.getEmail());
         phoneLabel.setText("Phone: " + formatPhoneNumber(parent.getPhoneNumber()));
     }
 
+    /**
+   * Configures the autocomplete functionality for the student search ComboBox.
+   */
     private void setupAutoComplete() {
         // Get all students and extract their names
         List<TOStudent> allStudents = CoolSuppliesFeatureSet2Controller.getStudents();
@@ -108,47 +129,15 @@ public class ParentPageController {
         searchComboBox.setItems(filteredStudentNames);
     }
 
-    @FXML
-    private void handleDeleteParent(ActionEvent event) {
-        // Extract the email of the currently displayed parent
-        String displayedEmail = emailLabel.getText().replace("Email: ", "").trim();
-
-        // Check if an email is displayed
-        if (displayedEmail.isEmpty()) {
-            // Show an error if no email is displayed
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Delete Parent");
-            alert.setHeaderText(null);
-            alert.setContentText("No parent is selected to delete.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Call the controller method to delete the parent
-        String result = CoolSuppliesFeatureSet1Controller.deleteParent(displayedEmail);
-
-        // Show a success or error message based on the result
-        Alert alert;
-        if (result.equals("Parent deleted successfully")) {
-            alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Delete Parent");
-            alert.setHeaderText(null);
-            alert.setContentText(result);
-
-            // Clear the UI after deletion
-            nameLabel.setText("Name: ");
-            emailLabel.setText("Email: ");
-            phoneLabel.setText("Phone: ");
-        } else {
-            alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Delete Parent");
-            alert.setHeaderText(null);
-            alert.setContentText(result);
-        }
-
-        alert.showAndWait();
-    }
-
+  /**
+   * Handles the action of changing the parent and navigating to the Admin Page.
+   *
+   * Loads the AdminPage.fxml and switches the current scene to the Admin Page.
+   * Maximizes the window and calls a method in AdminPageController to simulate sorting parents.
+   *
+   * @param event the ActionEvent triggered by the user interaction.
+   * @feature CoolSupplies Feature Set 1 - Parent Management
+   */
     @FXML
     private void handleChangeParent(ActionEvent event) {
         try {
@@ -176,31 +165,11 @@ public class ParentPageController {
         }
     }
 
-    @FXML
-    private void handleSearchStudent(ActionEvent event) {
-        // Extract the displayed parent's email
-        String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
-
-        // Validate the parent email
-        if (parentEmail.isEmpty()) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Add Student");
-            alert.setHeaderText(null);
-            alert.setContentText("No parent is selected.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Get the selected student name
-        String studentName = searchComboBox.getValue();
-
-        // Validate the student name
-        if (studentName == null || studentName.trim().isEmpty()) {
-            return;
-        }
-
-    }
-
+  /**
+   * Adds a student to the currently selected parent.
+   *
+   * @param event The action event triggered by the GUI.
+   */
     @FXML
     private void handleConfirmSearch(ActionEvent event) {
         // Extract the displayed parent's email
@@ -248,13 +217,25 @@ public class ParentPageController {
     }
 
 
-
+  /**
+   * Formats the given phone number into a user-friendly string.
+   *
+   * @param phoneNumber The phone number to format.
+   * @return The formatted phone number.
+   */
   private String formatPhoneNumber(int phoneNumber) {
     String phoneStr = String.valueOf(phoneNumber);
     // Assuming 7-digit phone number
     return "+1 (123) " + phoneStr.substring(0, 3) + "-" + phoneStr.substring(3);
   }
+
   private static final String[] COLORS = {"#FF4081", "#8E24AA", "#1E88E5", "#03A9F4"};
+
+  /**
+   * Populates the student cards in the UI with the given list of students.
+   *
+   * @param students The list of students to display.
+   */
   public void populateStudentCards(List<TOStudent> students) {
     studentCardContainer.getChildren().clear(); // Clear existing cards
 
@@ -307,7 +288,11 @@ public class ParentPageController {
   }
 
 
-
+  /**
+   * Removes a student from the currently selected parent.
+   *
+   * @param studentName The name of the student to be removed.
+   */
   private void handleRemoveStudent(String studentName) {
     String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
 
@@ -330,63 +315,15 @@ public class ParentPageController {
     }
   }
 
-  private void handleStartOrder(TOStudent student) {
-    String studentName = student.getName();
-    String parentEmail = emailLabel.getText().replace("Email: ", "").trim();
-    java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis()); // Get current date as java.sql.Date
-
-    // Determine the lowest available order number
-    List<TOOrder> orders = CoolSuppliesFeatureSet8Controller.getOrders();
-    final int[] lowestAvailableNumber = {1}; // Use an array to make it effectively final
-    orders.forEach(order -> {
-      if (order.getNumber() == lowestAvailableNumber[0]) {
-        lowestAvailableNumber[0]++;
-      }
-    });
-
-    // Show a pop-up to select the order type
-    ChoiceDialog<String> dialog = new ChoiceDialog<>("mandatory", "mandatory", "recommended", "optional");
-    dialog.setTitle("Select Order Type");
-    dialog.setHeaderText("Choose the type of order:");
-    dialog.setContentText("Order Type:");
-
-    // Show the dialog and capture the user's choice
-    dialog.showAndWait().ifPresent(level -> {
-      // Call the startOrder method with the selected order type
-      String result = CoolSuppliesFeatureSet6Controller.startOrder(
-          lowestAvailableNumber[0],
-          currentDate,
-          level,
-          parentEmail,
-          studentName
-      );
-
-      // Display success or error message
-      if (result.equals("Order created successfully.")) {
-        showSuccessMessage("Order created successfully for " + studentName + ".");
-      } else {
-        showErrorMessage("Failed to create order: " + result);
-      }
-    });
-  }
-
-
-  private void showSuccessMessage(String message) {
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Success");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
-  }
-
-  private void showErrorMessage(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
-  }
-
+  /**
+   * Switches the current scene to the Admin Page.
+   *
+   * Loads AdminPage.fxml, sets it as the new scene, and maximizes the window.
+   * Initializes the AdminPageController after loading the scene.
+   *
+   * @param event the ActionEvent triggered by the user interaction.
+   * @feature CoolSupplies Feature Set 1 - Parent Management
+   */
   @FXML
   void doSwitchToAdminPage(ActionEvent event) {
       try {
@@ -408,6 +345,14 @@ public class ParentPageController {
       }
   }
 
+  /**
+   * Switches the current scene to the Order Page.
+   *
+   * Loads OrderPage.fxml, sets it as the new scene, and maximizes the window.
+   *
+   * @param event the ActionEvent triggered by the user interaction.
+   * @feature CoolSupplies Feature Set 3 - Order Management
+   */
   @FXML
   void doSwitchToOrderPage(ActionEvent event) {
       try {
@@ -427,6 +372,14 @@ public class ParentPageController {
       }
   }
 
+  /**
+   * Switches the current scene to the Inventory Page.
+   *
+   * Loads InventoryPage.fxml, sets it as the new scene, and maximizes the window.
+   *
+   * @param event the ActionEvent triggered by the user interaction.
+   * @feature CoolSupplies Feature Set 4 - Inventory Management
+   */
   @FXML
   void doSwitchToInventoryPage(ActionEvent event) {
       try {
@@ -465,6 +418,15 @@ public class ParentPageController {
       }
   }
 
+  /**
+   * Logs out the current user and switches to the Login Page.
+   *
+   * Loads LoginPage.fxml, sets it as the new scene, and resizes the window
+   * to default dimensions.
+   *
+   * @param event the ActionEvent triggered by the user interaction.
+   * @feature CoolSupplies Feature Set 0 - User Management
+   */
     @FXML
     void doLogout(ActionEvent event) {
         try {
@@ -486,6 +448,14 @@ public class ParentPageController {
         }
     }
 
+  /**
+   * Switches the current scene to the Bundle Page.
+   *
+   * Loads BundlePage.fxml, sets it as the new scene, and maximizes the window.
+   *
+   * @param event the ActionEvent triggered by the user interaction.
+   * @feature CoolSupplies Feature Set 5 - Bundle Management
+   */
     @FXML
     void doSwitchToGradePage(ActionEvent event) {
         try {
