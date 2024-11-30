@@ -7,10 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet3Controller;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet4Controller;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet5Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
+import ca.mcgill.ecse.coolsupplies.controller.TOGradeBundle;
+import ca.mcgill.ecse.coolsupplies.controller.TOBundleItem;
 import ca.mcgill.ecse.coolsupplies.controller.TOItem;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController;
+import ca.mcgill.ecse.coolsupplies.model.BundleItem;
+import ca.mcgill.ecse.coolsupplies.model.GradeBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,11 +75,23 @@ public class InventoryPageController implements Initializable {
         // TODO Auto-generated method stub
         System.out.println("InventoryPageController initialized");
         List<TOItem> exisitingItems = CoolSuppliesFeatureSet3Controller.getItems();
+        //this is to add the items
         for (int i = 0; i < exisitingItems.size(); i++){
             listview.getItems().clear();
             items.add(exisitingItems.get(i).getName());
             populateListView();
         }
+
+        //this is to add the bundle items
+        List<TOGradeBundle> existingBundles = CoolSuppliesFeatureSet4Controller.getBundles();
+        for (int i = 0; i < existingBundles.size(); i++){
+            List<TOBundleItem> existingBundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(existingBundles.get(i).getName());
+            for (int j = 0; j < existingBundleItems.size(); j++){
+                items.add(existingBundleItems.get(j).getItemName());
+                populateListView();
+            }
+        }
+        
 
         initializeButtonGraphics();
     }
