@@ -4,7 +4,7 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet1Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.ViewIndividualOrderController;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.ViewIndividualOrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +17,33 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class that handles operations related to the Parent Home Page in the system.
+ *
+ * @author Jack McDonald
+ */
 public class ParentHomePageController implements Initializable {
 
+    static private String parentEmail;
     @FXML
     private ComboBox<String> orderComboBox;
 
-    static private String parentEmail;
+    /**
+     * Sets the parent email
+     *
+     * @param email The email to set the parent email to
+     * @author Jack McDonald
+     */
+    public static void setParentEmail(String email) {
+        parentEmail = email;
+    }
 
+    /**
+     * Handles the click event on the Confirm Order button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @FXML
     void doConfirmOrder(ActionEvent event) {
         String orderNumber = orderComboBox.getValue();
@@ -53,6 +73,12 @@ public class ParentHomePageController implements Initializable {
         }
     }
 
+    /**
+     * Handles the click event on the Start New Order button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @FXML
     void doStartNewOrder(ActionEvent event) {
         try {
@@ -68,6 +94,12 @@ public class ParentHomePageController implements Initializable {
         }
     }
 
+    /**
+     * Handles the click event on the View Orders button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         TOParent targetParent = CoolSuppliesFeatureSet1Controller.getParent(parentEmail);
@@ -78,9 +110,5 @@ public class ParentHomePageController implements Initializable {
                 orderComboBox.getItems().add(Integer.toBinaryString(order.getNumber()));
             }
         }
-    }
-
-    public static void setParentEmail(String email) {
-        parentEmail = email;
     }
 }

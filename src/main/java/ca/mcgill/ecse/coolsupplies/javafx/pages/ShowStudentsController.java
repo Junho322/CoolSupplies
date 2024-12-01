@@ -17,6 +17,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -357,13 +360,11 @@ public class ShowStudentsController {
             Stage stage = (Stage) removeButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
             AdminPageController controller = loader.getController();
             controller.initialize(null, null);
@@ -380,13 +381,11 @@ public class ShowStudentsController {
             Stage stage = (Stage) removeButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -401,13 +400,11 @@ public class ShowStudentsController {
             Stage stage = (Stage) removeButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -422,13 +419,11 @@ public class ShowStudentsController {
             Stage stage = (Stage) removeButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -464,13 +459,11 @@ public class ShowStudentsController {
             Stage stage = (Stage) removeButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -485,13 +478,11 @@ public class ShowStudentsController {
             Stage stage = (Stage) removeButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

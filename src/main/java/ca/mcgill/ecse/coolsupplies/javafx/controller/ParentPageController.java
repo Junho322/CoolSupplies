@@ -332,14 +332,12 @@ public class ParentPageController {
           Stage stage = (Stage) nameLabel.getScene().getWindow();
           Scene scene = new Scene(root);
           stage.setScene(scene);
-            stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
-            stage.show();
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
           AdminPageController controller = loader.getController();
           controller.initialize(null, null);
       } catch (IOException e) {
@@ -363,14 +361,12 @@ public class ParentPageController {
           Stage stage = (Stage) nameLabel.getScene().getWindow();
           Scene scene = new Scene(root);
           stage.setScene(scene);
-            stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
-            stage.show();
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
       } catch (IOException e) {
           e.printStackTrace();
       }
@@ -392,14 +388,12 @@ public class ParentPageController {
           Stage stage = (Stage) nameLabel.getScene().getWindow();
           Scene scene = new Scene(root);
           stage.setScene(scene);
-            stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
-            stage.show();
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
       } catch (IOException e) {
           e.printStackTrace();
       }
@@ -413,14 +407,12 @@ public class ParentPageController {
           Stage stage = (Stage) nameLabel.getScene().getWindow();
           Scene scene = new Scene(root);
           stage.setScene(scene);
-            stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
-            stage.setWidth(stage.getMaxWidth());
-            stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
-            stage.show();
+          stage.setMaximized(true);
+          stage.setResizable(true);
+          stage.setTitle("CoolSupplies");
+          stage.setWidth(stage.getMaxWidth());
+          stage.setHeight(stage.getMaxHeight());
+          stage.show();
       } catch (IOException e) {
           e.printStackTrace();
       }
@@ -472,13 +464,11 @@ public class ParentPageController {
             Stage stage = (Stage) nameLabel.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             stage.setTitle("CoolSupplies");
-            stage.setMaxHeight(620);
-            stage.setMaxWidth(1120);    
             stage.setWidth(stage.getMaxWidth());
             stage.setHeight(stage.getMaxHeight());
-            stage.setFullScreen(true);
-            stage.setResizable(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

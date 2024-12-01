@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.coolsupplies.javafx.pages.Order;
+package ca.mcgill.ecse.coolsupplies.javafx.controller;
 
 import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.OrderPageController.EventListener;
@@ -98,17 +98,32 @@ public class ViewIndividualOrderController {
         listener.onClickListener(order);
     }
 
+    /**
+     * Sets the selected order and its associated event listener, then initializes the view.
+     *
+     * @param order    the selected order to display.
+     * @param listener the event listener associated with the order.
+     * @author David Vo
+     */
     public void setSelectedOrder(TOOrder order, EventListener listener) {
         this.selectedOrder = order;
         this.listener = listener;
         initialize();
     }
 
+    /**
+     * Initializes the order view by setting up table columns, loading order details,
+     * and configuring the payment form.
+     * Handles exceptions if the order is not found.
+     *
+     * @author Hamza Khalfi
+     */
+
     @FXML
     public void initialize() {
         try {
-            // Use viewIndividualOrder to get the full details
-            int orderNumber = selectedOrder.getNumber(); // Replace with the actual order number you want to display
+
+            int orderNumber = selectedOrder.getNumber();
             currentOrder = CoolSuppliesFeatureSet8Controller.viewIndividualOrder(orderNumber);
             if (currentOrder == null) {
                 throw new RuntimeException("Order not found.");
@@ -117,10 +132,10 @@ public class ViewIndividualOrderController {
             setupTableColumns();
             populateOrderDetails();
         } catch (RuntimeException e) {
-            //showAlert("Viewing", "Order");
+
         }
 
-        // Set up toggle button
+
         if (paymentForm != null) {
             paymentForm.setVisible(false);
             paymentForm.setManaged(false);
@@ -129,6 +144,13 @@ public class ViewIndividualOrderController {
         }
     }
 
+
+    /**
+     * Configures the table columns to display order item details such as quantity, item name,
+     * bundle name, price, and discount.
+     *
+     * @author Hamza Khalfi
+     */
     private void setupTableColumns() {
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
@@ -137,13 +159,20 @@ public class ViewIndividualOrderController {
         discountColumn.setCellValueFactory(new PropertyValueFactory<>("discount"));
     }
 
+
+    /**
+     * Populates the order details such as order number, parent email, student name, status,
+     * date, level, and total cost. Also, initializes the table with order items.
+     *
+     * @author Hamza Khalfi
+     */
     private void populateOrderDetails() {
         orderNumberLabel.setText("Order Number: " + currentOrder.getNumber());
         parentEmailLabel.setText("Parent Email: " + currentOrder.getParentEmail());
         studentNameLabel.setText("Student Name: " + currentOrder.getStudentName());
         statusLabel.setText("Status: " + currentOrder.getStatus());
 
-        // Format date if needed
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = sdf.format(currentOrder.getDate());
 
@@ -152,15 +181,20 @@ public class ViewIndividualOrderController {
         totalCostLabel.setText(String.format("Order Cost: $%.2f", currentOrder.getTotalPrice()));
         penaltyCostLabel.setVisible(false); // Assuming penalty cost isn't dynamically available
 
-        // Authorization codes
+
         authCodeLabel.setText("Authorization Code: " + (currentOrder.getAuthorizationCode() != null ? currentOrder.getAuthorizationCode() : "N/A"));
         penaltyAuthCodeLabel.setText("Penalty Authorization Code: " + (currentOrder.getPenaltyAuthorizationCode() != null ? currentOrder.getPenaltyAuthorizationCode() : "N/A"));
 
-        // Populate items table
+
         ObservableList<TOOrderItem> items = FXCollections.observableArrayList(currentOrder.getItems());
         itemsTable.setItems(items);
     }
 
+    /**
+     * Toggles the visibility of the payment form and updates the toggle button's text.
+     *
+     * @author Hamza Khalfi
+     */
     private void togglePaymentForm() {
         boolean isVisible = paymentForm.isVisible();
         paymentForm.setVisible(!isVisible);
@@ -168,6 +202,12 @@ public class ViewIndividualOrderController {
         togglePaymentButton.setText(isVisible ? "Pay Now" : "Cancel");
     }
 
+    /**
+     * Processes the payment for the current order. Handles normal payments and penalties.
+     * Displays appropriate alerts for payment success or failure.
+     *
+     * @author Hamza Khalfi
+     */
     private void processPayment() {
         String authCode = authCodeField.getText();
 
@@ -203,6 +243,12 @@ public class ViewIndividualOrderController {
         }
     }
 
+    /**
+     * Displays a dialog for penalty payment where the user enters a penalty authorization code.
+     *
+     * @param authorizationCode the normal authorization code for the payment.
+     * @author Hamza Khalfi
+     */
     private void showPenaltyPaymentDialog(String authorizationCode) {
         // Create a custom dialog for penalty payment
         Dialog<String> dialog = new Dialog<>();
@@ -241,6 +287,13 @@ public class ViewIndividualOrderController {
         });
     }
 
+    /**
+     * Processes the penalty payment for the current order. Handles both penalty and normal payment.
+     *
+     * @param authorizationCode      the normal authorization code for the payment.
+     * @param penaltyAuthorizationCode the penalty authorization code for the payment.
+     * @author Hamza Khalfi
+     */
     private void processPenaltyPayment(String authorizationCode, String penaltyAuthorizationCode) {
         try {
             // Attempt to pay the penalty and the order using the controller
@@ -265,7 +318,14 @@ public class ViewIndividualOrderController {
     }
 
 
-    
+
+    /**
+     * Displays an alert dialog with the given title and content.
+     *
+     * @param title   the title of the alert dialog.
+     * @param content the content message of the alert dialog.
+     * @author Hamza Khalfi
+     */
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -405,6 +465,14 @@ public class ViewIndividualOrderController {
         }
     }
 
+    /**
+     * Validates the input fields for creating a new order.
+     * Ensures that an order is selected, and the item name and quantity are not empty or null.
+     *
+     * @return true if all input fields are valid; false otherwise.
+     * @author Hamza Khalfi
+     */
+
     private boolean validateInputFields() {
         if (currentOrder == null) {
             showAlert("Error", "No order selected.");
@@ -424,6 +492,14 @@ public class ViewIndividualOrderController {
         return true;
     }
 
+    /**
+     * Validates the input fields for updating an existing order.
+     * Ensures that an order is selected, and the item name and quantity are not empty or null.
+     *
+     * @return true if all input fields are valid; false otherwise.
+     * @author Hamza Khalfi
+     */
+
     private boolean validateUpdateInputFields() {
         if (currentOrder == null) {
             showAlert("Error", "No order selected.");
@@ -442,6 +518,14 @@ public class ViewIndividualOrderController {
 
         return true;
     }
+
+    /**
+     * Validates the input fields for deleting an item from an order.
+     * Ensures that an order is selected and the item name to delete is not empty or null.
+     *
+     * @return true if all input fields are valid; false otherwise.
+     * @author Hamza Khalfi
+     */
 
     private boolean validateDeleteInputFields() {
         if (currentOrder == null) {

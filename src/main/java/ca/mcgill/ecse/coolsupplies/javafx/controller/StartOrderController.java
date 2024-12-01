@@ -8,6 +8,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
+/**
+ * handles start order functinality 
+ * 
+ * @author Shayan Yamanidouzi Sorkhabi
+ */
+
 public class StartOrderController {
 
     @FXML
@@ -24,6 +30,14 @@ public class StartOrderController {
 
     @FXML
     private TextField StudentName;
+
+    /**
+     * retrieves input values, validates them and calls the backened controller to create and order
+     * If an order is succesffully created a message is shown
+     * 
+     * @param event triggered by clicking Start Order button
+     * @author Shayan Yamanidouzi Sorkhabi
+     */
 
     @FXML
     void startOrder(ActionEvent event) {
@@ -73,6 +87,7 @@ public class StartOrderController {
 
     /**
      * Clears all the input fields in the form.
+     * @author Shayan Yamanidouzi Sorkhabi
      */
     private void clearFields() {
         OrderNumber.clear();
@@ -88,6 +103,7 @@ public class StartOrderController {
      * @param alertType The type of alert (e.g., ERROR, INFORMATION).
      * @param title     The title of the alert dialog.
      * @param message   The message to display in the alert dialog.
+     * @author Shayan Yamanidouzi Sorkhabi
      */
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
