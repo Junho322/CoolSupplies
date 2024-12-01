@@ -69,14 +69,14 @@ public class InventoryPageController implements Initializable {
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
-    
+
     /**
-     * This method overwrites for the extended parent class, it initializes the Inventory Page by loading all existing items 
+     * This method overwrites for the extended parent class, it initializes the Inventory Page by loading all existing items
      * and bundle items into the ListView and calls upon the button initialization defined below
-     * 
-     * @param location location used to resolve relative paths for root object 
+     *
+     * @param location location used to resolve relative paths for root object
      * @param resources resources used to localize the root object
-     * 
+     *
      * @author Jun Ho Oh
      */
     @Override
@@ -88,7 +88,7 @@ public class InventoryPageController implements Initializable {
         listview.getItems().clear();
         for (int i = 0; i < exisitingItems.size(); i++){
             items.add(exisitingItems.get(i).getName());
-            
+
         }
 
         //this is to add the bundle items into the ListView
@@ -97,12 +97,12 @@ public class InventoryPageController implements Initializable {
             List<TOBundleItem> existingBundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(existingBundles.get(i).getName());
             System.out.println(existingBundleItems);
             for (int j = 0; j < existingBundleItems.size(); j++){
-                
+
                 for (int l = 0; l < listview.getItems().size(); l++){
                     String item = listview.getItems().get(l);
                     if (!(existingBundleItems.get(j).getItemName().equals(item))){
                         items.add(existingBundleItems.get(j).getItemName());
-                        
+
                     }
                 }
             }
@@ -110,6 +110,32 @@ public class InventoryPageController implements Initializable {
         populateListView(); //after adding all items into items, it populates ListView
 
         initializeButtonGraphics();
+        listview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                populateUpdateFields(newValue);
+                itemDelete.setText(newValue); // Set the delete field with the selected item
+            }
+        });
+    }
+
+    /**
+     * Populates the update item fields with the details of the selected item.
+     *
+     * @param selectedItem the name of the selected item in the ListView.
+     */
+    private void populateUpdateFields(String selectedItem) {
+        // Find the item details using the name
+        TOItem selectedTOItem = CoolSuppliesFeatureSet3Controller.getItems()
+                .stream()
+                .filter(item -> item.getName().equals(selectedItem))
+                .findFirst()
+                .orElse(null);
+
+        if (selectedTOItem != null) {
+            itemUpdate.setText(selectedTOItem.getName());
+            newName.setText(selectedTOItem.getName());
+            newPrice.setText(String.valueOf(selectedTOItem.getPrice()));
+        }
     }
 
     /**
