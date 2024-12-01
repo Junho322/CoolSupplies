@@ -3,14 +3,11 @@ package ca.mcgill.ecse.coolsupplies.javafx.controller;
 import ca.mcgill.ecse.coolsupplies.application.CoolSuppliesApplication;
 import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.javafx.pages.AdminPageController;
-import ca.mcgill.ecse.coolsupplies.model.BundleItem;
 import ca.mcgill.ecse.coolsupplies.model.CoolSupplies;
-import ca.mcgill.ecse.coolsupplies.model.Grade;
 import ca.mcgill.ecse.coolsupplies.model.GradeBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -24,6 +21,29 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * The {@code BundlePageController} class is the controller for managing the bundle-related user interactions in the
+ * CoolSupplies JavaFX application. It provides functionality to add, edit, delete, and manage grade bundles in the system.
+ *
+ * <li>Initialize UI components, populate dropdowns, and birth event listeners upon page loading.</li>
+ * <li>Add new bundles by specifying a name, discount, and grade.</li>
+ * <li>Edit existing bundles with validation for fields like discount and grade selection.</li>
+ * <li>Delete selected bundles with a confirmation step to prevent accidental deletions.</li>
+ * <li>Switch between different pages such as Admin Page, Order Page, Inventory Page, Grade Page, and more.</li>
+ * <li>Handle user logouts and UI transitions with smooth navigation between scenes.</li>
+ * <li>Ensure data integrity by validating bundle discounts and refreshing lists</li>
+ * </ul>
+ * <p>
+ * The lifecycle of this controller starts whenever this page is loaded from another controller and ends when it is exited.
+ * This page links with {@code BundleItemPageController} and passes relevant information with TOs via a controller method that
+ * launches the new page, calls its controller and passes the information in it.
+ * <p>
+ * The BundlePageController is automatically instantiated and managed by JavaFX when the associated FXML file
+ * is loaded. The developer does not need to manually create or manage an instance of this controller.
+ *
+ * @author David Wang (dyune)
+ */
 
 public class BundlePageController {
 
@@ -78,7 +98,11 @@ public class BundlePageController {
 
     private ObservableList<String> bundles = FXCollections.observableArrayList();
 
-    // Initialize method (called automatically when the FXML file is loaded)
+    /**
+     * Initializes the page and loads all elements with data.
+     *
+     * @author David Wang
+     */
     @FXML
     private void initialize() {
         // Initialize the list with any preexisting bundles
@@ -114,6 +138,11 @@ public class BundlePageController {
         refreshAllBundleDiscounts();
     }
 
+    /**
+     * Handles Add button event to add a bundle to the CoolSupplies system
+     *
+     * @author David Wang
+     */
     @FXML
     private void handleAddButton() {
         String name = nameField.getText();
@@ -154,6 +183,14 @@ public class BundlePageController {
         }
     }
 
+    /**
+     * Handles Edit button event to pass to the linked page of BundleItemPage
+     *
+     * @param event is triggered by user interaction to determine the source of the event
+     * @throws IOException occurs whenever a resource cannot be loaded properly, in this case, the FXML file for the
+     *                     linked page
+     * @author David Wang
+     */
     @FXML
     private void handleEditItems(ActionEvent event) throws IOException {
         // Correctly initialize the FXMLLoader with the resource location
@@ -174,6 +211,11 @@ public class BundlePageController {
     }
 
 
+    /**
+     * Responsible for validating update bundle input fields to then update a bundle if all is valid
+     *
+     * @author David Wang
+     */
     @FXML
     private void handleSaveButton() {
         TOGradeBundle oldBundle = CoolSuppliesFeatureSet4Controller.getBundle(selectedBundleName);
@@ -219,6 +261,11 @@ public class BundlePageController {
         }
     }
 
+    /**
+     * Handles Delete button event to delete a selected bundle if all is valid
+     *
+     * @author David Wang
+     */
     @FXML
     private void handleDeleteButton(ActionEvent event) {
 
@@ -247,8 +294,11 @@ public class BundlePageController {
         });
     }
 
-
-    // Handle bundle selection from the ListView
+    /**
+     * Displays the selected item with an event listener
+     *
+     * @author David Wang
+     */
     private void handleBundleSelection(String selected) {
         selectedBundleName = selected;
         System.out.println("Selected bundle: " + selected);
@@ -258,6 +308,11 @@ public class BundlePageController {
         editGrade.setValue(selectedBundle.getGradeLevel());
     }
 
+    /**
+     * Helper method to populate the listview with all bundles from the system
+     *
+     * @author David Wang
+     */
     private void populateListView() {
         listView.getItems().clear();
         List<TOGradeBundle> allBundles = CoolSuppliesFeatureSet4Controller.getBundles();
@@ -268,6 +323,11 @@ public class BundlePageController {
         listView.setItems(bundles);
     }
 
+    /**
+     * Helper method that refreshes all bundle discounts in the system
+     *
+     * @author David Wang
+     */
     private void refreshAllBundleDiscounts() {
         for (String bundleName : bundles) {
             refreshSelectedBundleDiscount(bundleName);
@@ -281,6 +341,12 @@ public class BundlePageController {
         }
     }
 
+
+    /**
+     * Helper method to show an error modal
+     *
+     * @author David Wang
+     */
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -288,12 +354,25 @@ public class BundlePageController {
         alert.showAndWait();
     }
 
+    /**
+     * Helper method to show a success modal
+     *
+     * @author David Wang
+     */
     private void showSuccessAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    /**
+     * All following methods are relevant for navigation between pages, each method is
+     * associated to a specific page, for example: {@code doSwitchToAdminPage} will load the
+     * admin page.
+     *
+     * @author Jack McDonald
+     */
 
     @FXML
     void doSwitchToAdminPage(ActionEvent event) {
