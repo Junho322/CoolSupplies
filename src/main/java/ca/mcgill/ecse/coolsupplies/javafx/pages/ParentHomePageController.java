@@ -4,7 +4,7 @@ import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet1Controller;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet8Controller;
 import ca.mcgill.ecse.coolsupplies.controller.TOOrder;
 import ca.mcgill.ecse.coolsupplies.controller.TOParent;
-import ca.mcgill.ecse.coolsupplies.javafx.pages.Order.ViewIndividualOrderController;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.ViewIndividualOrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
