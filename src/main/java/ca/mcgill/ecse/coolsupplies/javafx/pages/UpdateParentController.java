@@ -12,6 +12,11 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+/**
+ * Controller class that handles operations related to the Update Parent page in the system.
+ *
+ * @author Jack McDonald
+ */
 public class UpdateParentController {
 
     @FXML
@@ -31,10 +36,23 @@ public class UpdateParentController {
 
     private static TOParent parent;
 
+    /**
+     * Sets the existing email of the parent
+     *
+     * @param p The parent to set the existing email to
+     * @author Jack McDonald
+     */
     public static void setExistingEmail(TOParent p) {
         parent = p;
     }
 
+    /**
+     * Initializes the Update Parent page
+     * Sets the email, name, and phone number of the parent
+     * to the existing values
+     *
+     * @author Jack McDonald
+     */
     @FXML
     void initialize() {
         email.setText(parent.getEmail());
@@ -42,6 +60,12 @@ public class UpdateParentController {
         phone.setText(String.valueOf(parent.getPhoneNumber()));
     }
 
+    /**
+     * Handles the click event on the Update button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @FXML
     void updateParent(ActionEvent event) {
         String n = name.getText();
@@ -73,6 +97,12 @@ public class UpdateParentController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
     }
 
+    /**
+     * Throws an error window with the given message
+     *
+     * @param message The message to display in the error window
+     * @author Jack McDonald
+     */
     private void throwErrorWindow(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class that handles operations related to the Register Student page in the system.
+ *
+ * @author Jack McDonald
+ */
 public class RegisterStudentController implements Initializable {
 
     @FXML
@@ -29,6 +34,12 @@ public class RegisterStudentController implements Initializable {
     @FXML
     private Button registerButton;
 
+    /**
+     * Handles the click event on the Register button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @FXML
     void registerStudent(ActionEvent event) {
         String name = nameTextField.getText();
@@ -51,6 +62,12 @@ public class RegisterStudentController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Throws an error window with the given message
+     *
+     * @param message The message to display in the error window
+     * @author Jack McDonald
+     */
     private void throwErrorWindow(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -59,6 +76,13 @@ public class RegisterStudentController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Initializes the RegisterStudent page
+     *
+     * @param location  The location to initialize the page at
+     * @param resources The resources to initialize the page with
+     * @author Jack McDonald
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<TOGrade> grades = new ArrayList<>(CoolSuppliesFeatureSet7Controller.getGrades());

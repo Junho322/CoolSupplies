@@ -3,12 +3,16 @@ package ca.mcgill.ecse.coolsupplies.javafx.pages;
 import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet1Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 
+/**
+ * Controller class that handles operations related to the Update Password page in the system.
+ *
+ * @author Jack McDonald
+ */
 public class UpdatePasswordController {
 
     @FXML
@@ -20,6 +24,12 @@ public class UpdatePasswordController {
     @FXML
     private PasswordField oldPasswordField;
 
+    /**
+     * Handles the click event on the Confirm button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @FXML
     void confirmUpdatePassword(ActionEvent event) {
         String oldPassword = oldPasswordField.getText();
@@ -57,6 +67,12 @@ public class UpdatePasswordController {
         stage.close();
     }
 
+    /**
+     * Throws an error window with the given message
+     *
+     * @param message The message to display in the error window
+     * @author Jack McDonald
+     */
     private void throwErrorWindow(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

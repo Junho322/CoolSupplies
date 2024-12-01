@@ -11,6 +11,12 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+/**
+ * Controller class that handles operations related to the Register Parent page in the system.
+ * Methods implemented include registering a parent in the system.
+ *
+ * @author Jack McDonald
+ */
 public class RegisterParentController {
 
     @FXML
@@ -28,6 +34,12 @@ public class RegisterParentController {
     @FXML
     private Button registerButton;
 
+    /**
+     * Handles the click event on the Register button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @FXML
     void registerParent(ActionEvent event) {
         String e = email.getText();
@@ -64,9 +76,20 @@ public class RegisterParentController {
         alert.showAndWait();
     }
 
+    /**
+     * Initializes the RegisterParent page
+     *
+     * @author Jack McDonald
+     */
     public void initialize() {
     }
 
+    /**
+     * Displays an error window with the given message
+     *
+     * @param message The message to display in the error window
+     * @author Jack McDonald
+     */
     private void throwErrorWindow(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

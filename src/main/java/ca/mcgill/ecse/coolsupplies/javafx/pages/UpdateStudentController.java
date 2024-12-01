@@ -1,6 +1,9 @@
 package ca.mcgill.ecse.coolsupplies.javafx.pages;
 
-import ca.mcgill.ecse.coolsupplies.controller.*;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet2Controller;
+import ca.mcgill.ecse.coolsupplies.controller.CoolSuppliesFeatureSet7Controller;
+import ca.mcgill.ecse.coolsupplies.controller.TOGrade;
+import ca.mcgill.ecse.coolsupplies.controller.TOStudent;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,19 +18,31 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class that handles operations related to the Update Student page in the system.
+ *
+ * @author Jack McDonald
+ */
 public class UpdateStudentController implements Initializable {
 
+    private static TOStudent student;
     @FXML
     private ComboBox<String> gradeComboBox;
-
     @FXML
     private TextField nameTextField;
-
     @FXML
     private Button updateButton;
 
-    private static TOStudent student;
+    public static void setExistingName(TOStudent s) {
+        student = s;
+    }
 
+    /**
+     * Handles the click event on the Update button
+     *
+     * @param event The ActionEvent that triggered the event
+     * @author Jack McDonald
+     */
     @FXML
     void updateStudent(ActionEvent event) {
         String name = nameTextField.getText();
@@ -50,6 +65,15 @@ public class UpdateStudentController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Initializes the Update Student page
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     * @author Jack McDonald
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<TOGrade> grades = new ArrayList<>(CoolSuppliesFeatureSet7Controller.getGrades());
@@ -62,10 +86,12 @@ public class UpdateStudentController implements Initializable {
         nameTextField.setText(student.getName());
     }
 
-    public static void setExistingName(TOStudent s) {
-        student = s;
-    }
-
+    /**
+     * Throws an error window with the given message
+     *
+     * @param message The message to display in the error window
+     * @author Jack McDonald
+     */
     private void throwErrorWindow(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

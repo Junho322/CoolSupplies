@@ -4,6 +4,7 @@ import ca.mcgill.ecse.coolsupplies.controller.*;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.BundlePageController;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.EventListenerParent;
 import ca.mcgill.ecse.coolsupplies.javafx.controller.OrderPageController;
+import ca.mcgill.ecse.coolsupplies.javafx.controller.ParentPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,73 +27,67 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import ca.mcgill.ecse.coolsupplies.javafx.controller.ParentPageController;
 
-
+/**
+ * Controller class that handles operations related to the Admin Page UI.
+ *
+ * @author Jack McDonald
+ */
 public class AdminPageController implements Initializable {
 
     @FXML
     GridPane rightSideGridPane;
-
+    Sort sort = Sort.SYSTEM_DEFAULT;
     @FXML
     private VBox chosenParentCard;
-
     @FXML
     private ScrollPane scroll;
-
     @FXML
     private GridPane grid;
-
     @FXML
     private GridPane grid1;
-
     @FXML
     private Label parentNameLabel;
-
     @FXML
     private Button registerParent;
-
     @FXML
     private Button registerStudent;
-
     @FXML
     private Button updatePassword;
-
     @FXML
     private Button startSchoolYear;
-
     @FXML
     private Button parentSort;
-
     @FXML
     private ImageView email;
-
     @FXML
     private ImageView phone;
-
     @FXML
     private Button settingsButton;
-
     @FXML
     private Button logoutButton;
-
     private ArrayList<TOParent> parents = new ArrayList<>();
     private EventListenerParent listener;
     private AnchorPane lastSelectedCard;
     private TOParent chosenParent;
 
-    //sort enum
-    private enum Sort {
-        SYSTEM_DEFAULT,
-        NAME_ASCENDING,
-        NAME_DESCENDING
-    }
-    Sort sort = Sort.SYSTEM_DEFAULT;
-
+    /**
+     * Get the list of parents from the system
+     *
+     * @return A list of TOParent objects representing the parents in the system
+     * @author Jack McDonald
+     */
     private ArrayList<TOParent> getData() {
         return new ArrayList<TOParent>(CoolSuppliesFeatureSet1Controller.getParents());
     }
 
+    /**
+     * Set the chosen parent and highlight the card
+     *
+     * @param parent A TOParent object representing the parent that was selected
+     * @param card   An AnchorPane object representing the card that was selected
+     * @author Jack McDonald
+     */
     private void setChosenParent(TOParent parent, AnchorPane card) {
         parentNameLabel.setText("> " + parent.getName());
 
@@ -109,6 +104,15 @@ public class AdminPageController implements Initializable {
         chosenParent = parent;
     }
 
+    /**
+     * Initialize the Admin Page UI
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     * @author Jack McDonald
+     */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -181,6 +185,12 @@ public class AdminPageController implements Initializable {
         initializeButtonGraphics();
     }
 
+    /**
+     * Initialize the list of students for the selected parent
+     *
+     * @param parentEmail A String representing the email of the selected parent
+     * @author Jack McDonald
+     */
     private void initializeStudentList(String parentEmail) {
         int i = 0;
 
@@ -188,7 +198,7 @@ public class AdminPageController implements Initializable {
 
         grid1.getChildren().clear();
 
-        for (TOStudent student: students) {
+        for (TOStudent student : students) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("Student.fxml"));
@@ -238,6 +248,12 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    /**
+     * Toggle the sort order of the parent list
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @author Jack McDonald
+     */
     @FXML
     public void toggleParentSort(ActionEvent event) {
         switch (sort) {
@@ -257,18 +273,36 @@ public class AdminPageController implements Initializable {
         initialize(null, null);
     }
 
+    /**
+     * Copy the email of the selected parent to the clipboard
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @author Jack McDonald
+     */
     @FXML
     void copyEmail(ActionEvent event) {
         String email = parentNameLabel.getText().substring(2);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new java.awt.datatransfer.StringSelection(email), null);
     }
 
+    /**
+     * Copy the phone number of the selected parent to the clipboard
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @author Jack McDonald
+     */
     @FXML
     void copyPhone(ActionEvent event) {
         String phone = CoolSuppliesFeatureSet1Controller.getParent(parentNameLabel.getText().substring(2)).getPhoneNumber() + "";
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new java.awt.datatransfer.StringSelection(phone), null);
     }
 
+    /**
+     * Start the school year for all orders in the system
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @author Jack McDonald
+     */
     @FXML
     void startSchoolYear(ActionEvent event) {
         try {
@@ -292,6 +326,13 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    /**
+     * Update the password of the currently logged-in user
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the UpdatePassword.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void updatePassword(ActionEvent event) throws IOException {
         try {
@@ -310,6 +351,12 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    /**
+     * Delete the selected parent from the system
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @author Jack McDonald
+     */
     @FXML
     void deleteParentAccount(ActionEvent event) {
         try {
@@ -341,45 +388,54 @@ public class AdminPageController implements Initializable {
         }
     }
 
-  @FXML
-  private void viewFullPage(ActionEvent event) {
-    try {
-      // Load ParentPage.fxml
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ParentPage.fxml"));
-      Parent parentPageRoot = loader.load();
+    /**
+     * View the full page of the selected parent
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @author Jack McDonald
+     */
+    @FXML
+    private void viewFullPage(ActionEvent event) {
+        try {
+            // Load ParentPage.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/pages/ParentPage.fxml"));
+            Parent parentPageRoot = loader.load();
 
-      // Get the ParentPageController instance
-      ParentPageController parentPageController = loader.getController();
+            // Get the ParentPageController instance
+            ParentPageController parentPageController = loader.getController();
 
-      String selectedEmail = chosenParent.getEmail(); // Assuming chosenParent is set when a parent is selected
-      TOParent parent = CoolSuppliesFeatureSet1Controller.getParent(selectedEmail);
-      if (parent == null) {
-        return;
-      }
-      parentPageController.setParentInfo(parent);
+            String selectedEmail = chosenParent.getEmail(); // Assuming chosenParent is set when a parent is selected
+            TOParent parent = CoolSuppliesFeatureSet1Controller.getParent(selectedEmail);
+            if (parent == null) {
+                return;
+            }
+            parentPageController.setParentInfo(parent);
 
-      List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(chosenParent.getEmail());
-      parentPageController.populateStudentCards(students);
+            List<TOStudent> students = CoolSuppliesFeatureSet6Controller.getStudentsOfParent(chosenParent.getEmail());
+            parentPageController.populateStudentCards(students);
 
 
+            // Get the current stage
+            Stage stage = (Stage) parentNameLabel.getScene().getWindow();
 
-      // Get the current stage
-      Stage stage = (Stage) parentNameLabel.getScene().getWindow();
-
-      // Set the new scene
-      stage.setScene(new Scene(parentPageRoot));
-      stage.setTitle("CoolSupplies - Parent Page");
-      stage.setResizable(true);
-      stage.setMaximized(true);
-      stage.setWidth(stage.getMaxWidth());
-      stage.setHeight(stage.getMaxHeight());
-      stage.show();
-    } catch (IOException e) {
-      e.printStackTrace();
+            // Set the new scene
+            stage.setScene(new Scene(parentPageRoot));
+            stage.setTitle("CoolSupplies - Parent Page");
+            stage.setResizable(true);
+            stage.setMaximized(true);
+            stage.setWidth(stage.getMaxWidth());
+            stage.setHeight(stage.getMaxHeight());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-  }
 
-
+    /**
+     * Initialize the graphics for the settings and logout buttons
+     *
+     * @author Jack McDonald
+     */
     public void initializeButtonGraphics() {
         ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
         settingsImage.setFitHeight(30);
@@ -404,6 +460,13 @@ public class AdminPageController implements Initializable {
         logoutButton.setPrefSize(30, 30);
     }
 
+    /**
+     * Log the user out of the system
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the LoginPage.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void doLogout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/coolsupplies/javafx/LoginPage.fxml"));
@@ -421,13 +484,20 @@ public class AdminPageController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Update the selected parent's information
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the UpdateParent.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void doUpdateParent(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateParent.fxml"));
 
             UpdateParentController controller = loader.getController();
-            controller.setExistingEmail(chosenParent);
+            UpdateParentController.setExistingEmail(chosenParent);
 
             Parent root1 = loader.load();
             Stage stage = new Stage();
@@ -447,6 +517,13 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    /**
+     * Switch to the Order Page
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the OrderPage.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void doSwitchToOrderPage(ActionEvent event) {
         try {
@@ -468,6 +545,13 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    /**
+     * Switch to the Bundle Page
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the BundlePage.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void doSwitchToBundlePage(ActionEvent event) {
         try {
@@ -483,12 +567,18 @@ public class AdminPageController implements Initializable {
             stage.setHeight(stage.getMaxHeight());
             stage.show();
             BundlePageController controller = loader.getController();
-//            controller.initialize(null, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Switch to the Inventory Page
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the InventoryPage.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void doSwitchToInventoryPage(ActionEvent event) {
         try {
@@ -508,6 +598,13 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    /**
+     * Switch to the Grade Page
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the GradePage.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void doSwitchToGradePage(ActionEvent event) {
         try {
@@ -527,6 +624,13 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    /**
+     * Switch to the Show Students Page
+     *
+     * @param event An ActionEvent object representing the event that triggered the method
+     * @throws IOException If an error occurs while loading the ShowStudentsPage.fxml file
+     * @author Jack McDonald
+     */
     @FXML
     void doSwitchToShowStudentsPage(ActionEvent event) {
         try {
@@ -544,5 +648,9 @@ public class AdminPageController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private enum Sort {
+        SYSTEM_DEFAULT, NAME_ASCENDING, NAME_DESCENDING
     }
 }
