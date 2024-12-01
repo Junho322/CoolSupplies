@@ -5,7 +5,19 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
-
+/**
+ * Controller for the "Show Students Page" in a JavaFX application.
+ * This class handles user interactions and UI updates for managing student information.
+ *
+ * <p>Features include:</p>
+ * <ul>
+ * <li>Adding new students</li>
+ * <li>Editing existing students</li>
+ * <li>Removing students</li>
+ * </ul>
+ *
+ * @author Hamza Khalfi
+ */
 public class ShowStudentsPageController {
     @FXML private VBox editPanel;
     @FXML private VBox createPanel;
@@ -21,6 +33,12 @@ public class ShowStudentsPageController {
     @FXML private Button removeButton;
     @FXML private FlowPane studentCardsContainer;
 
+    /**
+     * Initializes the controller, setting up ComboBox values, default visibility states,
+     * and event handlers for UI components.
+     *
+     * @author Hamza Khalfi
+     */
     @FXML
     public void initialize() {
         // Initialize ComboBox values
@@ -46,11 +64,22 @@ public class ShowStudentsPageController {
         removeButton.setOnAction(e -> removeExistingStudent());
     }
 
+    /**
+     * Handles the "Add Student" card click event to switch to create mode.
+     *
+     * @param event the MouseEvent triggered by clicking the "Add Student" card
+     * @author Hamza Khalfi
+     */
     @FXML
     private void handleAddStudentClick(MouseEvent event) {
         switchToCreateMode();
     }
 
+    /**
+     * Switches the UI to create mode, enabling the panel for adding a new student.
+     *
+     * @author Hamza Khalfi
+     */
     @FXML
     private void switchToCreateMode() {
         editPanel.setVisible(false);
@@ -59,12 +88,23 @@ public class ShowStudentsPageController {
         createGradeComboBox.setValue("5");
     }
 
+    /**
+     * Switches the UI to edit mode, enabling the panel for editing existing students.
+     *
+     * @author Hamza Khalfi
+     */
     @FXML
     private void switchToEditMode() {
         createPanel.setVisible(false);
         editPanel.setVisible(true);
     }
 
+    /**
+     * Saves a new student by creating a new card in the UI.
+     * Validates input and shows an error alert if the input is invalid.
+     *
+     * @author Hamza Khalfi
+     */
     @FXML
     private void saveNewStudent() {
         String name = nameField.getText();
@@ -89,6 +129,12 @@ public class ShowStudentsPageController {
         }
     }
 
+    /**
+     * Updates an existing student's information in the UI.
+     *
+     * @return void (Updates the UI directly without returning a value)
+     * @author Hamza Khalfi
+     */
     @FXML
     private void updateExistingStudent() {
         String currentName = editingStudentName.getText();
@@ -108,6 +154,12 @@ public class ShowStudentsPageController {
         }
     }
 
+    /**
+     * Removes an existing student from the UI based on the selected student's name.
+     * void (Removes the student card directly from the UI without returning a value)
+     *
+     * @author Hamza Khalfi
+     */
     @FXML
     private void removeExistingStudent() {
         String currentName = editingStudentName.getText();
@@ -127,6 +179,15 @@ public class ShowStudentsPageController {
         editGradeComboBox.setValue("5");
     }
 
+    /**
+     * Creates a new student card with the given name and grade.
+     *
+     * @param name the student's name
+     * @param grade the student's grade
+     * @return a VBox representing the new student card
+     *
+     * @author Hamza Khalfi
+     */
     private VBox createStudentCard(String name, String grade) {
         VBox card = new VBox(10);
         card.getStyleClass().add("student-card");
