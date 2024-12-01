@@ -69,14 +69,14 @@ public class InventoryPageController implements Initializable {
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
-    
+
     /**
-     * This method overwrites for the extended parent class, it initializes the Inventory Page by loading all existing items 
+     * This method overwrites for the extended parent class, it initializes the Inventory Page by loading all existing items
      * and bundle items into the ListView and calls upon the button initialization defined below
-     * 
-     * @param location location used to resolve relative paths for root object 
+     *
+     * @param location location used to resolve relative paths for root object
      * @param resources resources used to localize the root object
-     * 
+     *
      * @author Jun Ho Oh
      */
     @Override
@@ -88,7 +88,7 @@ public class InventoryPageController implements Initializable {
         listview.getItems().clear();
         for (int i = 0; i < exisitingItems.size(); i++){
             items.add(exisitingItems.get(i).getName());
-            
+
         }
 
         //this is to add the bundle items into the ListView
@@ -97,12 +97,12 @@ public class InventoryPageController implements Initializable {
             List<TOBundleItem> existingBundleItems = CoolSuppliesFeatureSet5Controller.getBundleItems(existingBundles.get(i).getName());
             System.out.println(existingBundleItems);
             for (int j = 0; j < existingBundleItems.size(); j++){
-                
+
                 for (int l = 0; l < listview.getItems().size(); l++){
                     String item = listview.getItems().get(l);
                     if (!(existingBundleItems.get(j).getItemName().equals(item))){
                         items.add(existingBundleItems.get(j).getItemName());
-                        
+
                     }
                 }
             }
@@ -110,14 +110,40 @@ public class InventoryPageController implements Initializable {
         populateListView(); //after adding all items into items, it populates ListView
 
         initializeButtonGraphics();
+        listview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                populateUpdateFields(newValue);
+                itemDelete.setText(newValue); // Set the delete field with the selected item
+            }
+        });
+    }
+
+    /**
+     * Populates the update item fields with the details of the selected item.
+     *
+     * @param selectedItem the name of the selected item in the ListView.
+     */
+    private void populateUpdateFields(String selectedItem) {
+        // Find the item details using the name
+        TOItem selectedTOItem = CoolSuppliesFeatureSet3Controller.getItems()
+                .stream()
+                .filter(item -> item.getName().equals(selectedItem))
+                .findFirst()
+                .orElse(null);
+
+        if (selectedTOItem != null) {
+            itemUpdate.setText(selectedTOItem.getName());
+            newName.setText(selectedTOItem.getName());
+            newPrice.setText(String.valueOf(selectedTOItem.getPrice()));
+        }
     }
 
     /**
      * Handles addition of new items into the inventory and populates the ListView for the user to see
      * Validates inputs from user and makes sure to not populate already existing items, updates inventory and ListView
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -180,11 +206,11 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Helper function to show the desired messages
-     * 
+     *
      * @param alertType the type of message displayed
      * @param title the title of the message displayed
      * @param message the content of the message displayed
-     * 
+     *
      * @author Jun Ho Oh
      */
     private void showAlert(AlertType alertType, String title, String message) {
@@ -198,9 +224,9 @@ public class InventoryPageController implements Initializable {
     /**
      * Deletes desired Item from Inventory Item and updates the inventory as well as ListView
      * Validates user inputs
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -212,7 +238,7 @@ public class InventoryPageController implements Initializable {
             showAlert(AlertType.ERROR, "Input Error", "Item name cannot be empty.");
             return;
         }
-        
+
         //verifies that the inputed item name exists in inventory items
         for (int i = 0; i < listview.getItems().size(); i++) {
             String item = listview.getItems().get(i);
@@ -228,16 +254,16 @@ public class InventoryPageController implements Initializable {
         itemDelete.clear();
         return;
 
-        
+
 
     }
 
     /**
      * Updates the desired item's quantity and name inputed. Validates user inputs
      * and assures proper udpating of inventory and ListView
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -302,11 +328,11 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Populates the ListView by adding the inventory item names
-     * 
+     *
      * takes no parameters
-     * 
+     *
      * @author Jun Ho Oh
-     * 
+     *
      */
     private void populateListView() {
         listview.setItems(items);
@@ -314,9 +340,9 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Swithces to the Admin Page View
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -342,9 +368,9 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Swithces to the Order Page View
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -368,9 +394,9 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Swithces to the Grade Page View
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -394,9 +420,9 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Swithces to the Bundle Page View
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -420,9 +446,9 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Logs the user out and brings the user to the Login Page View
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -448,9 +474,9 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Swithces to the Parent Page View
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -474,9 +500,9 @@ public class InventoryPageController implements Initializable {
 
     /**
      * Swithces to the Show Student Page View
-     * 
+     *
      * @param event this is an action event triggered by method Add Item Button defined in FXML page
-     * 
+     *
      * @author Jun Ho Oh
      */
     @FXML
@@ -498,38 +524,38 @@ public class InventoryPageController implements Initializable {
         }
     }
 
-    
+
     /**
      * Initializes the buttons's graphics for Settings and Logout buttons
-     * 
+     *
      * @author Jun Ho Oh
      */
     public void initializeButtonGraphics() {
-    // Settings Button Image
-    ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
-    settingsImage.setPreserveRatio(true);
-    settingsImage.fitWidthProperty().bind(settingsButton.widthProperty().multiply(0.8));
-    settingsImage.fitHeightProperty().bind(settingsButton.heightProperty().multiply(0.8));
+        // Settings Button Image
+        ImageView settingsImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/settings.png");
+        settingsImage.setPreserveRatio(true);
+        settingsImage.fitWidthProperty().bind(settingsButton.widthProperty().multiply(0.8));
+        settingsImage.fitHeightProperty().bind(settingsButton.heightProperty().multiply(0.8));
 
-    // Logout Button Image
-    ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
-    logoutImage.setPreserveRatio(true);
-    logoutImage.fitWidthProperty().bind(logoutButton.widthProperty().multiply(0.8));
-    logoutImage.fitHeightProperty().bind(logoutButton.heightProperty().multiply(0.8));
+        // Logout Button Image
+        ImageView logoutImage = new ImageView("ca/mcgill/ecse/coolsupplies/javafx/resources/logout.png");
+        logoutImage.setPreserveRatio(true);
+        logoutImage.fitWidthProperty().bind(logoutButton.widthProperty().multiply(0.8));
+        logoutImage.fitHeightProperty().bind(logoutButton.heightProperty().multiply(0.8));
 
-    // Settings Button
-    settingsButton.setGraphic(settingsImage);
-    settingsButton.setText("");
-    settingsButton.setStyle("-fx-background-color: transparent;");
-    settingsButton.setPadding(new Insets(0)); // Uniform padding
-    settingsButton.setPrefSize(40, 40); // Default size
+        // Settings Button
+        settingsButton.setGraphic(settingsImage);
+        settingsButton.setText("");
+        settingsButton.setStyle("-fx-background-color: transparent;");
+        settingsButton.setPadding(new Insets(0)); // Uniform padding
+        settingsButton.setPrefSize(40, 40); // Default size
 
-    // Logout Button
-    logoutButton.setGraphic(logoutImage);
-    logoutButton.setText("");
-    logoutButton.setStyle("-fx-background-color: transparent;");
-    logoutButton.setPadding(new Insets(0)); // Uniform padding
-    logoutButton.setPrefSize(40, 40); // Default size
-}
+        // Logout Button
+        logoutButton.setGraphic(logoutImage);
+        logoutButton.setText("");
+        logoutButton.setStyle("-fx-background-color: transparent;");
+        logoutButton.setPadding(new Insets(0)); // Uniform padding
+        logoutButton.setPrefSize(40, 40); // Default size
+    }
 
 }

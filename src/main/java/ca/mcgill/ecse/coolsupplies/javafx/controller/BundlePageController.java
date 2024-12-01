@@ -336,7 +336,7 @@ public class BundlePageController {
 
     private void refreshSelectedBundleDiscount(String bundleName) {
         GradeBundle bundle = (GradeBundle) GradeBundle.getWithName(bundleName);
-        if (bundle.getBundleItems().size() < 2) {
+        if (bundle.getBundleItems().size() == 1) {
             bundle.setDiscount(0);
         }
     }
