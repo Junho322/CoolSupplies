@@ -504,6 +504,22 @@
           },
           {
             "@reference": "../../students/Student/parent/students/Student[2]/orders/Order/orderItems/OrderItem/item/bundleItems/BundleItem/item/bundleItems/BundleItem/bundle/grade/students/Student[2]/parent"
+          },
+          {
+            "email": "mom2@gmail.com",
+            "password": 1234,
+            "canSetEmail": false,
+            "name": "Anna",
+            "phoneNumber": 1234567,
+            "students": [
+              ""
+            ],
+            "coolSupplies": {
+              "@reference": "../../.."
+            },
+            "orders": [
+              ""
+            ]
           }
         ]
       }
